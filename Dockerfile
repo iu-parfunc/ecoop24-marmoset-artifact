@@ -16,7 +16,8 @@ RUN apt-get update && \
     vim \ 
     wget \
     curl \ 
-    git
+    git  \ 
+    libtinfo-dev
 
 RUN wget --no-check-certificate https://mirror.racket-lang.org/installers/7.5/racket-7.5-x86_64-linux.sh
 RUN chmod +x racket-7.5-x86_64-linux.sh
@@ -53,7 +54,7 @@ RUN mkdir papi
 RUN tar -xvzf papi-7-1-0-t.tar.gz -C papi
 RUN cd papi && cd papi-papi-7-1-0-t && cd src && ./configure && make -j10 && make install
 
-ENV PATH="$PATH:/gibbon/dist-newstyle/build/x86_64-linux/ghc-9.4.6/gibbon-0.3/x/gibbon/build/gibbon"
+ENV PATH="$PATH:/gibbon/dist-newstyle/build/x86_64-linux/ghc-9.6.4/gibbon-0.3/x/gibbon/build/gibbon"
 
 #Python dependencies
 RUN pip install cplex
@@ -61,6 +62,11 @@ RUN pip install docplex
 RUN pip install statistics
 RUN pip install numpy
 RUN pip install scipy
+
+#cabal packages 
+RUN cabal install --lib timeit 
+RUN cabal install --lib random 
+RUN cabal install --lib vector
 
 ADD ECOOP-2024-Bench ./ECOOP-2024-Bench
 ADD Ghc ./Ghc 
