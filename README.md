@@ -17,21 +17,21 @@ docker run -t -i gibbon
 
 The following is the structure of the environment. 
 
-1.) All the benchmarks in the evaluation for gibbon and marmoset reside in ECOOP-2024-Bench.
-2.) The benchmarks for the Ghc comparison reside in the folder Ghc. 
+1.All the benchmarks in the evaluation for gibbon and marmoset reside in ECOOP-2024-Bench.
+2.The benchmarks for the Ghc comparison reside in the folder Ghc. 
 
 
 We have provided 4 scripts to help automate the task of getting the numbers. 
 
-1.) generate_runtimes.py        -- Generates all the runtimes similar to Tables 1-7 for gibbon, marmoset-greedy and marmoset-solver
-2.) generate_compile_times.py   -- Generates the compile times for as shown in Figure 10.
-3.) generate_cache_stats.py     -- Generates the statistics for cache as shown in Table 8.
-4.) ghc...
+1.generate_runtimes.py        -- Generates all the runtimes similar to Tables 1-7 for gibbon, marmoset-greedy and marmoset-solver
+2.generate_compile_times.py   -- Generates the compile times for as shown in Figure 10.
+3.generate_cache_stats.py     -- Generates the statistics for cache as shown in Table 8.
+4.ghc...
 
 After executing CMD2 and entering the session, execute the following commands to source the environment necessary to run the experiments. 
 
-1.) cd /gibbon 
-2.) source set_env.sh 
+1.cd /gibbon 
+2.source set_env.sh 
 
 
 Next, use python3 to run the provided scripts to get the numbers. 
@@ -52,8 +52,8 @@ The statistics for greedy and solver are given by file names appended with Greed
 
 TODOs: 
 
-1.) Write the script for Ghc. 
-2.) Remove all dbgPrint statements in the compiler. 
-3.) Presentation of numbers that the script outputs can be improved but only if time permits.
-4.) TODO: the number for manyFuns.hs needs special handling since it runs multiple experiments in the pipeline. 
-5.) If there is time, merge the figure generation scripts for compile time and ghc to the above to generate figures automatically.
+- [] Write the script for Ghc. 
+- [] Remove all dbgPrint statements in the compiler. 
+- [] Presentation of numbers that the script outputs can be improved but only if time permits.
+- [] TODO: the number for manyFuns.hs needs special handling since it runs multiple experiments in the pipeline. 
+- [] If there is time, merge the figure generation scripts for compile time and ghc to the above to generate figures automatically.
