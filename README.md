@@ -2,14 +2,14 @@
 
 To build the artifact, we have provided a convinient dockerfile.
 
-To build the dockerfile (CMD1)
+To build the dockerfile -- CMD1
 
 
 ```
 DOCKER_BUILDKIT=1 docker image build -t gibbon -f Dockerfile .
 ```
 
-Once the build is finished, the session can be invoked via (CMD2)
+Once the build is finished, the session can be invoked via -- CMD2
 
 ```
 docker run -t -i gibbon
@@ -36,17 +36,18 @@ We have provided 4 scripts to help automate the task of getting the numbers.
 
 After executing CMD2 and entering the session, execute the following commands to source the environment necessary to run the experiments. 
 
+```
 1.cd /gibbon 
 
 2.source set_env.sh 
-
+```
 
 Next, use python3 to run the provided scripts to get the numbers. 
 The script prints the numbers for each benchmark file. 
 For example, python3 generate_runtimes.py to generate the runtimes.
 Provided is the mapping from file name to Benchmarks in the paper.
 
-
+```
 Table1: Layout1PowerList.hs, Layout2PowerList.hs 
 
 Table2: Layout1ListLen.hs, Layout2ListLen.hs 
@@ -60,8 +61,9 @@ Table5: TreeRightMost_l.hs and TreeRightMost_r.hs
 Table6: layoutxFilterBlogs.hs, layoutxContentSearch.hs and layoutxTagSearch.hs where x is the layout -- 1, 2, 3, 4, 5, 7, 8 respectively in the same order as in Table 6.
 
 Table7: manyFuncs.hs 
+```
 
-The statistics for greedy and solver are given by file names appended with Greedy and Solver respectively.
+The statistics for greedy and solver are given by file names appended with text "Greedy" and "Solver" respectively.
 
 TODOs (In order of priority): 
 
