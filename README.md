@@ -36,7 +36,7 @@ We provide 4 scripts, which map on figures in the paper as follows:
 
 2. `~/ECOOP-2024-Bench/generate_compile_times.py` — generates the compile times, `Figure 10`.
 
-3. `~/ECOOP-2024-Bench/generate_cache_stats.py` — generates the statistics for cache, `Table 8.
+3. `~/ECOOP-2024-Bench/generate_cache_stats.py` — generates the statistics for cache, `Table 8`.
 
 4. `~/Ghc/ghc/generate_ghc_numbers.py` — generates the run times for GHC, `Figure 9`.
 
