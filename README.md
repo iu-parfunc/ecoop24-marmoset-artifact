@@ -61,11 +61,10 @@ Table7: manyFuncs.hs
 
 The statistics for greedy and solver are given by file names appended with Greedy and Solver respectively.
 
+TODOs (In order of priority): 
 
-TODOs: 
-
-- [x] Write the script for Ghc. 
-- [ ] Remove all dbgPrint statements in the compiler. 
-- [ ] Presentation of numbers that the script outputs can be improved but only if time permits.
+- [x] Write the script for Ghc.
 - [ ] TODO: the number for manyFuns.hs needs special handling since it runs multiple experiments in the pipeline. 
 - [ ] If there is time, merge the figure generation scripts for compile time and ghc to the above to generate figures automatically.
+- [ ] Presentation of numbers that the script outputs can be improved but only if time permits.
+- [ ] Remove all dbgPrint statements in the compiler. (Low priority)
