@@ -43,7 +43,13 @@ gibbon_main =
    let blogs = mkBlogs_layout1 1000000 150 10 
        keyword :: Vector Char  
        keyword = "a"
+       _ = printsym (quote "EmphKeyword:\n")
        newblgs   = iterate (emphKeywordInContent keyword blogs)
-       newblgs'  = iterate (emphKeywordInTag keyword newblgs) 
+       _ = printsym (quote "END\n")
+       _ = printsym (quote "EmphKeywordInTag:\n")
+       newblgs'  = iterate (emphKeywordInTag keyword newblgs)
+       _ = printsym (quote "END\n") 
+       _ = printsym (quote "FilterBlogs:\n")
        newblgs'' = iterate (filterByKeywordInTagList keyword newblgs')
+       _ = printsym (quote "END\n")
    in ()

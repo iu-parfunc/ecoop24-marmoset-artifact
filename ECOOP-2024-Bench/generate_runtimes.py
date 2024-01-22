@@ -111,40 +111,73 @@ for subdir, dirs, files in os.walk(rootdir):
 
 #Run all executables
 for file in executables:
-    
-    #print(file)
-    runtimeFile = file + ".txt"
-    
-    cmd =  [file , "--inf-buffer-size", str(inf_buffer_size), "--iterate", "9"]
-    
-    writeFileHandle = open(runtimeFile, "w")
-    
-    try:
-        c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
-        c.wait()
-        output, error = c.communicate()
-        if error is not None:
-            cmd =  [file , "--iterate", "9"]
+        
+        runtimeFile = file + ".txt"
+        
+        cmd =  [file , "--inf-buffer-size", str(inf_buffer_size), "--iterate", "9"]
+        
+        writeFileHandle = open(runtimeFile, "w")
+        
+        try:
             c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
             c.wait()
-    except:
-        print("Error could not run file!")
+            output, error = c.communicate()
+            if error is not None:
+                cmd =  [file , "--iterate", "9"]
+                c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
+                c.wait()
+        except:
+            print("Error could not run file!")
 
-    writeFileHandle.close()
-    readFileHandle = open(runtimeFile, "r")
-    fileLines = readFileHandle.readlines()
-    
-    iterTimes = []
-    mean = 0.0
-    median = 0.0
-    for lines in fileLines:
-        search = re.match("itertime: (-?\ *[0-9]+\.?[0-9]*(?:[Ee]\ *-?\ *[0-9]+)?)", lines)
-        #print(search)
-        if search is not None:
-            iterTimes.append(float(search.groups()[0]))
-    #print(iterTimes)
-    mean = np.mean(iterTimes)
-    median = np.median(iterTimes)
-    a, l, u = mean_confidence_interval(iterTimes)
-    print(str(file) + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
-    readFileHandle.close()
+        writeFileHandle.close()
+        readFileHandle = open(runtimeFile, "r")
+        fileLines = readFileHandle.readlines()
+
+        if "manyFuncs" not in file:
+            iterTimes = []
+            mean = 0.0
+            median = 0.0
+            for lines in fileLines:
+                search = re.match("itertime: (-?\ *[0-9]+\.?[0-9]*(?:[Ee]\ *-?\ *[0-9]+)?)", lines)
+                #print(search)
+                if search is not None:
+                    iterTimes.append(float(search.groups()[0]))
+            #print(iterTimes)
+            mean = np.mean(iterTimes)
+            median = np.median(iterTimes)
+            a, l, u = mean_confidence_interval(iterTimes)
+            print(str(file) + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+            readFileHandle.close()
+        elif "manyFuncs" in file: 
+
+            functionsToParse = ["EmphKeyword:\n", "EmphKeywordInTag:\n", "FilterBlogs:\n"]
+            while True:
+                flag = False
+                iterTimes = []
+                mean = 0.0
+                median = 0.0
+                cpass = ""
+                for lines in fileLines:
+                    
+                    if lines in functionsToParse:
+                        flag = True
+                        cpass = lines
+                        functionsToParse.remove(lines)
+
+                    if flag:  
+                        search = re.match("itertime: (-?\ *[0-9]+\.?[0-9]*(?:[Ee]\ *-?\ *[0-9]+)?)", lines)
+                        if search is not None:
+                            iterTimes.append(float(search.groups()[0]))
+
+                    if flag and lines == "END\n":
+                        break
+
+                mean = np.mean(iterTimes)
+                median = np.median(iterTimes)
+                a, l, u = mean_confidence_interval(iterTimes)
+                print(str(file) + " " + str(cpass) + " " + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+
+                if functionsToParse == []: 
+                    break
+ 
+            readFileHandle.close()

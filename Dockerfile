@@ -2,6 +2,7 @@
 FROM ubuntu:22.04 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV USERNAME=root
+SHELL ["/bin/bash", "-c"]
 
 
 # install dependencies
@@ -55,6 +56,7 @@ RUN tar -xvzf papi-7-1-0-t.tar.gz -C papi
 RUN cd papi && cd papi-papi-7-1-0-t && cd src && ./configure && make -j10 && make install
 
 ENV PATH="$PATH:/gibbon/dist-newstyle/build/x86_64-linux/ghc-9.4.6/gibbon-0.3/x/gibbon/build/gibbon"
+RUN cd /gibbon && (source set_env.sh)
 
 #Python dependencies
 RUN pip install cplex
@@ -69,8 +71,9 @@ RUN cabal install --lib random
 RUN cabal install --lib vector
 
 ADD ECOOP-2024-Bench ./ECOOP-2024-Bench
-ADD Ghc ./Ghc 
+ADD Ghc ./Ghc
 
-SHELL ["/bin/bash", "-c"] 
-RUN cd /gibbon && (source set_env.sh)
+ENV PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
+ 
+
 CMD ["bash"]
