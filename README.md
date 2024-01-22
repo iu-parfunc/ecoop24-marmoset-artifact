@@ -78,6 +78,8 @@ TODOs (In order of priority):
 
 - [x] Write the script for Ghc.
 - [ ] TODO: the number for manyFuns.hs needs special handling since it runs multiple experiments in the pipeline. 
+- [ ] Use the README template from ECOOP.
 - [ ] If there is time, merge the figure generation scripts for compile time and ghc to the above to generate figures automatically.
+- [ ] Remove manual instructions, try to add sourcing environments etc. in the python script. 
 - [ ] Presentation of numbers that the script outputs can be improved but only if time permits.
 - [ ] Remove all dbgPrint statements in the compiler. (Low priority)
