@@ -64,7 +64,7 @@ The statistics for greedy and solver are given by file names appended with Greed
 
 TODOs: 
 
-- [ ] Write the script for Ghc. 
+- [x] Write the script for Ghc. 
 - [ ] Remove all dbgPrint statements in the compiler. 
 - [ ] Presentation of numbers that the script outputs can be improved but only if time permits.
 - [ ] TODO: the number for manyFuns.hs needs special handling since it runs multiple experiments in the pipeline. 
