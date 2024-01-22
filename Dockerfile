@@ -54,7 +54,7 @@ RUN mkdir papi
 RUN tar -xvzf papi-7-1-0-t.tar.gz -C papi
 RUN cd papi && cd papi-papi-7-1-0-t && cd src && ./configure && make -j10 && make install
 
-ENV PATH="$PATH:/gibbon/dist-newstyle/build/x86_64-linux/ghc-9.6.4/gibbon-0.3/x/gibbon/build/gibbon"
+ENV PATH="$PATH:/gibbon/dist-newstyle/build/x86_64-linux/ghc-9.4.6/gibbon-0.3/x/gibbon/build/gibbon"
 
 #Python dependencies
 RUN pip install cplex
