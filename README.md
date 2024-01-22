@@ -4,9 +4,9 @@ The artifact is bundled as an OCI container created with Docker (Dockerfile is a
 
 ## Machine Requirements 
 
-Although all the experiments are single-threaded, some benchmarks have large input parameters which 
-require a machine with large RAM. Ideally, a machine with >100GB RAM would be ideal to run the 
-experiments.  
+Although all the experiments are single-threaded, some benchmarks have large input parameters, which 
+require a machine with large RAM. Ideally, a machine with >100GB RAM would be used to run the 
+experiments. 
 
 ## How to build the dockerfile
 
@@ -19,7 +19,7 @@ DOCKER_BUILDKIT=1 docker image build -t gibbon -f Dockerfile .
 Once you get the image, start the session as follows (`CMD2`):
 
 ```
-docker run -t -i gibbon
+docker run --rm -ti gibbon
 ```
 
 ## Automated scripts / other instructions
