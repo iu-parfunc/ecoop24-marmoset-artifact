@@ -46,7 +46,7 @@ for subdir, dirs, files in os.walk(rootdir):
             
             file_without_haskell_extension = file_path.replace(".hs", '')
             print("Compile " + file + "...")
-            gibbon_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", file_path]
+            gibbon_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--enable-papi", file_path]
         
             c = subprocess.Popen(gibbon_cmd)
             c.wait()
@@ -87,7 +87,7 @@ for subdir, dirs, files in os.walk(rootdir):
             executables.append(greedy_binary_name)
         
             print("Compile " + file + " with solver optimization..." )
-            solver_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", "--opt-layout-use-solver", file_path, "-o", solver_binary_name]
+            solver_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", "--opt-layout-use-solver", "--enable-papi", file_path, "-o", solver_binary_name]
         
             c = subprocess.Popen(solver_cmd)
             c.wait()
@@ -99,7 +99,7 @@ for subdir, dirs, files in os.walk(rootdir):
             print()
             
             print("Compile " + file + " with greedy optimization..." )
-            greedy_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", file_path, "-o", greedy_binary_name]
+            greedy_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", "--enable-papi", file_path, "-o", greedy_binary_name]
         
             c = subprocess.Popen(greedy_cmd)
             c.wait()
