@@ -77,7 +77,7 @@ The statistics for greedy and solver are given by file names appended with text 
 TODOs (In order of priority): 
 
 - [x] Write the script for Ghc.
-- [ ] TODO: the number for manyFuns.hs needs special handling since it runs multiple experiments in the pipeline. 
+- [x] TODO: the number for manyFuns.hs needs special handling since it runs multiple experiments in the pipeline. 
 - [ ] Use the README template from ECOOP.
 - [ ] If there is time, merge the figure generation scripts for compile time and ghc to the above to generate figures automatically.
 - [ ] Remove manual instructions, try to add sourcing environments etc. in the python script. 
