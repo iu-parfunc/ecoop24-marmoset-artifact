@@ -24,13 +24,15 @@ The following is the structure of the environment.
 
 We have provided 4 scripts to help automate the task of getting the numbers. 
 
-1.generate_runtimes.py        -- Generates all the runtimes similar to Tables 1-7 for gibbon, marmoset-greedy and marmoset-solver
+```
+1. ~/ECOOP-2024-Bench/generate_runtimes.py        -- Generates all the runtimes similar to Tables 1-7 for gibbon, marmoset-greedy and marmoset-solver
 
-2.generate_compile_times.py   -- Generates the compile times for as shown in Figure 10.
+2. ~/ECOOP-2024-Bench/generate_compile_times.py   -- Generates the compile times for as shown in Figure 10.
 
-3.generate_cache_stats.py     -- Generates the statistics for cache as shown in Table 8.
+3. ~/ECOOP-2024-Bench/generate_cache_stats.py     -- Generates the statistics for cache as shown in Table 8.
 
-4.ghc...
+4. ~/Ghc/ghc/generate_ghc_numbers.py -- Generates the runtimes for Ghc. Figure 9. 
+```
 
 After executing CMD2 and entering the session, execute the following commands to source the environment necessary to run the experiments. 
 
