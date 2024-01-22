@@ -1,6 +1,6 @@
 # ECOOP 2024 artifact instructions 
 
-To build the artifact, we have provided a convenient dockerfile.
+The artifact is bundled as an OCI container created with Docker (Dockerfile is available).
 
 ## Machine Requirements 
 
@@ -10,13 +10,13 @@ experiments.
 
 ## How to build the dockerfile
 
-To build the dockerfile -- CMD1
+(Optionally, if don't use our image) Build the Dockerfile (we call it `CMD1`)
 
 ```
 DOCKER_BUILDKIT=1 docker image build -t gibbon -f Dockerfile .
 ```
 
-Once the build is finished, the session can be invoked via -- CMD2
+Once you get the image, start the session as follows (`CMD2`):
 
 ```
 docker run -t -i gibbon
@@ -24,26 +24,23 @@ docker run -t -i gibbon
 
 ## Automated scripts / other instructions
 
-The following is the structure of the environment. 
+Structure of the environment. 
 
-1.All the benchmarks in the evaluation for gibbon and marmoset reside in ECOOP-2024-Bench.
+1. All the benchmarks in the evaluation for Gibbon and Marmoset reside in the `ECOOP-2024-Bench` directory.
 
-2.The benchmarks for the Ghc comparison reside in the folder Ghc. 
+2. The benchmarks for the GHC comparison reside in the `Ghc` directory. 
 
+We provide 4 scripts, which map on figures in the paper as follows:
 
-We have provided 4 scripts to help automate the task of getting the numbers. 
+1. `~/ECOOP-2024-Bench/generate_runtimes.py` — generates the run times  for Gibbon, Marmoset-greedy, and Marmoset-solver, `Tables 1-7`
 
-```
-1. ~/ECOOP-2024-Bench/generate_runtimes.py        -- Generates all the runtimes similar to Tables 1-7 for gibbon, marmoset-greedy and marmoset-solver
+2. `~/ECOOP-2024-Bench/generate_compile_times.py` — generates the compile times, `Figure 10`.
 
-2. ~/ECOOP-2024-Bench/generate_compile_times.py   -- Generates the compile times for as shown in Figure 10.
+3. `~/ECOOP-2024-Bench/generate_cache_stats.py` — generates the statistics for cache, `Table 8.
 
-3. ~/ECOOP-2024-Bench/generate_cache_stats.py     -- Generates the statistics for cache as shown in Table 8.
+4. `~/Ghc/ghc/generate_ghc_numbers.py` — generates the run times for GHC, `Figure 9`.
 
-4. ~/Ghc/ghc/generate_ghc_numbers.py -- Generates the runtimes for Ghc. Figure 9. 
-```
-
-After executing CMD2 and entering the session, execute the following commands to source the environment necessary to run the experiments. 
+After executing `CMD2` and entering the session, execute the following commands to source the environment necessary to run the experiments. 
 
 ```
 1.cd /gibbon 
@@ -51,10 +48,10 @@ After executing CMD2 and entering the session, execute the following commands to
 2.source set_env.sh 
 ```
 
-Next, use python3 to run the provided scripts to get the numbers. 
+Next, use `python3` to run the provided scripts to get the numbers. 
 The script prints the numbers for each benchmark file. 
-For example, python3 generate_runtimes.py to generate the runtimes.
-Provided is the mapping from file name to Benchmarks in the paper.
+For example, `python3 generate_runtimes.py` generates the run times.
+Provided is the mapping from file name to benchmarks in the paper.
 
 ```
 Table1: Layout1PowerList.hs, Layout2PowerList.hs 
