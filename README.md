@@ -1,9 +1,16 @@
-## ECOOP 2024 artifact instructions 
+# ECOOP 2024 artifact instructions 
 
-To build the artifact, we have provided a convinient dockerfile.
+To build the artifact, we have provided a convenient dockerfile.
+
+## Machine Requirements 
+
+Although all the experiments are single-threaded, some benchmarks have large input parameters which 
+require a machine with large RAM. Ideally, a machine with >100GB RAM would be ideal to run the 
+experiments.  
+
+## How to build the dockerfile
 
 To build the dockerfile -- CMD1
-
 
 ```
 DOCKER_BUILDKIT=1 docker image build -t gibbon -f Dockerfile .
@@ -14,6 +21,8 @@ Once the build is finished, the session can be invoked via -- CMD2
 ```
 docker run -t -i gibbon
 ```
+
+## Automated scripts / other instructions
 
 The following is the structure of the environment. 
 
