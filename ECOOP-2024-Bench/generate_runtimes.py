@@ -292,20 +292,23 @@ for file in executables:
 
 df = pd.DataFrame(runTimeCache, index = ['mean', 'median', 'upperbound', 'lowerbound'])
 
-
-
 Table1 = ["layout1PowerList.exe", "layout2PowerList.exe"] 
-
 print("Print Table1: ")
 print()
 print(df[Table1])
 print()
+#save to csv file 
+Table1Out = df[Table1]
+Table1Out.to_csv('Table1.csv')
 
 print("Print Table2: ")
 print()
 Table2 = ["layout1ListLen.exe", "layout2ListLen.exe", "layout2ListLenGreedy", "layout2ListLenSolver"]
 print(df[Table2])
 print()
+#save to csv file 
+Table2Out = df[Table2]
+Table2Out.to_csv('Table2.csv')
 
 if runMode == "quick":
     print("Finished running quick mode!")
@@ -317,6 +320,9 @@ print()
 Table3 = ["eval_l.exe", "eval_r.exe", "eval_lGreedy", "eval_lSolver"]
 print(df[Table3])
 print()
+#save to csv file 
+Table3Out = df[Table3]
+Table3Out.to_csv('Table3.csv')
 
 
 print("Print Table4a: ")
@@ -324,18 +330,27 @@ print()
 Table4a = ["TreeAddOnePre.exe", "TreeAddOnePost.exe", "TreeAddOneIn.exe", "TreeAddOnePreGreedy", "TreeAddOnePreSolver"]
 print(df[Table4a])
 print()
+#save to csv file 
+Table4aOut = df[Table4a]
+Table4aOut.to_csv('Table4a.csv')
 
 print("Print Table4b: ")
 print()
 Table4b = ["TreeExpoPre.exe", "TreeExpoPost.exe", "TreeExpoIn.exe", "TreeExpoPreGreedy", "TreeExpoPreSolver"]
 print(df[Table4b])
 print()
+#save to csv file 
+Table4bOut = df[Table4b]
+Table4bOut.to_csv('Table4b.csv')
 
 print("Print Table4c: ")
 print()
 Table4c = ["TreeCopyPre.exe", "TreeCopyPost.exe", "TreeCopyIn.exe", "TreeCopyPreGreedy", "TreeCopyPreSolver"]
 print(df[Table4c])
 print()
+#save to csv file 
+Table4cOut = df[Table4c]
+Table4cOut.to_csv('Table4c.csv')
 
 print("Print Table5: ")
 print()
@@ -347,6 +362,9 @@ Table5 = [
 ]
 print(df[Table5])
 print()
+#save to csv file 
+Table5Out = df[Table5]
+Table5Out.to_csv('Table5.csv')
 
 
 print("Print Table6a: ")
@@ -364,6 +382,9 @@ Table6a = [
 ]
 print(df[Table6a])
 print()
+#save to csv file 
+Table6aOut = df[Table6a]
+Table6aOut.to_csv('Table6a.csv')
 
 
 print("Print Table6b: ")
@@ -381,6 +402,9 @@ Table6b = [
 ]
 print(df[Table6b])
 print()
+#save to csv file 
+Table6bOut = df[Table6b]
+Table6bOut.to_csv('Table6b.csv')
 
 print("Print Table6c: ")
 print()
@@ -397,6 +421,9 @@ Table6c = [
 ]
 print(df[Table6c])
 print()
+#save to csv file 
+Table6cOut = df[Table6c]
+Table6cOut.to_csv('Table6c.csv')
 
 print("Print Table7a: ")
 print()
@@ -407,6 +434,9 @@ Table7a = [
 ]
 print(df[Table7a])
 print()
+#save to csv file 
+Table7aOut = df[Table7a]
+Table7aOut.to_csv('Table7a.csv')
 
 print("Print Table7b: ")
 print()
@@ -417,6 +447,9 @@ Table7b = [
 ]
 print(df[Table7b])
 print()
+#save to csv file 
+Table7bOut = df[Table7b]
+Table7bOut.to_csv('Table7b.csv')
 
 print("Print Table7c: ")
 print()
@@ -427,5 +460,8 @@ Table7c = [
 ]
 print(df[Table7c])
 print()
+#save to csv file 
+Table7cOut = df[Table7c]
+Table7cOut.to_csv('Table7c.csv')
 
 print("Finished running full mode!")
