@@ -42,8 +42,6 @@ ARG RUST=1.71.0
 # install rustup, rustc, and cargo
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=${RUST}
 
-RUN . "$HOME/.cargo/env"
-
 # download and build gibbon layout branch
 RUN git clone https://github.com/iu-parfunc/gibbon.git /gibbon
 RUN cd /gibbon && git checkout layout_changes
@@ -56,7 +54,6 @@ RUN tar -xvzf papi-7-1-0-t.tar.gz -C papi
 RUN cd papi && cd papi-papi-7-1-0-t && cd src && ./configure && make -j10 && make install
 
 ENV PATH="$PATH:/gibbon/dist-newstyle/build/x86_64-linux/ghc-9.4.6/gibbon-0.3/x/gibbon/build/gibbon"
-RUN cd /gibbon && (source set_env.sh)
 
 #Python dependencies
 RUN pip install cplex
@@ -72,6 +69,7 @@ ADD ECOOP-2024-Bench ./ECOOP-2024-Bench
 ADD Ghc ./Ghc
 
 ENV PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
- 
+
+RUN echo "pushd $HOME/.cargo/; . ./env; popd; pushd /gibbon; source ./set_env.sh; popd;" > ~/.bashrc
 
 CMD ["bash"]
