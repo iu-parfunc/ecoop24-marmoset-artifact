@@ -131,9 +131,10 @@ TODOs (In order of priority):
 - [x] TODO: the number for manyFuns.hs needs special handling since it runs multiple experiments in the pipeline. 
 - [ ] I forgot to add the Misaligned examples from the Binary Tree, only one i guess, Misaligned pre since the Misaligned post was giving memory errors.
 - [ ] Use the README template from ECOOP.
-- [ ] If there is time, merge the figure generation scripts for compile time and ghc to the above to generate figures automatically.
+- [x] If there is time, merge the figure generation scripts for compile time to generate figures automatically.
+- [ ] If there is time, merge the figure generation scripts for ghc to the above to generate figures automatically.
 - [x] Remove manual instructions, try to add sourcing environments etc. in the python script. 
-- [ ] Presentation of numbers that the script outputs can be improved but only if time permits.
+- [x] Presentation of numbers that the script outputs can be improved but only if time permits.
 - [x] Remove all dbgPrint statements in the compiler. (Low priority)
 
 
