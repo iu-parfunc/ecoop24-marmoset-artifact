@@ -316,7 +316,7 @@ if runMode == "quick":
 
 print("Print Table3: ")
 print()
-Table3 = ["eval_l.exe", "eval_r.exe", "eval_lGreedy", "eval_lSolver"]
+Table3 = ["eval_l.exe", "eval_r.exe", "eval_rGreedy", "eval_rSolver"]
 print(df[Table3])
 print()
 #save to csv file 
@@ -356,8 +356,8 @@ print()
 Table5 = [
     "TreeRightMost_l.exe",
     "TreeRightMost_r.exe",
-    "TreeRightMost_rGreedy",
-    "TreeRightMost_rSolver"
+    "TreeRightMost_lGreedy",
+    "TreeRightMost_lSolver"
 ]
 print(df[Table5])
 print()

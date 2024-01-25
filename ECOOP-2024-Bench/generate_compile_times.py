@@ -17,7 +17,41 @@ def mean_confidence_interval(data, confidence=0.95):
 
 rootdir = "/root/ECOOP-2024-Bench/"
 
-gibbonFiles = ['eval_r.hs', 'layout3FilterBlogs.hs', 'TreeExpoPre.hs', 'layout1TagSearch.hs', 'layout2ListLen.hs', 'layout8TagSearch.hs', 'layout2TagSearch.hs', 'layout8FilterBlogs.hs', 'TreeExpoIn.hs', 'layout4ContentSearch.hs', 'layout3ContentSearch.hs', 'eval_l.hs', 'TreeAddOnePre.hs', 'layout7TagSearch.hs', 'layout2ContentSearch.hs', 'TreeRightMost_l.hs', 'layout2FilterBlogs.hs', 'manyFuncs.hs', 'layout1PowerList.hs', 'TreeCopyPre.hs', 'TreeAddOneIn.hs', 'layout4TagSearch.hs', 'layout1ListLen.hs', 'TreeCopyPost.hs', 'layout8ContentSearch.hs', 'TreeRightMost_r.hs', 'TreeAddOnePost.hs', 'layout1ContentSearch.hs', 'TreeCopyIn.hs', 'layout7ContentSearch.hs', 'layout3TagSearch.hs', 'layout2PowerList.hs', 'layout5ContentSearch.hs', 'layout4FilterBlogs.hs', 'layout5FilterBlogs.hs', 'layout5TagSearch.hs', 'layout7FilterBlogs.hs', 'layout1FilterBlogs.hs', 'TreeExpoPost.hs']
+gibbonFiles = [
+
+    'layout1FilterBlogs.hs',
+    'layout2FilterBlogs.hs',
+    'layout3FilterBlogs.hs',
+    'layout4FilterBlogs.hs',
+    'layout5FilterBlogs.hs',
+    'layout7FilterBlogs.hs',
+    'layout8FilterBlogs.hs',
+
+    'layout1ContentSearch.hs',
+    'layout2ContentSearch.hs',
+    'layout3ContentSearch.hs',
+    'layout4ContentSearch.hs',
+    'layout5ContentSearch.hs',
+    'layout7ContentSearch.hs',
+    'layout8ContentSearch.hs',
+
+    'layout1TagSearch.hs',
+    'layout2TagSearch.hs',
+    'layout3TagSearch.hs',
+    'layout4TagSearch.hs',
+    'layout5TagSearch.hs',
+    'layout7TagSearch.hs',
+    'layout8TagSearch.hs'
+]
+
+marmosetFiles = [
+
+    'layout8FilterBlogs.hs',
+    'layout8ContentSearch.hs',
+    'layout8TagSearch.hs'
+
+]
+
 
 
 # Compile all Gibbon binaries.
@@ -59,9 +93,6 @@ def parse_solver_times(array):
 
     return sum(solver_times)
             
-            
-marmosetFiles = ['eval_r.hs', 'TreeExpoPre.hs', 'layout2ListLen.hs', 'layout8TagSearch.hs', 'layout8FilterBlogs.hs', 'TreeAddOnePre.hs', 'layout8ContentSearch.hs', 'TreeRightMost_l.hs', 'manyFuncs.hs', 'TreeCopyPre.hs', 'layout1PowerList.hs']
-
 
 # Compile all Marmoset binaries.
 for subdir, dirs, files in os.walk(rootdir):
