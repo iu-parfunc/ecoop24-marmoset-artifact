@@ -2,10 +2,8 @@
 FROM ubuntu:22.04 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV USERNAME=root
-SHELL ["/bin/bash", "-c"]
 
-
-# install dependencies
+# install basic system dependencies
 RUN apt-get update && \
     apt-get -y install --no-install-recommends software-properties-common && \
     apt-get -y install --no-install-recommends \
@@ -20,58 +18,54 @@ RUN apt-get update && \
     git  \ 
     libtinfo-dev
 
-RUN wget --no-check-certificate https://mirror.racket-lang.org/installers/7.5/racket-7.5-x86_64-linux.sh
-RUN chmod +x racket-7.5-x86_64-linux.sh
-RUN ./racket-7.5-x86_64-linux.sh
-
-
 # update path
 USER ${USERNAME}
 WORKDIR /${USERNAME}
 ENV PATH="/${USERNAME}/.local/bin:/${USERNAME}/.cabal/bin:/${USERNAME}/.ghcup/bin:$PATH"
 RUN echo "export PATH=${PATH}" >> /${USERNAME}/.profile
 
-#install ghcup
-RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 BOOTSTRAP_HASKELL_GHC_VERSION=9.4.6 BOOTSTRAP_HASKELL_CABAL_VERSION=3.8.1.0 BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_ADJUST_BASHRC=P sh
+# Main Gibbon dependencies: Racket, Haskell, Rust
 
-# update cabal package list
-RUN cabal update
+# install Racket
+RUN wget --no-check-certificate https://mirror.racket-lang.org/installers/7.5/racket-7.5-x86_64-linux.sh && \
+    chmod +x racket-7.5-x86_64-linux.sh && \
+    ./racket-7.5-x86_64-linux.sh
 
+# install the Haskell toolchain (ghcup, GHC, Cabal)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 BOOTSTRAP_HASKELL_GHC_VERSION=9.4.6 BOOTSTRAP_HASKELL_CABAL_VERSION=3.10.2.1 BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_ADJUST_BASHRC=P sh && \
+    cabal update
+
+# install the Rust toolchain (rustup, rustc, cargo)
 ARG RUST=1.71.0
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=${RUST} && \
+    echo "source $HOME/.cargo/env" >> ~/.bashrc
 
-# install rustup, rustc, and cargo
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=${RUST}
+# Gibbon: download and build the layout branch (Marmoset), build Gibbon's RTS
+RUN git clone https://github.com/iu-parfunc/gibbon.git /gibbon && \
+    cd /gibbon && \
+    git checkout layout_changes && \
+    cd gibbon-compiler && cabal v2-build exe:gibbon && \
+                          cabal v2-install exe:gibbon && cd .. && \
+    . $HOME/.cargo/env && \
+    make -f gibbon-rts/Makefile && \
+    echo "pushd /gibbon; source ./set_env.sh; popd;" >> ~/.bashrc
 
-RUN . "$HOME/.cargo/env"
+# install PAPI
+RUN wget https://github.com/icl-utk-edu/papi/archive/refs/tags/papi-7-1-0-t.tar.gz && \
+    mkdir papi && \
+    tar -xvzf papi-7-1-0-t.tar.gz -C papi && \
+    cd papi && cd papi-papi-7-1-0-t && cd src && \
+    ./configure && make -j10 && make install
+ENV PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
 
-# download and build gibbon layout branch
-RUN git clone https://github.com/iu-parfunc/gibbon.git /gibbon
-RUN cd /gibbon && git checkout layout_changes
-RUN cd /gibbon && cd gibbon-compiler && cabal v2-build
+# Python packages: the ILP solver, benchmark runner
+RUN pip install cplex docplex statistics numpy scipy
 
-#Install PAPI 
-RUN wget https://github.com/icl-utk-edu/papi/archive/refs/tags/papi-7-1-0-t.tar.gz
-RUN mkdir papi
-RUN tar -xvzf papi-7-1-0-t.tar.gz -C papi
-RUN cd papi && cd papi-papi-7-1-0-t && cd src && ./configure && make -j10 && make install
-
-ENV PATH="$PATH:/gibbon/dist-newstyle/build/x86_64-linux/ghc-9.4.6/gibbon-0.3/x/gibbon/build/gibbon"
-RUN cd /gibbon && (source set_env.sh)
-
-#Python dependencies
-RUN pip install cplex
-RUN pip install docplex
-RUN pip install statistics
-RUN pip install numpy
-RUN pip install scipy
-
-#cabal packages 
+# Haskell packages: benchmark dependencies
 RUN cabal install --lib timeit random vector
 
+# Add benchmark sources
 ADD ECOOP-2024-Bench ./ECOOP-2024-Bench
 ADD Ghc ./Ghc
 
-ENV PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
- 
-
-CMD ["bash"]
+ENTRYPOINT ["bash"]
