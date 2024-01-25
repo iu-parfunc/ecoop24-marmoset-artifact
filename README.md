@@ -1,7 +1,8 @@
 # ECOOP 2024 artifact Marmoset
 
 Title of the submitted paper:
-Optimizing Layout of Recursive Data Types with Marmoset
+
+> Optimizing Layout of Recursive Data Types with Marmoset
 
 ## Metadata to provide during artifact submission in HotCRP
 
@@ -11,8 +12,9 @@ Optimizing Layout of Recursive Data Types with Marmoset
 single threaded, they will require a machine with a large RAM. Ideally, greater than 100MB would be good to run 
 the experiments.
 
-- Estimation of the required hardware resources for evaluation. In case the evaluation takes multiple days or requires huge resources, please provide a scaled-down evaluation -- We plan to 
-provide 2 modes, a quick mode and a full mode ? 
+  TODO: (Artem) what is a reasonable minimum? We can't expect all evaluators to have 100 Gb RAM.
+
+- Estimation of the required hardware resources for evaluation. In case the evaluation takes multiple days or requires huge resources, please provide a scaled-down evaluation.
 
 - Known compatibility issues of the container/VM -- NONE
   
@@ -28,15 +30,15 @@ Although all the experiments are single-threaded, some benchmarks have large inp
 require a machine with large RAM. Ideally, a machine with >100GB RAM would be used to run the 
 experiments. 
 
-### How to build the dockerfile
+### How to build (optionally) and enter the Docker container
 
-(Optionally, if don't use our image) Build the Dockerfile (we call it `CMD1`)
+(Optionally, if don't use our image) Build the image with the Dockerfile
 
 ```
 DOCKER_BUILDKIT=1 docker image build -t marmoset -f Dockerfile .
 ```
 
-Once you get the image, start the session as follows (`CMD2`):
+Once you get the image, start the session as follows (so called `CMD1`):
 
 ```
 docker run --rm -ti marmoset
@@ -44,13 +46,13 @@ docker run --rm -ti marmoset
 
 ### Automated scripts / other instructions
 
-Structure of the environment. 
+All scripts and benchmarks reside in one of the two directories in the container:
 
-1. All the benchmarks in the evaluation for Gibbon and Marmoset reside in the `ECOOP-2024-Bench` directory.
+1. `~/ECOOP-2024-Bench` — evaluation for Gibbon and Marmoset (all tables and Figure 10).
 
-2. The benchmarks for the GHC comparison reside in the `Ghc` directory. 
+2. `~/Ghc` — evaluation for GHC and Marmoset (Figure 9).
 
-We provide 4 scripts, which map on figures in the paper as follows:
+Four Python scripts map on the figures and tables in the paper as follows:
 
 1. `~/ECOOP-2024-Bench/generate_runtimes.py` — generates the run times  for Gibbon, Marmoset-greedy, and Marmoset-solver, `Tables 1-7`
 
@@ -61,11 +63,12 @@ We provide 4 scripts, which map on figures in the paper as follows:
 4. `~/Ghc/ghc/generate_ghc_numbers.py` — generates the run times for GHC, `Figure 9`.
 
 
-After executing `CMD2` and entering the session, use `python3` to run the provided scripts to get the numbers. 
-The script prints the numbers for each benchmark file. 
-For example, `python3 generate_runtimes.py` generates the run times
+After executing `CMD1` and entering the session, use `python3` to run the provided scripts to reproduce the figures and tables.
+For example, `python3 generate_runtimes.py` generates the run times for Gibbon and Marmoset, stores them in a CSV files
 (you need to `cd` in the corresponding directory first). 
-Provided is the mapping from file name to benchmarks in the paper.
+Provided below is the mapping from file name to benchmarks in the paper.
+
+TODO: (Artem) document CSV outputs (location, ect.). Alsoi see the overview section below.
 
 ```
 Table1: Layout1PowerList.hs, Layout2PowerList.hs 
@@ -82,6 +85,8 @@ Table6: layoutxFilterBlogs.hs, layoutxContentSearch.hs and layoutxTagSearch.hs w
 
 Table7: manyFuncs.hs 
 ```
+
+TODO: (Artem) is this still needed if we just print a table in the end? I think not.
 
 The statistics for greedy and solver are given by file names appended with text "Greedy" and "Solver" respectively.
 
