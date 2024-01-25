@@ -2,6 +2,7 @@ import subprocess
 import time
 import statistics
 import numpy as np
+import pandas as pd
 import scipy
 import re
 import os
@@ -24,21 +25,111 @@ rootdir = "/root/ECOOP-2024-Bench/"
 #compileTrue = sys.argv[2]
 #executeTrue = sys.argv[3]
 
+if (len(sys.argv) < 2):
+    print("Error: not enough arguments passed.")
+    print("Usage: python3 generate_runtimes.py (quick|full)")
+    exit(1) 
+
+# One of two, quick mode and full mode. 
+runMode = str(sys.argv[1])
+print(runMode)
+
+#quick mode runs the microbenchmarks 
+#full mode runs the full suite
+
 executables = []
 
-gibbonFiles = ['eval_r.hs', 'layout3FilterBlogs.hs', 'TreeExpoPre.hs', 'layout1TagSearch.hs', 'layout2ListLen.hs', 'layout8TagSearch.hs', 'layout2TagSearch.hs', 'layout8FilterBlogs.hs', 'TreeExpoIn.hs', 'layout4ContentSearch.hs', 'layout3ContentSearch.hs', 'eval_l.hs', 'TreeAddOnePre.hs', 'layout7TagSearch.hs', 'layout2ContentSearch.hs', 'TreeRightMost_l.hs', 'layout2FilterBlogs.hs', 'manyFuncs.hs', 'layout1PowerList.hs', 'TreeCopyPre.hs', 'TreeAddOneIn.hs', 'layout4TagSearch.hs', 'layout1ListLen.hs', 'TreeCopyPost.hs', 'layout8ContentSearch.hs', 'TreeRightMost_r.hs', 'TreeAddOnePost.hs', 'layout1ContentSearch.hs', 'TreeCopyIn.hs', 'layout7ContentSearch.hs', 'layout3TagSearch.hs', 'layout2PowerList.hs', 'layout5ContentSearch.hs', 'layout4FilterBlogs.hs', 'layout5FilterBlogs.hs', 'layout5TagSearch.hs', 'layout7FilterBlogs.hs', 'layout1FilterBlogs.hs', 'TreeExpoPost.hs']
+gibbonFiles = [
+    'eval_r.hs',
+    'layout3FilterBlogs.hs',
+    'TreeExpoPre.hs',
+    'layout1TagSearch.hs',
+    'layout2ListLen.hs',
+    'layout8TagSearch.hs',
+    'layout2TagSearch.hs',
+    'layout8FilterBlogs.hs',
+    'TreeExpoIn.hs',
+    'layout4ContentSearch.hs',
+    'layout3ContentSearch.hs',
+    'eval_l.hs',
+    'TreeAddOnePre.hs',
+    'layout7TagSearch.hs',
+    'layout2ContentSearch.hs',
+    'TreeRightMost_l.hs',
+    'layout2FilterBlogs.hs',
+    'manyFuncs.hs',
+    'layout1PowerList.hs',
+    'TreeCopyPre.hs',
+    'TreeAddOneIn.hs',
+    'layout4TagSearch.hs',
+    'layout1ListLen.hs',
+    'TreeCopyPost.hs',
+    'layout8ContentSearch.hs',
+    'TreeRightMost_r.hs',
+    'TreeAddOnePost.hs',
+    'layout1ContentSearch.hs',
+    'TreeCopyIn.hs',
+    'layout7ContentSearch.hs',
+    'layout3TagSearch.hs',
+    'layout2PowerList.hs',
+    'layout5ContentSearch.hs',
+    'layout4FilterBlogs.hs',
+    'layout5FilterBlogs.hs',
+    'layout5TagSearch.hs',
+    'layout7FilterBlogs.hs',
+    'layout1FilterBlogs.hs',
+    'TreeExpoPost.hs'
+]
+
+#runs powerlist, listen, and eval tree. 
+gibbonFilesQuickRun = [
+    'layout1ListLen.hs',
+    'layout2ListLen.hs',
+    'layout1PowerList.hs',
+    'layout2PowerList.hs'
+]
+
+marmosetFiles = [
+    'eval_r.hs',
+    'TreeExpoPre.hs',
+    'layout2ListLen.hs',
+    'layout8TagSearch.hs',
+    'layout8FilterBlogs.hs',
+    'TreeAddOnePre.hs',
+    'layout8ContentSearch.hs',
+    'TreeRightMost_l.hs',
+    'manyFuncs.hs',
+    'TreeCopyPre.hs',
+    'layout1PowerList.hs'
+]
+
+marmosetFilesQuickRun = [
+    'layout2ListLen.hs',
+    'layout1PowerList.hs'
+]
+
+
+filesToEvaluate = [] 
+filesToEvaluateMarmoset = []
+
+if runMode == "quick":
+    filesToEvaluate = gibbonFilesQuickRun
+    filesToEvaluateMarmoset = marmosetFilesQuickRun
+else: 
+    filesToEvaluate = gibbonFiles
+    filesToEvaluateMarmoset = marmosetFiles
 
 # Compile all Gibbon binaries.
 for subdir, dirs, files in os.walk(rootdir):
     
-    print("subdir: " + str(subdir))
-    print("dirs: " + str(dirs))
-    print("files: " + str(files))
+    #print("subdir: " + str(subdir))
+    #print("dirs: " + str(dirs))
+    #print("files: " + str(files))
     
     
     for file in files: 
         
-        if ".hs" in file and file in gibbonFiles:
+        if ".hs" in file and file in filesToEvaluate:
         
             file_path = subdir + file
             
@@ -51,32 +142,27 @@ for subdir, dirs, files in os.walk(rootdir):
             output, error = c.communicate()
         
             if error is None: 
-                print("Compiled " + file + " succesfully!")
+                print("Compiled " + file + " with gibbon succesfully!")
                 
             executables.append(file_without_haskell_extension + ".exe")
             
             print()
-        
-        
-marmosetFiles = ['eval_r.hs', 'TreeExpoPre.hs', 'layout2ListLen.hs', 'layout8TagSearch.hs', 'layout8FilterBlogs.hs', 'TreeAddOnePre.hs', 'layout8ContentSearch.hs', 'TreeRightMost_l.hs', 'manyFuncs.hs', 'TreeCopyPre.hs', 'layout1PowerList.hs']
-
 
 # Compile all Marmoset binaries.
 for subdir, dirs, files in os.walk(rootdir):
     
-    print("subdir: " + str(subdir))
-    print("dirs: " + str(dirs))
-    print("files: " + str(files))
+    #print("subdir: " + str(subdir))
+    #print("dirs: " + str(dirs))
+    #print("files: " + str(files))
     
     
     for file in files: 
         
-        if ".hs" in file and file in marmosetFiles:
+        if ".hs" in file and file in filesToEvaluateMarmoset:
         
             file_path = subdir + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
-            print(file_without_haskell_extension)
             
             solver_binary_name = file_without_haskell_extension + "Solver"
             greedy_binary_name = file_without_haskell_extension + "Greedy"
@@ -92,7 +178,7 @@ for subdir, dirs, files in os.walk(rootdir):
             output, error = c.communicate()
         
             if error is None: 
-                print("Compiled " + file + " succesfully!")
+                print("Compiled " + file + " with solver succesfully!")
                 
             print()
             
@@ -104,13 +190,19 @@ for subdir, dirs, files in os.walk(rootdir):
             output, error = c.communicate()
         
             if error is None: 
-                print("Compiled " + file + " succesfully!")
+                print("Compiled " + file + " with greedy optimization succesfully!")
                 
                 
             print()
 
+
+
+runTimeCache = {}
+
 #Run all executables
 for file in executables:
+
+        print("Running " + str(file) + "...")
         
         runtimeFile = file + ".txt"
         
@@ -146,7 +238,13 @@ for file in executables:
             mean = np.mean(iterTimes)
             median = np.median(iterTimes)
             a, l, u = mean_confidence_interval(iterTimes)
-            print(str(file) + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+            
+            #print(str(file) + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+            #store the stats for a file as a tuple, (mean,median,upperbound,lowerbound)
+
+            fileName = str(file).replace(rootdir, "")
+            runTimeCache[fileName] = (mean, median, u, l)
+            
             readFileHandle.close()
         elif "manyFuncs" in file: 
 
@@ -161,7 +259,7 @@ for file in executables:
                     
                     if lines in functionsToParse:
                         flag = True
-                        cpass = lines
+                        cpass = lines.replace(":\n", "")
                         functionsToParse.remove(lines)
 
                     if flag:  
@@ -175,9 +273,159 @@ for file in executables:
                 mean = np.mean(iterTimes)
                 median = np.median(iterTimes)
                 a, l, u = mean_confidence_interval(iterTimes)
-                print(str(file) + " " + str(cpass) + " " + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+
+                #print(str(file) + " " + str(cpass) + " " + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+                
+                passName = str(file).replace(".exe", "") + "-" + str(cpass)
+                #store the stats for a file as a tuple, (mean,median,upperbound,lowerbound)
+                fileName = passName.replace(rootdir, "")
+                runTimeCache[fileName] = (mean, median, u, l)
+
 
                 if functionsToParse == []: 
                     break
  
             readFileHandle.close()
+
+
+#make the table once all the data is collected. 
+
+df = pd.DataFrame(runTimeCache, index = ['mean', 'median', 'upperbound', 'lowerbound'])
+
+
+
+Table1 = ["layout1PowerList.exe", "layout2PowerList.exe"] 
+
+print("Print Table1: ")
+print()
+print(df[Table1])
+print()
+
+print("Print Table2: ")
+print()
+Table2 = ["layout1ListLen.exe", "layout2ListLen.exe", "layout2ListLenGreedy", "layout2ListLenSolver"]
+print(df[Table2])
+print()
+
+if runMode == "quick":
+    print("Finished running quick mode!")
+    exit(0)
+
+
+print("Print Table3: ")
+print()
+Table3 = ["eval_l.exe", "eval_r.exe", "eval_lGreedy", "eval_lSolver"]
+print(df[Table3])
+print()
+
+
+print("Print Table4a: ")
+print()
+Table4a = ["TreeAddOnePre.exe", "TreeAddOnePost.exe", "TreeAddOneIn.exe", "TreeAddOnePreGreedy", "TreeAddOnePreSolver"]
+print(df[Table4a])
+print()
+
+print("Print Table4b: ")
+print()
+Table4b = ["TreeExpoPre.exe", "TreeExpoPost.exe", "TreeExpoIn.exe", "TreeExpoPreGreedy", "TreeExpoPreSolver"]
+print(df[Table4b])
+print()
+
+print("Print Table4c: ")
+print()
+Table4c = ["TreeCopyPre.exe", "TreeCopyPost.exe", "TreeCopyIn.exe", "TreeCopyPreGreedy", "TreeCopyPreSolver"]
+print(df[Table4c])
+print()
+
+print("Print Table5: ")
+print()
+Table5 = [
+    "TreeRightMost_l.exe",
+    "TreeRightMost_r.exe",
+    "TreeRightMost_lGreedy",
+    "TreeRightMost_lSolver"
+]
+print(df[Table5])
+print()
+
+
+print("Print Table6a: ")
+print()
+Table6a = [
+    "layout1FilterBlogs.exe",
+    "layout2FilterBlogs.exe",
+    "layout3FilterBlogs.exe",
+    "layout4FilterBlogs.exe",
+    "layout5FilterBlogs.exe",
+    "layout7FilterBlogs.exe",
+    "layout8FilterBlogs.exe",
+    "layout8FilterBlogsGreedy",
+    "layout8FilterBlogsSolver"
+]
+print(df[Table6a])
+print()
+
+
+print("Print Table6b: ")
+print()
+Table6b = [
+    "layout1ContentSearch.exe",
+    "layout2ContentSearch.exe",
+    "layout3ContentSearch.exe",
+    "layout4ContentSearch.exe",
+    "layout5ContentSearch.exe",
+    "layout7ContentSearch.exe",
+    "layout8ContentSearch.exe",
+    "layout8ContentSearchGreedy",
+    "layout8ContentSearchSolver"
+]
+print(df[Table6b])
+print()
+
+print("Print Table6c: ")
+print()
+Table6c = [
+    "layout1TagSearch.exe",
+    "layout2TagSearch.exe", 
+    "layout3TagSearch.exe",
+    "layout4TagSearch.exe",
+    "layout5TagSearch.exe",
+    "layout7TagSearch.exe",
+    "layout8TagSearch.exe",
+    "layout8TagSearchGreedy",
+    "layout8TagSearchSolver"
+]
+print(df[Table6c])
+print()
+
+print("Print Table7a: ")
+print()
+Table7a = [
+    "manyFuncs-FilterBlogs",
+    "manyFuncsGreedy-FilterBlogs",
+    "manyFuncsSolver-FilterBlogs"
+]
+print(df[Table7a])
+print()
+
+print("Print Table7b: ")
+print()
+Table7b = [ 
+    "manyFuncs-EmphKeyword",
+    "manyFuncsGreedy-EmphKeyword",
+    "manyFuncsSolver-EmphKeyword" 
+]
+print(df[Table7b])
+print()
+
+print("Print Table7c: ")
+print()
+Table7c = [
+    "manyFuncs-EmphKeywordInTag", 
+    "manyFuncsGreedy-EmphKeywordInTag",
+    "manyFuncsSolver-EmphKeywordInTag"
+]
+print(df[Table7c])
+print()
+
+print("Finished running full mode!")

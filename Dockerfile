@@ -60,7 +60,7 @@ RUN wget https://github.com/icl-utk-edu/papi/archive/refs/tags/papi-7-1-0-t.tar.
 ENV PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
 
 # Python packages: the ILP solver, benchmark runner
-RUN pip install cplex docplex statistics numpy scipy
+RUN pip install cplex docplex statistics numpy scipy pandas pyarrow
 
 # Haskell packages: benchmark dependencies
 RUN cabal install --lib timeit random vector
