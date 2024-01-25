@@ -77,7 +77,10 @@ gibbonFiles = [
     'layout5TagSearch.hs',
     'layout7FilterBlogs.hs',
     'layout1FilterBlogs.hs',
-    'TreeExpoPost.hs'
+    'TreeExpoPost.hs',
+    'TreeAddOnePrePost.hs',
+    'TreeCopyPrePost.hs',
+    'TreeExpoPrePost.hs'
 ]
 
 #runs powerlist, listen, and eval tree. 
@@ -326,7 +329,7 @@ Table3Out.to_csv('Table3.csv')
 
 print("Print Table4a: ")
 print()
-Table4a = ["TreeAddOnePre.exe", "TreeAddOnePost.exe", "TreeAddOneIn.exe", "TreeAddOnePreGreedy", "TreeAddOnePreSolver"]
+Table4a = ["TreeAddOnePrePost.exe", "TreeAddOnePre.exe", "TreeAddOnePost.exe", "TreeAddOneIn.exe", "TreeAddOnePreGreedy", "TreeAddOnePreSolver"]
 print(df[Table4a])
 print()
 #save to csv file 
@@ -335,7 +338,7 @@ Table4aOut.to_csv('Table4a.csv')
 
 print("Print Table4b: ")
 print()
-Table4b = ["TreeExpoPre.exe", "TreeExpoPost.exe", "TreeExpoIn.exe", "TreeExpoPreGreedy", "TreeExpoPreSolver"]
+Table4b = ["TreeExpoPrePost.exe", "TreeExpoPre.exe", "TreeExpoPost.exe", "TreeExpoIn.exe", "TreeExpoPreGreedy", "TreeExpoPreSolver"]
 print(df[Table4b])
 print()
 #save to csv file 
@@ -344,7 +347,7 @@ Table4bOut.to_csv('Table4b.csv')
 
 print("Print Table4c: ")
 print()
-Table4c = ["TreeCopyPre.exe", "TreeCopyPost.exe", "TreeCopyIn.exe", "TreeCopyPreGreedy", "TreeCopyPreSolver"]
+Table4c = ["TreeCopyPrePost.exe", "TreeCopyPre.exe", "TreeCopyPost.exe", "TreeCopyIn.exe", "TreeCopyPreGreedy", "TreeCopyPreSolver"]
 print(df[Table4c])
 print()
 #save to csv file 
