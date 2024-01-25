@@ -1,14 +1,34 @@
-# ECOOP 2024 artifact instructions 
+# ECOOP 2024 artifact Marmoset
+
+Title of the submitted paper:
+Optimizing Layout of Recursive Data Types with Marmoset
+
+## Metadata to provide during artifact submission in HotCRP
+
+**No need to provide them again in the submission**
+
+- OS and resource (CPU, memory, disk, GPU) used by the authors to run the artifact -- Although the experiments are 
+single threaded, they will require a machine with a large RAM. Ideally, greater than 100MB would be good to run 
+the experiments.
+
+- Estimation of the required hardware resources for evaluation. In case the evaluation takes multiple days or requires huge resources, please provide a scaled-down evaluation -- We plan to 
+provide 2 modes, a quick mode and a full mode ? 
+
+- Known compatibility issues of the container/VM -- NONE
+  
+- Which badges do you claim for your artifact? Functional? Reusable? Available? -- We seek all three, that is, Functional, Reusable and Available. 
+
+## Quick-start guide (Kick-the-tires phase)
 
 The artifact is bundled as an OCI container created with Docker (Dockerfile is available).
 
-## Machine Requirements 
+### Machine Requirements 
 
 Although all the experiments are single-threaded, some benchmarks have large input parameters, which 
 require a machine with large RAM. Ideally, a machine with >100GB RAM would be used to run the 
 experiments. 
 
-## How to build the dockerfile
+### How to build the dockerfile
 
 (Optionally, if don't use our image) Build the Dockerfile (we call it `CMD1`)
 
@@ -22,7 +42,7 @@ Once you get the image, start the session as follows (`CMD2`):
 docker run --rm -ti gibbon
 ```
 
-## Automated scripts / other instructions
+### Automated scripts / other instructions
 
 Structure of the environment. 
 
@@ -71,6 +91,46 @@ Table7: manyFuncs.hs
 
 The statistics for greedy and solver are given by file names appended with text "Greedy" and "Solver" respectively.
 
+## Overview: What does the artifact comprise?
+
+Please list for each distinct component of your artifact:
+
+* type of artifact (data, code, proof, etc.)
+* format (e.g., CSV, source code, binary, etc.)
+* location in the container/VM
+
+## For authors claiming an available badge
+
+We offer to publish the artifact on [DARTS](https://drops.dagstuhl.de/opus/institut_darts.php), in which case the available badge will be issued automatically.
+If you agree to publishing your artifact under a Creative Commons license, please indicate this here.
+
+In case you would like to publish your artifact under different licensing conditions on Zenodo, please state under which license will the artifact be published?
+
+## For authors claiming a functional or reusable badge
+
+For **all** experimental claims made in the paper, please:
+* Quote/reference the experimental claim
+* Explain how this claim can be reproduced with the artifact
+
+For example: “The data in table 1 can be obtained by running script ‘generate_table1.sh’”
+
+Please note: we highly advise authors to provide a push-button evaluation (cf. call for artifacts).
+
+## For authors claiming a reusable badge
+
+If some parts of your artifacts contains software:
+- is your implementation open-source?
+- how to recompile the software?
+
+If you use benchmarks: are the benchmarks public and open-source?
+
+Please list any reuse scenarios that you envision for your artifact, i.e., state how the artifact can be reused or repurposed beyond its role in the submitted paper. Example:
+
+* “The implementation can easily be modified to use a different algorithm than the one described in section 4.1 of our paper by implementing a corresponding module. We provide an interface specification in ...”
+
+
+-------------------------------------------------------
+
 TODOs (In order of priority): 
 
 - [x] Write the script for Ghc.
@@ -80,3 +140,10 @@ TODOs (In order of priority):
 - [ ] Remove manual instructions, try to add sourcing environments etc. in the python script. 
 - [ ] Presentation of numbers that the script outputs can be improved but only if time permits.
 - [x] Remove all dbgPrint statements in the compiler. (Low priority)
+
+
+
+
+
+
+
