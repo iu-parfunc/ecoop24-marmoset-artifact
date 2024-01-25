@@ -66,9 +66,7 @@ RUN pip install numpy
 RUN pip install scipy
 
 #cabal packages 
-RUN cabal install --lib timeit 
-RUN cabal install --lib random 
-RUN cabal install --lib vector
+RUN cabal install --lib timeit random vector
 
 ADD ECOOP-2024-Bench ./ECOOP-2024-Bench
 ADD Ghc ./Ghc
