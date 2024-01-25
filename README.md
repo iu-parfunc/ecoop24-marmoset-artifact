@@ -33,13 +33,13 @@ experiments.
 (Optionally, if don't use our image) Build the Dockerfile (we call it `CMD1`)
 
 ```
-DOCKER_BUILDKIT=1 docker image build -t gibbon -f Dockerfile .
+DOCKER_BUILDKIT=1 docker image build -t marmoset -f Dockerfile .
 ```
 
 Once you get the image, start the session as follows (`CMD2`):
 
 ```
-docker run --rm -ti gibbon
+docker run --rm -ti marmoset
 ```
 
 ### Automated scripts / other instructions
