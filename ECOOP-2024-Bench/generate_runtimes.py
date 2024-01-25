@@ -356,8 +356,8 @@ print()
 Table5 = [
     "TreeRightMost_l.exe",
     "TreeRightMost_r.exe",
-    "TreeRightMost_lGreedy",
-    "TreeRightMost_lSolver"
+    "TreeRightMost_rGreedy",
+    "TreeRightMost_rSolver"
 ]
 print(df[Table5])
 print()
