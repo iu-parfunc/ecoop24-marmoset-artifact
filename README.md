@@ -60,17 +60,11 @@ We provide 4 scripts, which map on figures in the paper as follows:
 
 4. `~/Ghc/ghc/generate_ghc_numbers.py` — generates the run times for GHC, `Figure 9`.
 
-After executing `CMD2` and entering the session, execute the following commands to source the environment necessary to run the experiments. 
 
-```
-1.cd /gibbon 
-
-2.source set_env.sh 
-```
-
-Next, use `python3` to run the provided scripts to get the numbers. 
+After executing `CMD2` and entering the session, use `python3` to run the provided scripts to get the numbers. 
 The script prints the numbers for each benchmark file. 
-For example, `python3 generate_runtimes.py` generates the run times.
+For example, `python3 generate_runtimes.py` generates the run times
+(you need to `cd` in the corresponding directory first). 
 Provided is the mapping from file name to benchmarks in the paper.
 
 ```
@@ -137,7 +131,7 @@ TODOs (In order of priority):
 - [x] TODO: the number for manyFuns.hs needs special handling since it runs multiple experiments in the pipeline. 
 - [ ] Use the README template from ECOOP.
 - [ ] If there is time, merge the figure generation scripts for compile time and ghc to the above to generate figures automatically.
-- [ ] Remove manual instructions, try to add sourcing environments etc. in the python script. 
+- [x] Remove manual instructions, try to add sourcing environments etc. in the python script. 
 - [ ] Presentation of numbers that the script outputs can be improved but only if time permits.
 - [x] Remove all dbgPrint statements in the compiler. (Low priority)
 
