@@ -32,7 +32,6 @@ if (len(sys.argv) < 2):
 
 # One of two, quick mode and full mode. 
 runMode = str(sys.argv[1])
-print(runMode)
 
 #quick mode runs the microbenchmarks 
 #full mode runs the full suite
