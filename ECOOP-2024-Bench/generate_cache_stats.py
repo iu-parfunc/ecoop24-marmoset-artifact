@@ -20,22 +20,51 @@ def mean_confidence_interval(data, confidence=0.95):
 rootdir = "/root/ECOOP-2024-Bench/"
 papi_dir = "/root/ECOOP-2024-Bench/papi_hl_output/"
 
-
-
 # Was thinking to make compile and run separate but not important right now.
 #compileTrue = sys.argv[2]
 #executeTrue = sys.argv[3]
 
 executables = []
 
-gibbonFiles = ['eval_r.hs', 'layout3FilterBlogs.hs', 'TreeExpoPre.hs', 'layout1TagSearch.hs', 'layout2ListLen.hs', 'layout8TagSearch.hs', 'layout2TagSearch.hs', 'layout8FilterBlogs.hs', 'TreeExpoIn.hs', 'layout4ContentSearch.hs', 'layout3ContentSearch.hs', 'eval_l.hs', 'TreeAddOnePre.hs', 'layout7TagSearch.hs', 'layout2ContentSearch.hs', 'TreeRightMost_l.hs', 'layout2FilterBlogs.hs', 'manyFuncs.hs', 'layout1PowerList.hs', 'TreeCopyPre.hs', 'TreeAddOneIn.hs', 'layout4TagSearch.hs', 'layout1ListLen.hs', 'TreeCopyPost.hs', 'layout8ContentSearch.hs', 'TreeRightMost_r.hs', 'TreeAddOnePost.hs', 'layout1ContentSearch.hs', 'TreeCopyIn.hs', 'layout7ContentSearch.hs', 'layout3TagSearch.hs', 'layout2PowerList.hs', 'layout5ContentSearch.hs', 'layout4FilterBlogs.hs', 'layout5FilterBlogs.hs', 'layout5TagSearch.hs', 'layout7FilterBlogs.hs', 'layout1FilterBlogs.hs', 'TreeExpoPost.hs']
+gibbonFiles = [
+
+    'layout1FilterBlogs.hs',
+    'layout2FilterBlogs.hs',
+    'layout3FilterBlogs.hs',
+    'layout4FilterBlogs.hs',
+    'layout5FilterBlogs.hs',
+    'layout7FilterBlogs.hs',
+    'layout8FilterBlogs.hs',
+
+    'layout1ContentSearch.hs',
+    'layout2ContentSearch.hs',
+    'layout3ContentSearch.hs',
+    'layout4ContentSearch.hs',
+    'layout5ContentSearch.hs',
+    'layout7ContentSearch.hs',
+    'layout8ContentSearch.hs',
+
+    'layout1TagSearch.hs',
+    'layout2TagSearch.hs',
+    'layout3TagSearch.hs',
+    'layout4TagSearch.hs',
+    'layout5TagSearch.hs',
+    'layout7TagSearch.hs',
+    'layout8TagSearch.hs'
+]
+
+marmosetFiles = [
+
+    'layout8FilterBlogs.hs',
+    'layout8ContentSearch.hs',
+    'layout8TagSearch.hs'
+
+]
+
+
 
 # Compile all Gibbon binaries.
 for subdir, dirs, files in os.walk(rootdir):
-    
-    print("subdir: " + str(subdir))
-    print("dirs: " + str(dirs))
-    print("files: " + str(files))
     
     
     for file in files: 
@@ -58,18 +87,11 @@ for subdir, dirs, files in os.walk(rootdir):
             executables.append(file_without_haskell_extension + ".exe")
             
             print()
-        
-        
-marmosetFiles = ['eval_r.hs', 'TreeExpoPre.hs', 'layout2ListLen.hs', 'layout8TagSearch.hs', 'layout8FilterBlogs.hs', 'TreeAddOnePre.hs', 'layout8ContentSearch.hs', 'TreeRightMost_l.hs', 'manyFuncs.hs', 'TreeCopyPre.hs', 'layout1PowerList.hs']
+
 
 
 # Compile all Marmoset binaries.
 for subdir, dirs, files in os.walk(rootdir):
-    
-    print("subdir: " + str(subdir))
-    print("dirs: " + str(dirs))
-    print("files: " + str(files))
-    
     
     for file in files: 
         
@@ -78,7 +100,6 @@ for subdir, dirs, files in os.walk(rootdir):
             file_path = subdir + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
-            print(file_without_haskell_extension)
             
             solver_binary_name = file_without_haskell_extension + "Solver"
             greedy_binary_name = file_without_haskell_extension + "Greedy"
@@ -137,6 +158,11 @@ for file in executables:
         c = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         c.wait()
 
+
+    if not os.path.exists(papi_dir):
+        print("Papi did not output any stats!")
+        print("Check if the following hardware counters are available: PAPI_L2_DCM,PAPI_TOT_INS, PAPI_TOT_CYC")
+        exit(1)
 
     file_name = os.listdir(papi_dir)[0]
     file_path = os.path.join(papi_dir, file_name)

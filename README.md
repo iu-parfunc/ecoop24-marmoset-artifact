@@ -59,6 +59,10 @@ Four Python scripts map on the figures and tables in the paper as follows:
 2. `~/ECOOP-2024-Bench/generate_compile_times.py` — generates the compile times, `Figure 10`.
 
 3. `~/ECOOP-2024-Bench/generate_cache_stats.py` — generates the statistics for cache, `Table 8`.
+   - It may be possible that the hardware counters that are required may not be all available on 
+     the machine on which the experiments are being run. The ones needed are (PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM).
+     In that case, either try a different machine or export a new set of counters in the dockerfile using 
+     ```export PAPI_EVENTS="comma separated names of needed counters"```
 
 4. `~/Ghc/ghc/generate_ghc_numbers.py` — generates the run times for GHC, `Figure 9`.
 
