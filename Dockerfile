@@ -63,7 +63,7 @@ ENV PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
 RUN pip install cplex docplex statistics numpy scipy pandas pyarrow matplotlib
 
 # Haskell packages: benchmark dependencies
-RUN cabal install --lib timeit random vector
+RUN cabal install --lib timeit time deepseq template-haskell random vector
 
 # Add benchmark sources
 ADD ECOOP-2024-Bench ./ECOOP-2024-Bench
