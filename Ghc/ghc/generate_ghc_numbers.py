@@ -23,66 +23,65 @@ ghcFiles = ['layout2FindBlogs.hs', 'layout1TagSearch.hs', 'layout8TagSearch.hs',
 
 
 # Compile all Ghc binaries.
-for subdir, dirs, files in os.walk(rootdir):
-    
-    print("subdir: " + str(subdir))
-    print("dirs: " + str(dirs))
-    print("files: " + str(files))
-    
-    for file in files: 
-        
-        if ".hs" in file and file in ghcFiles:
-        
-            file_path = subdir + file
-            
-            file_without_haskell_extension = file.replace(".hs", '')
-            print("Compile " + file + "...")
+def compile_with_ghc():
+    for subdir, dirs, files in os.walk(rootdir):
 
-            ghc_cmd_haskell = subprocess.run(["ghc", "-O3", file_path])
-            print("The exit code for the haskell command was %d" % ghc_cmd_haskell.returncode)
-            print()
+        print("subdir: " + str(subdir))
+        print("dirs: " + str(dirs))
+        print("files: " + str(files))
 
-            executables.append(file_without_haskell_extension)
+        for file in files:
 
+            if ".hs" in file and file in ghcFiles:
 
+                file_path = subdir + file
 
-Timings = {}
+                file_without_haskell_extension = file.replace(".hs", '')
+                print("Compile " + file + "...")
 
-for file in executables: 
-
-        print()
-        print("Running the binary " + str(file))
-        print()
-
-        file_stats = file + ".txt"
-
-        try:
-                run_times_except = []
-                for k in range(iterations):
-                    cmd =  "(" + "cd " + rootdir + " && " + "(" + "./" + file  + " > " + file_stats + ")" + ")"
-
-                    print(cmd)
-                    ghc_binary_cmd = subprocess.call(cmd, shell=True)
-
-                    data = open(file_stats, 'r').read()
-                    self_time = re.findall("iter time: (.*)", data)
-
-                    print()
-                    print(self_time)
-                    run_times_except.append(float(self_time[0]))
-
-                print("The timings for the binary " + str(file) + "are: ")
-                print(run_times_except)
+                ghc_cmd_haskell = subprocess.run(["ghc", "-O2", file_path])
+                print("The GHC exit code was %d" % ghc_cmd_haskell.returncode)
                 print()
 
-                average_except = stat.mean(run_times_except)
-                median_except  = stat.median(run_times_except)
-                a , l, u = mean_confidence_interval(run_times_except)
-                tupleTimes = (average_except, median_except, (l, u))
-                print(tupleTimes)
-                Timings[file] = tupleTimes
-        except:
-                tupleTimes = (-1, -1)
-                Timings[file] = tupleTimes
+                executables.append(file_without_haskell_extension)
 
-        print()
+def time_ghc():
+    Timings = {}
+
+    for file in executables:
+
+            print()
+            print("Running the binary " + str(file))
+            print()
+
+            file_stats = file + ".txt"
+
+            run_times_except = []
+            for k in range(iterations):
+                cmd =  "(" + "cd " + rootdir + " && " + "(" + "./" + file  + " > " + file_stats + ")" + ")"
+
+                print(cmd)
+                ghc_binary_cmd = subprocess.call(cmd, shell=True)
+
+                data = open(file_stats, 'r').read()
+                self_time = re.findall("iter time: (.*)", data)
+
+                print()
+                print(self_time)
+                run_times_except.append(float(self_time[0]))
+
+            print("The timings for the binary " + str(file) + "are: ")
+            print(run_times_except)
+            print()
+
+            average_except = stat.mean(run_times_except)
+            median_except  = stat.median(run_times_except)
+            a , l, u = mean_confidence_interval(run_times_except)
+            tupleTimes = (average_except, median_except, (l, u))
+            print(tupleTimes)
+            Timings[file] = tupleTimes
+
+            print()
+
+compile_with_ghc()
+time_ghc()
