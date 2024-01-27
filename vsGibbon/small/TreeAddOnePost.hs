@@ -31,6 +31,6 @@ addOneTree tree = case tree of
 
 
 gibbon_main = let 
-		tree = mkTree 22
+		tree = mkTree 18
 	        newTree = iterate (addOneTree tree)
                in ()

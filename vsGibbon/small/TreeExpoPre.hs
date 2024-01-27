@@ -37,6 +37,6 @@ expoTree tree = case tree of
 
 
 gibbon_main = let 
-		tree = mkTree 22
+		tree = mkTree 18
 	        sum = iterate (expoTree tree)
                in () 

@@ -21,12 +21,12 @@ def mean_confidence_interval(data, confidence=0.95):
 rootdir = "/root/vsGibbon/"
 
 # Provide "--quick" flag for the kick-the-tires stage
-if not (((len(sys.argv) == 2) and ( (sys.argv[1] == "--quick") or (sys.argv[1] == "--small") or (sys.argv[1] == "--full") )) or len(sys.argv) == 1):
+if not (((len(sys.argv) == 2) and ( (sys.argv[1] == "--quick") or (sys.argv[1] == "--small") or (sys.argv[1] == "--full") ))):
     print("Error: invalid arguments.")
     print("Usage: python3 generate_runtimes.py [--quick|--small|--full]")
     exit(1) 
 
-
+runMode = sys.argv[1]
 #runMode = "full"
 #if len(sys.argv) == 2:
 #    runMode = "quick"
@@ -120,7 +120,7 @@ if runMode == "--quick":
 elif runMode == "--small":
     filesToEvaluate = gibbonFiles
     filesToEvaluateMarmoset = marmosetFiles
-    rootdirPath = rootdir + "/large/"
+    rootdirPath = rootdir + "/small/"
 else: 
     filesToEvaluate = gibbonFiles
     filesToEvaluateMarmoset = marmosetFiles
