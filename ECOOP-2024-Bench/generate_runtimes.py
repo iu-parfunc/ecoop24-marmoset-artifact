@@ -20,18 +20,14 @@ def mean_confidence_interval(data, confidence=0.95):
 
 rootdir = "/root/ECOOP-2024-Bench/"
 
-
-# Was thinking to make compile and run separate but not important right now.
-#compileTrue = sys.argv[2]
-#executeTrue = sys.argv[3]
-
-if (len(sys.argv) < 2):
-    print("Error: not enough arguments passed.")
-    print("Usage: python3 generate_runtimes.py (quick|full)")
+# Provide "--quick" flag for the kick-the-tires stage
+if not (((len(sys.argv) == 2) and (sys.argv[1] == "--quick")) or len(sys.argv) == 1):
+    print("Error: invalid arguments.")
+    print("Usage: python3 generate_runtimes.py [--quick]")
     exit(1) 
-
-# One of two, quick mode and full mode. 
-runMode = str(sys.argv[1])
+runMode = "full"
+if len(sys.argv) == 2:
+    runMode = "quick"
 
 #quick mode runs the microbenchmarks 
 #full mode runs the full suite
@@ -127,8 +123,7 @@ for subdir, dirs, files in os.walk(rootdir):
     #print("subdir: " + str(subdir))
     #print("dirs: " + str(dirs))
     #print("files: " + str(files))
-    
-    
+
     for file in files: 
         
         if ".hs" in file and file in filesToEvaluate:
@@ -313,7 +308,6 @@ Table2Out = df[Table2]
 Table2Out.to_csv('Table2.csv')
 
 if runMode == "quick":
-    print("Finished running quick mode!")
     exit(0)
 
 
