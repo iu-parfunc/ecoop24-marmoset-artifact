@@ -120,13 +120,9 @@ greedy_ub_tag = []
 
 
 # Compile all Gibbon binaries.
-for subdir, dirs, files in os.walk(rootdir):
-    
-    for file in files: 
+for file in gibbonFiles: 
         
-        if ".hs" in file and file in gibbonFiles:
-        
-            file_path = subdir + file
+            file_path = rootdir + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
             
@@ -173,13 +169,9 @@ def parse_solver_times(array):
             
 
 # Compile all Marmoset binaries.
-for subdir, dirs, files in os.walk(rootdir):
-    
-    for file in files: 
+for file in marmosetFiles: 
         
-        if ".hs" in file and file in marmosetFiles:
-        
-            file_path = subdir + file
+            file_path = rootdir + file
             
             iterTimes = []
             solver_times = []
@@ -248,13 +240,9 @@ for subdir, dirs, files in os.walk(rootdir):
             
             
 # Compile all Marmoset greedy binaries.
-for subdir, dirs, files in os.walk(rootdir):
-    
-    for file in files: 
-        
-        if ".hs" in file and file in marmosetFiles:
-            
-            file_path = subdir + file
+for file in marmosetFiles: 
+
+            file_path = rootdir + file
             
             iterTimes = []
             

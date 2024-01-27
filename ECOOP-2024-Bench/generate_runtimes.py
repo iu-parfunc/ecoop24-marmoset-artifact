@@ -118,17 +118,9 @@ else:
     filesToEvaluateMarmoset = marmosetFiles
 
 # Compile all Gibbon binaries.
-for subdir, dirs, files in os.walk(rootdir):
-    
-    #print("subdir: " + str(subdir))
-    #print("dirs: " + str(dirs))
-    #print("files: " + str(files))
-
-    for file in files: 
+for file in filesToEvaluate: 
         
-        if ".hs" in file and file in filesToEvaluate:
-        
-            file_path = subdir + file
+            file_path = rootdir + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
             print("Compile " + file + "...")
@@ -146,18 +138,9 @@ for subdir, dirs, files in os.walk(rootdir):
             print()
 
 # Compile all Marmoset binaries.
-for subdir, dirs, files in os.walk(rootdir):
-    
-    #print("subdir: " + str(subdir))
-    #print("dirs: " + str(dirs))
-    #print("files: " + str(files))
-    
-    
-    for file in files: 
+for file in filesToEvaluateMarmoset: 
         
-        if ".hs" in file and file in filesToEvaluateMarmoset:
-        
-            file_path = subdir + file
+            file_path = rootdir + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
             

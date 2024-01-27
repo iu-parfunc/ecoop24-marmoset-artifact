@@ -148,5 +148,5 @@ TODOs (In order of priority):
 - [x] Remove all dbgPrint statements in the compiler. (Low priority)
 - [x] I forgot to add the Misaligned examples from the Binary Tree, only one i guess, Misaligned pre since the Misaligned post was giving memory errors.
 - [ ] Use the README template from ECOOP.
-- [ ] Improve the presentation of numbers that the cache script outputs
-- [ ] If there is time, merge the figure generation scripts for ghc to the above to generate figures automatically.
+- [ ] Remove cache script from docker, add manual instructions to the README
+- [x] If there is time, merge the figure generation scripts for ghc to the above to generate figures automatically.

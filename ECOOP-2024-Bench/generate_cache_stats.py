@@ -20,10 +20,6 @@ def mean_confidence_interval(data, confidence=0.95):
 rootdir = "/root/ECOOP-2024-Bench/"
 papi_dir = "/root/ECOOP-2024-Bench/papi_hl_output/"
 
-
-rootdir = "/home/vidush/Applications/src/ECOOP-2024-Artifact/"
-papi_dir = "/home/vidush/Applications/src/ECOOP-2024-Artifact/papi_hl_output/"
-
 # Was thinking to make compile and run separate but not important right now.
 #compileTrue = sys.argv[2]
 #executeTrue = sys.argv[3]
@@ -65,17 +61,10 @@ marmosetFiles = [
 
 ]
 
-
-
-# Compile all Gibbon binaries.
-for subdir, dirs, files in os.walk(rootdir):
     
-    
-    for file in files: 
+for file in gibbonFiles: 
         
-        if ".hs" in file and file in gibbonFiles:
-        
-            file_path = subdir + file
+            file_path = rootdir + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
             print("Compile " + file + "...")
@@ -94,14 +83,10 @@ for subdir, dirs, files in os.walk(rootdir):
 
 
 
-# Compile all Marmoset binaries.
-for subdir, dirs, files in os.walk(rootdir):
     
-    for file in files: 
-        
-        if ".hs" in file and file in marmosetFiles:
-        
-            file_path = subdir + file
+for file in marmosetFiles: 
+
+            file_path = rootdir + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
             
