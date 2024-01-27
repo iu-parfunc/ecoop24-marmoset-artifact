@@ -16,7 +16,7 @@ def mean_confidence_interval(data, confidence=0.95):
     h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
     return m, m-h, m+h
 
-rootdir = "/root/vsGibbon/"
+rootdir = "/root/vsGibbon/large/"
 
 gibbonFiles = [
 

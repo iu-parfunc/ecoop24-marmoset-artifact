@@ -19,7 +19,8 @@ executables = []
 iterations = 9
 
 rootdir = "/root/vsGHC/"
-rootdirGibbon = "/root/vsGibbon/"
+#setting this to large input for now. Maybe we should have a Ghc version of the smaller inputs?
+rootdirGibbon = "/root/vsGibbon/large/"
 
 ghcFiles = [
      

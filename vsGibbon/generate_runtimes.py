@@ -21,13 +21,15 @@ def mean_confidence_interval(data, confidence=0.95):
 rootdir = "/root/vsGibbon/"
 
 # Provide "--quick" flag for the kick-the-tires stage
-if not (((len(sys.argv) == 2) and (sys.argv[1] == "--quick")) or len(sys.argv) == 1):
+if not (((len(sys.argv) == 2) and ( (sys.argv[1] == "--quick") or (sys.argv[1] == "--small") or (sys.argv[1] == "--full") )) or len(sys.argv) == 1):
     print("Error: invalid arguments.")
-    print("Usage: python3 generate_runtimes.py [--quick]")
+    print("Usage: python3 generate_runtimes.py [--quick|--small|--full]")
     exit(1) 
-runMode = "full"
-if len(sys.argv) == 2:
-    runMode = "quick"
+
+
+#runMode = "full"
+#if len(sys.argv) == 2:
+#    runMode = "quick"
 
 #quick mode runs the microbenchmarks 
 #full mode runs the full suite
@@ -110,17 +112,24 @@ marmosetFilesQuickRun = [
 filesToEvaluate = [] 
 filesToEvaluateMarmoset = []
 
-if runMode == "quick":
+rootdirPath = ""
+if runMode == "--quick":
     filesToEvaluate = gibbonFilesQuickRun
     filesToEvaluateMarmoset = marmosetFilesQuickRun
+    rootdirPath = rootdir + "/small/"
+elif runMode == "--small":
+    filesToEvaluate = gibbonFiles
+    filesToEvaluateMarmoset = marmosetFiles
+    rootdirPath = rootdir + "/large/"
 else: 
     filesToEvaluate = gibbonFiles
     filesToEvaluateMarmoset = marmosetFiles
+    rootdirPath = rootdir + "/large/"
 
 # Compile all Gibbon binaries.
 for file in filesToEvaluate: 
         
-            file_path = rootdir + file
+            file_path = rootdirPath + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
             print("Compile " + file + "...")
@@ -140,7 +149,7 @@ for file in filesToEvaluate:
 # Compile all Marmoset binaries.
 for file in filesToEvaluateMarmoset: 
         
-            file_path = rootdir + file
+            file_path = rootdirPath + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
             
@@ -222,7 +231,7 @@ for file in executables:
             #print(str(file) + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
             #store the stats for a file as a tuple, (mean,median,upperbound,lowerbound)
 
-            fileName = str(file).replace(rootdir, "")
+            fileName = str(file).replace(rootdirPath, "")
             runTimeCache[fileName] = (mean, median, u, l)
             
             readFileHandle.close()
@@ -258,7 +267,7 @@ for file in executables:
                 
                 passName = str(file).replace(".exe", "") + "-" + str(cpass)
                 #store the stats for a file as a tuple, (mean,median,upperbound,lowerbound)
-                fileName = passName.replace(rootdir, "")
+                fileName = passName.replace(rootdirPath, "")
                 runTimeCache[fileName] = (mean, median, u, l)
 
 
@@ -279,7 +288,7 @@ print(df[Table1])
 print()
 #save to csv file 
 Table1Out = df[Table1]
-Table1Out.to_csv('Table1.csv')
+Table1Out.to_csv(rootdirPath + 'Table1.csv')
 
 print("Print Table2: ")
 print()
@@ -288,9 +297,9 @@ print(df[Table2])
 print()
 #save to csv file 
 Table2Out = df[Table2]
-Table2Out.to_csv('Table2.csv')
+Table2Out.to_csv(rootdirPath + 'Table2.csv')
 
-if runMode == "quick":
+if runMode == "--quick":
     exit(0)
 
 
@@ -301,7 +310,7 @@ print(df[Table3])
 print()
 #save to csv file 
 Table3Out = df[Table3]
-Table3Out.to_csv('Table3.csv')
+Table3Out.to_csv(rootdirPath + 'Table3.csv')
 
 
 print("Print Table4a: ")
@@ -311,7 +320,7 @@ print(df[Table4a])
 print()
 #save to csv file 
 Table4aOut = df[Table4a]
-Table4aOut.to_csv('Table4a.csv')
+Table4aOut.to_csv(rootdirPath + 'Table4a.csv')
 
 print("Print Table4b: ")
 print()
@@ -320,7 +329,7 @@ print(df[Table4b])
 print()
 #save to csv file 
 Table4bOut = df[Table4b]
-Table4bOut.to_csv('Table4b.csv')
+Table4bOut.to_csv(rootdirPath + 'Table4b.csv')
 
 print("Print Table4c: ")
 print()
@@ -329,7 +338,7 @@ print(df[Table4c])
 print()
 #save to csv file 
 Table4cOut = df[Table4c]
-Table4cOut.to_csv('Table4c.csv')
+Table4cOut.to_csv(rootdirPath + 'Table4c.csv')
 
 print("Print Table5: ")
 print()
@@ -343,7 +352,7 @@ print(df[Table5])
 print()
 #save to csv file 
 Table5Out = df[Table5]
-Table5Out.to_csv('Table5.csv')
+Table5Out.to_csv(rootdirPath + 'Table5.csv')
 
 
 print("Print Table6a: ")
@@ -363,7 +372,7 @@ print(df[Table6a])
 print()
 #save to csv file 
 Table6aOut = df[Table6a]
-Table6aOut.to_csv('Table6a.csv')
+Table6aOut.to_csv(rootdirPath + 'Table6a.csv')
 
 
 print("Print Table6b: ")
@@ -383,7 +392,7 @@ print(df[Table6b])
 print()
 #save to csv file 
 Table6bOut = df[Table6b]
-Table6bOut.to_csv('Table6b.csv')
+Table6bOut.to_csv(rootdirPath + 'Table6b.csv')
 
 print("Print Table6c: ")
 print()
@@ -402,7 +411,7 @@ print(df[Table6c])
 print()
 #save to csv file 
 Table6cOut = df[Table6c]
-Table6cOut.to_csv('Table6c.csv')
+Table6cOut.to_csv(rootdirPath + 'Table6c.csv')
 
 print("Print Table7a: ")
 print()
@@ -415,7 +424,7 @@ print(df[Table7a])
 print()
 #save to csv file 
 Table7aOut = df[Table7a]
-Table7aOut.to_csv('Table7a.csv')
+Table7aOut.to_csv(rootdirPath + 'Table7a.csv')
 
 print("Print Table7b: ")
 print()
@@ -428,7 +437,7 @@ print(df[Table7b])
 print()
 #save to csv file 
 Table7bOut = df[Table7b]
-Table7bOut.to_csv('Table7b.csv')
+Table7bOut.to_csv(rootdirPath + 'Table7b.csv')
 
 print("Print Table7c: ")
 print()
@@ -441,6 +450,6 @@ print(df[Table7c])
 print()
 #save to csv file 
 Table7cOut = df[Table7c]
-Table7cOut.to_csv('Table7c.csv')
+Table7cOut.to_csv(rootdirPath + 'Table7c.csv')
 
 print("Finished running full mode!")

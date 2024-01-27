@@ -17,7 +17,7 @@ def mean_confidence_interval(data, confidence=0.95):
     h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
     return m, m-h, m+h
 
-rootdir = "/root/vsGibbon/"
+rootdir = "/root/vsGibbon/large/"
 papi_dir = "/root/ECOOP-2024-Bench/papi_hl_output/"
 
 # Was thinking to make compile and run separate but not important right now.
