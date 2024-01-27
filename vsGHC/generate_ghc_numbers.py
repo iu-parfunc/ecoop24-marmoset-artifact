@@ -259,9 +259,9 @@ if not os.path.exists(rootdirGibbon + "Table6c.csv"):
     exit(1)
 
 #read csv file 
-table6b = pd.read_csv(rootdirGibbon + "Table6c.csv")
+table6c = pd.read_csv(rootdirGibbon + "Table6c.csv")
 
-column = table6b.iloc[:,8]
+column = table6c.iloc[:,8]
 Marmoset_Median_tag = column[0]
 Marmoset_UB_tag     = column[2]
 Marmoset_LB_tag     = column[3]
