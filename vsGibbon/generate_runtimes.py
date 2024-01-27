@@ -21,12 +21,16 @@ def mean_confidence_interval(data, confidence=0.95):
 rootdir = "/root/vsGibbon/"
 
 # Provide "--quick" flag for the kick-the-tires stage
-if not (((len(sys.argv) == 2) and ( (sys.argv[1] == "--quick") or (sys.argv[1] == "--small") or (sys.argv[1] == "--full") ))):
+if not (((len(sys.argv) == 2) and ( (sys.argv[1] == "--quick") or (sys.argv[1] == "--small"))) or (len(sys.argv) == 1)):
     print("Error: invalid arguments.")
-    print("Usage: python3 generate_runtimes.py [--quick|--small|--full]")
+    print("Usage: python3 generate_runtimes.py [--quick|--small]")
     exit(1) 
 
-runMode = sys.argv[1]
+if (len(sys.argv) == 2):
+    runMode = sys.argv[1]
+else: 
+    runMode = "--full"
+
 #runMode = "full"
 #if len(sys.argv) == 2:
 #    runMode = "quick"
