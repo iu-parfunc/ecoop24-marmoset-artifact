@@ -168,13 +168,13 @@ if not os.path.exists(rootdirGibbon + "Table6a.csv"):
 table6a = pd.read_csv(rootdirGibbon + "Table6a.csv")
 
 column = table6a.iloc[:,8]
-Marmoset_Median_filter = column[0][0]
-Marmoset_UB_filter     = column[2][0]
-Marmoset_LB_filter     = column[3][0]
+Marmoset_Median_filter = column[0]
+Marmoset_UB_filter     = column[2]
+Marmoset_LB_filter     = column[3]
 
 Ghc_filter = [x//Marmoset_Median_filter for x in Ghc_filter]
-ErrorBarGhcLb_filter = [x//Marmoset_LB_filter for x in Marmoset_LB_filter] 
-ErrorBarGhcUb_filter = [x//Marmoset_UB_filter for x in Marmoset_UB_filter]
+ErrorBarGhcLb_filter = [x//Marmoset_LB_filter for x in ErrorBarGhcLb_filter] 
+ErrorBarGhcUb_filter = [x//Marmoset_UB_filter for x in ErrorBarGhcUb_filter]
 
 delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(ErrorBarGhcUb_filter, ErrorBarGhcLb_filter)]
 plt.ylim([0, 6])
@@ -213,13 +213,13 @@ if not os.path.exists(rootdirGibbon + "Table6b.csv"):
 table6b = pd.read_csv(rootdirGibbon + "Table6b.csv")
 
 column = table6b.iloc[:,8]
-Marmoset_Median_content = column[0][0]
-Marmoset_UB_content     = column[2][0]
-Marmoset_LB_content     = column[3][0]
+Marmoset_Median_content = column[0]
+Marmoset_UB_content     = column[2]
+Marmoset_LB_content     = column[3]
 
 Ghc_content = [x//Marmoset_Median_content for x in Ghc_content]
-ErrorBarGhcLb_content = [x//Marmoset_LB_content for x in Marmoset_LB_content] 
-ErrorBarGhcUb_content = [x//Marmoset_UB_content for x in Marmoset_UB_content]
+ErrorBarGhcLb_content = [x//Marmoset_LB_content for x in ErrorBarGhcLb_content] 
+ErrorBarGhcUb_content = [x//Marmoset_UB_content for x in ErrorBarGhcUb_content]
 
 delta_error_ghc = [element1 - element2 for (element1, element2) in zip(ErrorBarGhcUb_content, ErrorBarGhcLb_content)]
 plt.ylim([0, 8])
@@ -259,13 +259,13 @@ if not os.path.exists(rootdirGibbon + "Table6c.csv"):
 table6b = pd.read_csv(rootdirGibbon + "Table6c.csv")
 
 column = table6b.iloc[:,8]
-Marmoset_Median_tag = column[0][0]
-Marmoset_UB_tag     = column[2][0]
-Marmoset_LB_tag     = column[3][0]
+Marmoset_Median_tag = column[0]
+Marmoset_UB_tag     = column[2]
+Marmoset_LB_tag     = column[3]
 
 Ghc_tag = [x//Marmoset_Median_tag for x in Ghc_tag]
-ErrorBarGhcLb_tag = [x//Marmoset_LB_tag for x in Marmoset_LB_tag] 
-ErrorBarGhcUb_tag = [x//Marmoset_UB_tag for x in Marmoset_UB_tag]
+ErrorBarGhcLb_tag = [x//Marmoset_LB_tag for x in ErrorBarGhcLb_tag] 
+ErrorBarGhcUb_tag = [x//Marmoset_UB_tag for x in ErrorBarGhcUb_tag]
 
 
 delta_error_ghc = [element1 - element2 for (element1, element2) in zip(ErrorBarGhcUb_tag, ErrorBarGhcLb_tag)]
