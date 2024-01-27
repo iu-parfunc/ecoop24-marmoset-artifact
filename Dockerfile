@@ -66,7 +66,7 @@ RUN pip install cplex docplex statistics numpy scipy pandas pyarrow matplotlib
 RUN cabal install --lib timeit time deepseq template-haskell random vector
 
 # Add benchmark sources
-ADD ECOOP-2024-Bench ./ECOOP-2024-Bench
-ADD Ghc ./Ghc
+ADD vsGibbon ./vsGibbon
+ADD vsGHC ./vsGHC
 
 ENTRYPOINT ["bash"]
