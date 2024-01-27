@@ -6,6 +6,7 @@ import numpy as np
 import scipy.stats
 import pandas as pd
 import sys
+import matplotlib.pyplot as plt
 
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
@@ -107,7 +108,7 @@ def time_ghc():
             print("Running the binary " + str(file))
             print()
 
-            file_stats = file + ".txt"
+            file_stats = rootdir + "/" + file + ".txt"
 
             run_times = []
             for k in range(iterations):
