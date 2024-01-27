@@ -198,17 +198,15 @@ for file in executables:
         cmd =  [file , "--inf-buffer-size", str(inf_buffer_size), "--iterate", "9"]
         
         writeFileHandle = open(runtimeFile, "w")
-        
-        try:
+
+
+        c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
+        c.wait()
+        output, error = c.communicate()
+        if error is not None:
+            cmd =  [file , "--iterate", "9"]
             c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
             c.wait()
-            output, error = c.communicate()
-            if error is not None:
-                cmd =  [file , "--iterate", "9"]
-                c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
-                c.wait()
-        except:
-            print("Error could not run file!")
 
         writeFileHandle.close()
         readFileHandle = open(runtimeFile, "r")

@@ -160,7 +160,7 @@ fig, ax = plt.subplots()
 #Use the csv file to get the marmoset runtimes? for not let this be hardcoded but make sure to 
 #read that csv file.  
 
-if os.path.exists(rootdirGibbon + "Table6a.csv"):
+if not os.path.exists(rootdirGibbon + "Table6a.csv"):
     print("Marmoset data for Table6a does not exist")
     exit(1)
 
@@ -205,7 +205,7 @@ values = np.arange(len(groups))
 fig, ax = plt.subplots()
 
 #Marmoset
-if os.path.exists(rootdirGibbon + "Table6b.csv"):
+if not os.path.exists(rootdirGibbon + "Table6b.csv"):
     print("Marmoset data for Table6b does not exist")
     exit(1)
 
@@ -251,7 +251,7 @@ values = np.arange(len(groups))
 fig, ax = plt.subplots()
 
 #Marmoset
-if os.path.exists(rootdirGibbon + "Table6c.csv"):
+if not os.path.exists(rootdirGibbon + "Table6c.csv"):
     print("Marmoset data for Table6c does not exist")
     exit(1)
 
