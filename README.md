@@ -212,7 +212,7 @@ TODOs (In order of priority):
 - [x] Remove all dbgPrint statements in the compiler. (Low priority)
 - [x] I forgot to add the Misaligned examples from the Binary Tree, only one i guess, Misaligned pre since the Misaligned post was giving memory errors.
 - [x] If there is time, merge the figure generation scripts for ghc to the above to generate figures automatically.
+- [x] Another way to make a quick experiment is to make a copy of the files in two different subdirectories, and reduce
+      the input size in the files. Should be doable quickly.  
 - [ ] Use the README template from ECOOP.
 - [ ] Remove cache script from docker, add manual instructions to the README
-- [ ] Another way to make a quick experiment is to make a copy of the files in two different subdirectories, and reduce
-      the input size in the files. Should be doable quickly.  

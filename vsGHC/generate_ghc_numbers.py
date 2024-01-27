@@ -221,7 +221,7 @@ Ghc_content = [x//Marmoset_Median_content for x in Ghc_content]
 ErrorBarGhcLb_content = [x//Marmoset_LB_content for x in ErrorBarGhcLb_content] 
 ErrorBarGhcUb_content = [x//Marmoset_UB_content for x in ErrorBarGhcUb_content]
 
-delta_error_ghc = [element1 - element2 for (element1, element2) in zip(ErrorBarGhcUb_content, ErrorBarGhcLb_content)]
+delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(ErrorBarGhcUb_content, ErrorBarGhcLb_content)]
 plt.ylim([0, 8])
 
 # Stacked bar chart, marmoset
@@ -268,7 +268,7 @@ ErrorBarGhcLb_tag = [x//Marmoset_LB_tag for x in ErrorBarGhcLb_tag]
 ErrorBarGhcUb_tag = [x//Marmoset_UB_tag for x in ErrorBarGhcUb_tag]
 
 
-delta_error_ghc = [element1 - element2 for (element1, element2) in zip(ErrorBarGhcUb_tag, ErrorBarGhcLb_tag)]
+delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(ErrorBarGhcUb_tag, ErrorBarGhcLb_tag)]
 plt.ylim([0, 8])
 
 # Stacked bar chart, marmoset
