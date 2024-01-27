@@ -4,6 +4,7 @@ import re
 import statistics as stat
 import numpy as np
 import scipy.stats
+import pandas as pd
 
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
@@ -63,26 +64,19 @@ ErrorBarGhcUb_tag = []
 
 # Compile all Ghc binaries.
 def compile_with_ghc():
-    for subdir, dirs, files in os.walk(rootdir):
 
-        print("subdir: " + str(subdir))
-        print("dirs: " + str(dirs))
-        print("files: " + str(files))
+        for file in ghcFiles:
 
-        for file in files:
+            file_path = rootdir + file
 
-            if ".hs" in file and file in ghcFiles:
+            file_without_haskell_extension = file.replace(".hs", '')
+            print("Compile " + file + "...")
 
-                file_path = subdir + file
+            ghc_cmd_haskell = subprocess.run(["ghc", "-O2", file_path])
+            print("The GHC exit code was %d" % ghc_cmd_haskell.returncode)
+            print()
 
-                file_without_haskell_extension = file.replace(".hs", '')
-                print("Compile " + file + "...")
-
-                ghc_cmd_haskell = subprocess.run(["ghc", "-O2", file_path])
-                print("The GHC exit code was %d" % ghc_cmd_haskell.returncode)
-                print()
-
-                executables.append(file_without_haskell_extension)
+            executables.append(file_without_haskell_extension)
 
 
 def time_ghc():
@@ -98,21 +92,13 @@ def time_ghc():
 
             run_times = []
             for k in range(iterations):
+                
                 cmd =  "(" + "cd " + rootdir + " && " + "(" + "./" + file  + " > " + file_stats + ")" + ")"
-
-                print(cmd)
                 ghc_binary_cmd = subprocess.call(cmd, shell=True)
 
                 data = open(file_stats, 'r').read()
                 self_time = re.findall("iter time: (.*)", data)
-
-                print()
-                print(self_time)
                 run_times.append(float(self_time[0]))
-
-            print("The timings for the binary " + str(file) + "are: ")
-            print(run_times)
-            print()
 
             average = stat.mean(run_times)
             median  = stat.median(run_times)
@@ -151,12 +137,24 @@ values = np.arange(len(groups))
 fig, ax = plt.subplots()
 
 #Marmoset
-
 #Use the csv file to get the marmoset runtimes? for not let this be hardcoded but make sure to 
 #read that csv file.  
-Marmoset_Median = 0.065
-Marmoset_UB     = 0.06500446729509662
-Marmoset_LB     = 0.06578108826045892
+
+if os.path.exists(rootdir + "Table6a.csv"):
+    print("Marmoset data for Table6a does not exist")
+    exit(1)
+
+#read csv file 
+table6a = pd.read_csv(rootdir + "Table6a.csv")
+
+column = table6a.iloc[:,8]
+Marmoset_Median_filter = column[0][0]
+Marmoset_UB_filter     = column[2][0]
+Marmoset_LB_filter     = column[3][0]
+
+Ghc_filter = [x//Marmoset_Median_filter for x in Ghc_filter]
+ErrorBarGhcLb_filter = [x//Marmoset_LB_filter for x in Marmoset_LB_filter] 
+ErrorBarGhcUb_filter = [x//Marmoset_UB_filter for x in Marmoset_UB_filter]
 
 delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(ErrorBarGhcUb_filter, ErrorBarGhcLb_filter)]
 plt.ylim([0, 6])
@@ -187,10 +185,21 @@ values = np.arange(len(groups))
 fig, ax = plt.subplots()
 
 #Marmoset
+if os.path.exists(rootdir + "Table6b.csv"):
+    print("Marmoset data for Table6b does not exist")
+    exit(1)
 
-Marmoset_Median = 0.637
-Marmoset_UB     = 0.6352029703132667
-Marmoset_LB     = 0.639036807464511
+#read csv file 
+table6b = pd.read_csv(rootdir + "Table6b.csv")
+
+column = table6b.iloc[:,8]
+Marmoset_Median_content = column[0][0]
+Marmoset_UB_content     = column[2][0]
+Marmoset_LB_content     = column[3][0]
+
+Ghc_content = [x//Marmoset_Median_content for x in Ghc_content]
+ErrorBarGhcLb_content = [x//Marmoset_LB_content for x in Marmoset_LB_content] 
+ErrorBarGhcUb_content = [x//Marmoset_UB_content for x in Marmoset_UB_content]
 
 delta_error_ghc = [element1 - element2 for (element1, element2) in zip(ErrorBarGhcUb_content, ErrorBarGhcLb_content)]
 plt.ylim([0, 8])
@@ -222,10 +231,21 @@ values = np.arange(len(groups))
 fig, ax = plt.subplots()
 
 #Marmoset
+if os.path.exists(rootdir + "Table6c.csv"):
+    print("Marmoset data for Table6c does not exist")
+    exit(1)
 
-Marmoset_Median = 2.216
-Marmoset_UB     = 2.21056925710439
-Marmoset_LB     = 2.2326018540067203
+#read csv file 
+table6b = pd.read_csv(rootdir + "Table6c.csv")
+
+column = table6b.iloc[:,8]
+Marmoset_Median_tag = column[0][0]
+Marmoset_UB_tag     = column[2][0]
+Marmoset_LB_tag     = column[3][0]
+
+Ghc_tag = [x//Marmoset_Median_tag for x in Ghc_tag]
+ErrorBarGhcLb_tag = [x//Marmoset_LB_tag for x in Marmoset_LB_tag] 
+ErrorBarGhcUb_tag = [x//Marmoset_UB_tag for x in Marmoset_UB_tag]
 
 
 delta_error_ghc = [element1 - element2 for (element1, element2) in zip(ErrorBarGhcUb_tag, ErrorBarGhcLb_tag)]
