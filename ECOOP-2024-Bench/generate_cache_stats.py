@@ -20,6 +20,10 @@ def mean_confidence_interval(data, confidence=0.95):
 rootdir = "/root/ECOOP-2024-Bench/"
 papi_dir = "/root/ECOOP-2024-Bench/papi_hl_output/"
 
+
+rootdir = "/home/vidush/Applications/src/ECOOP-2024-Artifact/"
+papi_dir = "/home/vidush/Applications/src/ECOOP-2024-Artifact/papi_hl_output/"
+
 # Was thinking to make compile and run separate but not important right now.
 #compileTrue = sys.argv[2]
 #executeTrue = sys.argv[3]
