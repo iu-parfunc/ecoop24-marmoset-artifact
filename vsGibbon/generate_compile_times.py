@@ -275,18 +275,18 @@ width = 0.25
 groups = ['hiadctb', 'ctbhiad', 'tbchiad', 'tcbhiad', 'btchiad', 'bchiadt', 'cbiadht']
 values = np.arange(len(groups))
 
-t_compile_filter = [element1 - element2 for (element1, element2) in zip(tot_filter, solver_filter)]
+t_compile_filter = [abs(element1 - element2) for (element1, element2) in zip(tot_filter, solver_filter)]
 
-error_compile_ub_filter = [element1 - element2 for (element1, element2) in zip(tot_std_ub_filter, solver_std_ub_filter)]
-error_compile_lb_filter = [element1 - element2 for (element1, element2) in zip(tot_std_lb_filter, solver_std_lb_filter)]
+error_compile_ub_filter = [abs(element1 - element2) for (element1, element2) in zip(tot_std_ub_filter, solver_std_ub_filter)]
+error_compile_lb_filter = [abs(element1 - element2) for (element1, element2) in zip(tot_std_lb_filter, solver_std_lb_filter)]
 
 delta_error_compile_filter = [abs(element1 - element2) for (element1, element2) in zip(error_compile_ub_filter, error_compile_lb_filter)]
 delta_error_solver_filter  = [0] * 7
 
 fig, ax = plt.subplots()
 
-delta_error_gibbon_filter = [element1 - element2 for (element1, element2) in zip(gibbon_ub_filter, gibbon_lb_filter)]
-delta_error_greedy_filter = [element1 - element2 for (element1, element2) in zip(greedy_ub_filter, greedy_lb_filter)]
+delta_error_gibbon_filter = [abs(element1 - element2) for (element1, element2) in zip(gibbon_ub_filter, gibbon_lb_filter)]
+delta_error_greedy_filter = [abs(element1 - element2) for (element1, element2) in zip(greedy_ub_filter, greedy_lb_filter)]
 
 plt.ylim([0, 6])
 
@@ -323,13 +323,13 @@ values = np.arange(len(groups))
 
 fig, ax = plt.subplots()
 
-t_compile_content = [element1 - element2 for (element1, element2) in zip(tot_content, solver_content)]
+t_compile_content = [abs(element1 - element2) for (element1, element2) in zip(tot_content, solver_content)]
 
-delta_error_compile_content = [element1 - element2 for (element1, element2) in zip(tot_std_ub_content, tot_std_lb_content)]
+delta_error_compile_content = [abs(element1 - element2) for (element1, element2) in zip(tot_std_ub_content, tot_std_lb_content)]
 delta_error_solver_content  = [0] * 7
 
-delta_error_gibbon_content = [element1 - element2 for (element1, element2) in zip(gibbon_ub_content, gibbon_lb_content)]
-delta_error_greedy_content = [element1 - element2 for (element1, element2) in zip(greedy_ub_content, greedy_lb_content)]
+delta_error_gibbon_content = [abs(element1 - element2) for (element1, element2) in zip(gibbon_ub_content, gibbon_lb_content)]
+delta_error_greedy_content = [abs(element1 - element2) for (element1, element2) in zip(greedy_ub_content, greedy_lb_content)]
 
 plt.ylim([0, 14])
 
@@ -366,16 +366,16 @@ values = np.arange(len(groups))
 
 fig, ax = plt.subplots()
 
-t_compile_tag = [element1 - element2 for (element1, element2) in zip(tot_tag, solver_tag)]
+t_compile_tag = [abs(element1 - element2) for (element1, element2) in zip(tot_tag, solver_tag)]
 
-error_compile_ub_tag = [element1 - element2 for (element1, element2) in zip(tot_std_ub_tag, solver_std_ub_tag)]
-error_compile_lb_tag = [element1 - element2 for (element1, element2) in zip(tot_std_lb_tag, solver_std_lb_tag)]
+error_compile_ub_tag = [abs(element1 - element2) for (element1, element2) in zip(tot_std_ub_tag, solver_std_ub_tag)]
+error_compile_lb_tag = [abs(element1 - element2) for (element1, element2) in zip(tot_std_lb_tag, solver_std_lb_tag)]
 
-delta_error_compile_tag = [element1 - element2 for (element1, element2) in zip(tot_std_ub_tag, tot_std_lb_tag)]
+delta_error_compile_tag = [abs(element1 - element2) for (element1, element2) in zip(tot_std_ub_tag, tot_std_lb_tag)]
 delta_error_solver_tag  = [0] * 7
 
-delta_error_gibbon_tag = [element1 - element2 for (element1, element2) in zip(gibbon_ub_tag, gibbon_lb_tag)]
-delta_error_greedy_tag = [element1 - element2 for (element1, element2) in zip(greedy_ub_tag, greedy_lb_tag)]
+delta_error_gibbon_tag = [abs(element1 - element2) for (element1, element2) in zip(gibbon_ub_tag, gibbon_lb_tag)]
+delta_error_greedy_tag = [abs(element1 - element2) for (element1, element2) in zip(greedy_ub_tag, greedy_lb_tag)]
 
 plt.ylim([0, 16])
 
