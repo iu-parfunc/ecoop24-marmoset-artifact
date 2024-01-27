@@ -29,14 +29,6 @@ the experiments.
 
 The artifact is bundled as an OCI container created with Docker (Dockerfile is available).
 
-### Machine Requirements 
-
-Although all the experiments are single-threaded, some benchmarks have large input parameters, which 
-require a machine with large RAM. Ideally, a machine with >100GB RAM would be used to run the 
-experiments. 
-
-### How to build (optionally) and enter the Docker container
-
 (Optionally, if don't use our image) Build the image with the Dockerfile
 
 ```
@@ -49,7 +41,18 @@ Once you get the image, start the session as follows (so called `CMD1`):
 docker run --rm -ti marmoset
 ```
 
-### Automated scripts / other instructions
+For the kick-the-tires stage, execute the following commands upon entering the
+container:
+
+``` shellsession
+cd ECOOP-2024-Bench
+python3 generate_runtimes.py --quick
+```
+
+This should take several minutes and at the end print the contents equivalent to
+the contents of Tables 1 and 2 in the paper.
+
+### Overview
 
 All scripts and benchmarks reside in one of the two directories in the container:
 
