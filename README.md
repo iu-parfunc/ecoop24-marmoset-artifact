@@ -144,7 +144,7 @@ Please list any reuse scenarios that you envision for your artifact, i.e., state
 - Some scripts output .pdf files, these can be transferred out of the docker container using [```docker cp```](https://docs.docker.com/engine/reference/commandline/container_cp/)
   command; in order to view them. 
 
-### Build marmost and PAPI outside docker for generating Table 8 numbers
+### Build Marmoset and PAPI outside Docker for generating Table 8
 
 Download and extract the tar file for marmoset from : (Wherever we plan to put a tar of marmoset, as a supplemental Zenodo link?)
 TODO: (vidush) have the exact commands to download and extract marmoset.
