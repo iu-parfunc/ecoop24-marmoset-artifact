@@ -5,6 +5,7 @@ import statistics as stat
 import numpy as np
 import scipy.stats
 import pandas as pd
+import sys
 
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
@@ -20,7 +21,23 @@ iterations = 9
 
 rootdir = "/root/vsGHC/"
 #setting this to large input for now. Maybe we should have a Ghc version of the smaller inputs?
-rootdirGibbon = "/root/vsGibbon/large/"
+rootdirGibbon = "/root/vsGibbon/"
+
+
+# Provide "--quick" flag for the kick-the-tires stage
+if not (((len(sys.argv) == 2) and ( (sys.argv[1] == "--small") or (sys.argv[1] == "--full") ))):
+    print("Error: invalid arguments.")
+    print("Usage: python3 generate_ghc_numbers.py [--small|--full]")
+    exit(1) 
+
+runMode = sys.argv[1]
+
+if runMode == "--small":
+    rootdir = rootdir + "/small/"
+    rootdirGibbon = rootdirGibbon + "/small/"
+else: 
+    rootdir = rootdir + "/large/"
+    rootdirGibbon = rootdirGibbon + "/large/"
 
 ghcFiles = [
      
@@ -174,7 +191,7 @@ plt.yticks(fontsize='32')
 plt.axhline(y=1, color='r', linestyle='--', lw=2)
 
 fig.set_size_inches(16, 5)                                                                                                                                    
-plt.savefig('SpeedupMarmosetGhcFilterBlogs.pdf', dpi=4000, format='pdf', bbox_inches='tight')
+plt.savefig(rootdir + 'SpeedupMarmosetGhcFilterBlogs.pdf', dpi=4000, format='pdf', bbox_inches='tight')
  
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -219,7 +236,7 @@ plt.yticks(fontsize='32')
 plt.axhline(y=1, color='r', linestyle='--', lw=2)
 
 fig.set_size_inches(16, 5)                                                                                                                                    
-plt.savefig('SpeedupMarmosetGhcContentSearch.pdf', dpi=4000, format='pdf', bbox_inches='tight')
+plt.savefig(rootdir + 'SpeedupMarmosetGhcContentSearch.pdf', dpi=4000, format='pdf', bbox_inches='tight')
 
  
 
@@ -266,5 +283,5 @@ plt.yticks(fontsize='32')
 plt.axhline(y=1, color='r', linestyle='--', lw=2)
 
 fig.set_size_inches(16, 5)                                                                                                                                    
-plt.savefig('SpeedupMarmosetGhcTagSearch.pdf', dpi=4000, format='pdf', bbox_inches='tight')
+plt.savefig(rootdir + 'SpeedupMarmosetGhcTagSearch.pdf', dpi=4000, format='pdf', bbox_inches='tight')
 plt.show()
