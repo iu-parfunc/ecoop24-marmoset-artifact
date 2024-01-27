@@ -19,6 +19,7 @@ executables = []
 iterations = 9
 
 rootdir = "/root/vsGHC/"
+rootdirGibbon = "/root/vsGibbon/"
 
 ghcFiles = [
      
@@ -140,12 +141,12 @@ fig, ax = plt.subplots()
 #Use the csv file to get the marmoset runtimes? for not let this be hardcoded but make sure to 
 #read that csv file.  
 
-if os.path.exists(rootdir + "Table6a.csv"):
+if os.path.exists(rootdirGibbon + "Table6a.csv"):
     print("Marmoset data for Table6a does not exist")
     exit(1)
 
 #read csv file 
-table6a = pd.read_csv(rootdir + "Table6a.csv")
+table6a = pd.read_csv(rootdirGibbon + "Table6a.csv")
 
 column = table6a.iloc[:,8]
 Marmoset_Median_filter = column[0][0]
@@ -185,12 +186,12 @@ values = np.arange(len(groups))
 fig, ax = plt.subplots()
 
 #Marmoset
-if os.path.exists(rootdir + "Table6b.csv"):
+if os.path.exists(rootdirGibbon + "Table6b.csv"):
     print("Marmoset data for Table6b does not exist")
     exit(1)
 
 #read csv file 
-table6b = pd.read_csv(rootdir + "Table6b.csv")
+table6b = pd.read_csv(rootdirGibbon + "Table6b.csv")
 
 column = table6b.iloc[:,8]
 Marmoset_Median_content = column[0][0]
@@ -231,12 +232,12 @@ values = np.arange(len(groups))
 fig, ax = plt.subplots()
 
 #Marmoset
-if os.path.exists(rootdir + "Table6c.csv"):
+if os.path.exists(rootdirGibbon + "Table6c.csv"):
     print("Marmoset data for Table6c does not exist")
     exit(1)
 
 #read csv file 
-table6b = pd.read_csv(rootdir + "Table6c.csv")
+table6b = pd.read_csv(rootdirGibbon + "Table6c.csv")
 
 column = table6b.iloc[:,8]
 Marmoset_Median_tag = column[0][0]
