@@ -9,13 +9,12 @@ Title of the submitted paper:
 **No need to provide them again in the submission**
 
 - OS and resource (CPU, memory, disk, GPU) used by the authors to run the artifact -- Although the experiments are 
-single threaded, they will require a machine with a large RAM. Ideally, greater than 100MB would be good to run 
+single threaded, they will require a machine with a large RAM. Ideally, greater than 100GB would be good to run 
 the experiments.
 
-- It may be possible that the hardware counters that are required may not be all available on 
-  the machine on which the experiments are being run. The ones needed are (PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM).
-  In that case, either try a different machine or export a new set of counters in the dockerfile using 
-  ```export PAPI_EVENTS="comma separated names of needed counters"``` 
+- The output shown in Table 8 requires access to harware counters via PAPI. 
+  In a docker, as far as we are aware, PAPI cannot get permissions to access the hardware counters.
+  For that reason, we have provided manual instructions to build and install the required dependencies.
 
   TODO: (Artem) what is a reasonable minimum? We can't expect all evaluators to have 100 Gb RAM.
 
@@ -56,19 +55,19 @@ the contents of Tables 1 and 2 in the paper.
 
 All scripts and benchmarks reside in one of the two directories in the container:
 
-1. `~/ECOOP-2024-Bench` — evaluation for Gibbon and Marmoset (all tables and Figure 10).
+1. `~/vsGibbon` — evaluation for Gibbon and Marmoset (all tables and Figure 10).
 
-2. `~/Ghc` — evaluation for GHC and Marmoset (Figure 9).
+2. `~/vsGHC` — evaluation for GHC and Marmoset (Figure 9).
 
 Four Python scripts map on the figures and tables in the paper as follows:
 
-1. `~/ECOOP-2024-Bench/generate_runtimes.py` — generates the run times  for Gibbon, Marmoset-greedy, and Marmoset-solver, `Tables 1-7`
+1. `~/vsGibbon/generate_runtimes.py` — generates the run times  for Gibbon, Marmoset-greedy, and Marmoset-solver, `Tables 1-7`
 
-2. `~/ECOOP-2024-Bench/generate_compile_times.py` — generates the compile times, `Figure 10`.
+2. `~/vsGibbon/generate_compile_times.py` — generates the compile times, `Figure 10`.
 
-3. `~/ECOOP-2024-Bench/generate_cache_stats.py` — generates the statistics for cache, `Table 8`.
+3. `~/vsGibbon/generate_cache_stats.py` — generates the statistics for cache, `Table 8`.
    
-4. `~/Ghc/ghc/generate_ghc_numbers.py` — generates the run times for GHC, `Figure 9`.
+4. `~/vsGHC/generate_ghc_numbers.py` — generates the run times for GHC, `Figure 9`.
 
 
 After executing `CMD1` and entering the session, use `python3` to run the provided scripts to reproduce the figures and tables.
@@ -135,6 +134,71 @@ Please list any reuse scenarios that you envision for your artifact, i.e., state
 
 * “The implementation can easily be modified to use a different algorithm than the one described in section 4.1 of our paper by implementing a corresponding module. We provide an interface specification in ...”
 
+## Miscellaneous 
+
+- The output from `~/vsGibbon/generate_runtimes.py` is written to csv files and stdout. 
+  However, the output written to stdout may be compressed (... between the tables means compressed output).
+  The user may try to minimize the terminal to see the full output. However, the csv files will have the full
+  output. 
+
+### Build marmost and PAPI outside docker for generating Table 8 numbers
+
+Download and extract the tar file for marmoset from : (Wherever we plan to put a tar of marmoset, as a supplemental Zenodo link?)
+TODO: (vidush) have the exact commands to download and extract marmoset.
+
+Install dependencies to build marmoset on Ubunut 22.04
+
+```
+ $ sudo apt-get update 
+ $ sudo apt-get install software-properties-common 
+ $ sudo apt-get install libgc-dev 
+ $ sudo apt-get install libgmp-dev 
+ $ sudo apt-get install build-essential 
+ $ sudo apt-get install uthash-dev 
+ $ sudo apt-get install vim wget curl
+```
+
+Install Racket 
+
+```
+ $ wget --no-check-certificate https://mirror.racket-lang.org/installers/7.5/racket-7.5-x86_64-linux.sh
+ $ chmod +x racket-7.5-x86_64-linux.sh
+ $ ./racket-7.5-x86_64-linux.sh
+```
+
+Install haskell, cabal and stack using ghcup 
+
+```
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 BOOTSTRAP_HASKELL_GHC_VERSION=9.4.6 BOOTSTRAP_HASKELL_CABAL_VERSION=3.8.1.0 BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_ADJUST_BASHRC=P sh
+```
+
+Install rust 
+
+```
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=1.71.0
+```
+
+Build marmoset 
+
+```
+$ cd gibbon && source set_env.sh
+$ cd gibbon-compiler && cabal v2-build exe:gibbon && cabal v2-install exe:gibbon
+```
+
+Install PAPI
+
+```
+$ wget https://github.com/icl-utk-edu/papi/archive/refs/tags/papi-7-1-0-t.tar.gz && \
+    mkdir papi && \
+    tar -xvzf papi-7-1-0-t.tar.gz -C papi && \
+    cd papi && cd papi-papi-7-1-0-t && cd src && \
+    ./configure && make -j10 && make install
+$ export PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
+```
+
+- Now use ```pathto/vsGibbon/generate_cache_stats.py``` to generate the statistics for Table 8. 
+- Set rootdir in the script to ```pathto/vsGibbon/```
+- Set papi_dir to ```pathto/vsGibbon/papi_hl_output```
 
 -------------------------------------------------------
 
@@ -147,6 +211,8 @@ TODOs (In order of priority):
 - [x] Improve the presentation of numbers that the runtime script outputs 
 - [x] Remove all dbgPrint statements in the compiler. (Low priority)
 - [x] I forgot to add the Misaligned examples from the Binary Tree, only one i guess, Misaligned pre since the Misaligned post was giving memory errors.
+- [x] If there is time, merge the figure generation scripts for ghc to the above to generate figures automatically.
 - [ ] Use the README template from ECOOP.
 - [ ] Remove cache script from docker, add manual instructions to the README
-- [x] If there is time, merge the figure generation scripts for ghc to the above to generate figures automatically.
+- [ ] Another way to make a quick experiment is to make a copy of the files in two different subdirectories, and reduce
+      the input size in the files. Should be doable quickly.  
