@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import subprocess
 import time
 import statistics
@@ -135,7 +137,7 @@ for file in gibbonFiles:
             
             m, lb, ub = mean_confidence_interval(iterTimes)
             median = statistics.median(iterTimes) 
-            print("Gibbon Time: " + file + " : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
+            #print("Gibbon Time: " + file + " : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
 
             if "Filter" in file: 
                 tot_compile_gibbon_filter.append(m)
@@ -149,7 +151,7 @@ for file in gibbonFiles:
                 tot_compile_gibbon_tag.append(m)
                 gibbon_ub_tag.append(ub)
                 gibbon_lb_tag.append(lb)
-            print()
+            #print()
             
             
             
@@ -204,8 +206,8 @@ for file in marmosetFiles:
            
             mm, lbb, ubb = mean_confidence_interval(solver_times)
             mediann = statistics.median(solver_times)
-            print(file + " (total_solver_time) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
-            print(file + " (only_solver_time) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(mediann, mm, lbb, ubb))
+            #print(file + " (total_solver_time) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
+            #print(file + " (only_solver_time) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(mediann, mm, lbb, ubb))
 
             if "Filter" in file: 
                 tot_filter.append(m)
@@ -231,10 +233,7 @@ for file in marmosetFiles:
                 solver_tag.append(mm)
                 solver_std_lb_tag.append(lbb)
                 solver_std_ub_tag.append(ubb)
-
-
-
-            print()
+            #print()
             
             
             
@@ -254,7 +253,7 @@ for file in marmosetFiles:
 
             m, lb, ub = mean_confidence_interval(iterTimes)
             median = statistics.median(iterTimes)
-            print(file + " (Greedy Times) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
+            #print(file + " (Greedy Times) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
             if "Filter" in file: 
                 tot_compile_greedy_filter.append(m)
                 greedy_lb_filter.append(lb)
@@ -267,7 +266,7 @@ for file in marmosetFiles:
                 tot_compile_greedy_tag.append(m)
                 greedy_lb_tag.append(lb)
                 greedy_ub_tag.append(ub)
-            print()
+            #print()
             
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # FilterBlogCompileTimes

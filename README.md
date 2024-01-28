@@ -93,21 +93,157 @@ The statistics for greedy and solver are given by file names appended with text 
 
 1. `~/vsGibbon/generate_runtimes.py`
   - `--small` mode: <10 minutes
-  - default mode: TODO
+  - default mode: <60 minutes
 
 2. `~/vsGibbon/generate_compile_times.py`
   - default mode: <10 minutes
 
 3. `~/vsGibbon/generate_cache_stats.py`
-  - default mode: TODO
+  - default mode: <30 minutes
 
 4. `~/vsGHC/generate_ghc_numbers.py`
   - `--small` mode: ~15 minutes
-  - default mode: TODO
+  - default mode: ~100 minutes
 
 ### CSV files
 
-TODO
+1. `~/vsGibbon/generate_runtimes.py`
+  - `--small` mode: .csv files are written to `~/vsGibbon/small`
+  - default mode: .csv files are written to `~/vsGibbon/large`
+
+2. `~/vsGibbon/generate_cache_stats.py`
+  - default mode: .csv files are written to `~/vsGibbon/large`: It outputs one .csv file for Table 8 called `Table8.csv`
+
+
+#### Explanation of .csv files and mapping to tables in the paper. 
+
+- Table1: `Table1.csv`
+  * List/foo maps to -- layout1PowerList.exe
+  * List'/foo' maps to -- layout2PowerList.exe
+
+- Table2: `Table2.csv`
+  * List maps to -- layout2ListLen.exe
+  * List' maps to -- layout1ListLen.exe 
+  * M_Greedy maps to file -- layout2ListLenGreedy 
+  * M_Solver maps to file -- layout2ListLenSolver
+  
+- Table3: `Table3.csv`
+  * lr maps to file -- eval_l.exe 
+  * rl maps to file -- eval_r.exe 
+  * M_Greedy maps to file -- eval_rGreedy
+  * M_Solver maps to file -- eval_lSolver
+  
+- Table4a: `Table4a.csv` (Add One Tree)
+  * Misaligned_pre maps to file -- TreeAddOnePrePost.exe 
+  * Aligned_pre maps to file -- TreeAddOnePre.exe
+  * Aligned_in maps to file -- TreeAddOneIn.exe
+  * Aligned_post maps to file -- TreeAddOnePost.exe
+  * M_Greedy maps to file -- TreeAddOnePreGreedy 
+  * M_Solver maps to file -- TreeAddOnePreSolver
+
+- Table4b: `Table4b.csv` (Exponentiation Tree)
+  * Misaligned_pre maps to file -- TreeExpoPrePost.exe
+  * Aligned_pre maps to file -- TreeExpoPre.exe
+  * Aligned_in maps to file -- TreeExpoIn.exe 
+  * Aligned_post maps to file -- TreeExpoPost.exe
+  * M_Greedy maps to file -- TreeExpoPreGreedy
+  * M_Solver maps to file -- TreeExpoPreSolver
+
+- Table4c: `Table4c.csv` (Copy Tree)
+  * Misaligned_pre maps to file -- TreeCopyPrePost.exe 
+  * Aligned_pre maps to file -- TreeCopyPre.exe
+  * Aligned_in maps to file -- TreeCopyIn.exe
+  * Aligned_post maps to file -- TreeCopyPost.exe
+  * M_Greedy maps to file -- TreeCopyPreGreedy
+  * M_Solver maps to file -- TreeCopyPreSolver
+
+- Table5: `Table5.csv`
+  * lr maps to file -- TreeRightMost_l.exe
+  * rl maps to file -- TreeRightMost_r.exe
+  * M_Greedy maps to file -- TreeRightMost_lGreedy
+  * M_Solver maps to file -- TreeRightMost_lSolver
+  
+- Table6a: `Table6a.csv` (Filter Blogs)
+  * hiadctb maps to file -- layout1FilterBlogs.exe
+  * ctbhiad maps to file -- layout2FilterBlogs.exe
+  * tbchiad maps to file -- layout3FilterBlogs.exe
+  * tcbhiad maps to file -- layout4FilterBlogs.exe
+  * btchiad maps to file -- layout5FilterBlogs.exe
+  * bchiadt maps to file -- layout7FilterBlogs.exe
+  * cbiadht maps to file -- layout8FilterBlogs.exe
+  * M_Greedy maps to file -- layout8FilterBlogsGreedy
+  * M_Solver maps to file -- layout8FilterBlogsSolver
+  
+- Table6b: `Table6b.csv` (Emph Content)
+  * hiadctb maps to file -- layout1ContentSearch.exe
+  * ctbhiad maps to file -- layout2ContentSearch.exe
+  * tbchiad maps to file -- layout3ContentSearch.exe
+  * tcbhiad maps to file -- layout4ContentSearch.exe
+  * btchiad maps to file -- layout5ContentSearch.exe
+  * bchiadt maps to file -- layout7ContentSearch.exe
+  * cbiadht maps to file -- layout8ContentSearch.exe
+  * M_Greedy maps to file -- layout8ContentSearchGreedy
+  * M_Solver maps to file -- layout8ContentSearchSolver
+
+- Table6c: `Table6c.csv` (Tag Search)
+  * hiadctb maps to file -- layout1TagSearch.exe
+  * ctbhiad maps to file -- layout2TagSearch.exe
+  * tbchiad maps to file -- layout3TagSearch.exe
+  * tcbhiad maps to file -- layout4TagSearch.exe
+  * btchiad maps to file -- layout5TagSearch.exe
+  * bchiadt maps to file -- layout7TagSearch.exe
+  * cbiadht maps to file -- layout8TagSearch.exe
+  * M_Greedy maps to file -- layout8TagSearchGreedy
+  * M_Solver maps to file -- layout8TagSearchSolver
+  
+- Table7a: `Table7a.csv` (Filter Blogs)
+  * Gibbon maps to -- manyFuncs-FilterBlogs
+  * M_Greedy maps to -- manyFuncsGreedy-FilterBlogs
+  * M_Solver maps to -- manyFuncsSolver-FilterBlogs
+
+- Table7b: `Table7b.csv` (Emph Content)
+  * Gibbon maps to -- manyFuncs-EmphKeyword
+  * M_Greedy maps to -- manyFuncsGreedy-EmphKeyword
+  * M_Solver maps to -- manyFuncsSolver-EmphKeyword
+
+- Table7c: `Table7c.csv` (Tag Search)
+  * Gibbon maps to -- manyFuncs-EmphKeywordInTag
+  * M_Greedy maps to -- manyFuncsGreedy-EmphKeywordInTag
+  * M_Solver maps to -- manyFuncsSolver-EmphKeywordInTag
+  
+(If run outside of the docker using the cache script) 
+- Table8a: `Table8a.csv`   (Filter Blogs)
+  * hiadctb maps to file -- layout1FilterBlogs.exe
+  * ctbhiad maps to file -- layout2FilterBlogs.exe
+  * tbchiad maps to file -- layout3FilterBlogs.exe
+  * tcbhiad maps to file -- layout4FilterBlogs.exe
+  * btchiad maps to file -- layout5FilterBlogs.exe
+  * bchiadt maps to file -- layout7FilterBlogs.exe
+  * cbiadht maps to file -- layout8FilterBlogs.exe
+  * M_Greedy maps to file -- layout8FilterBlogsGreedy
+  * M_Solver maps to file -- layout8FilterBlogsSolver
+
+- Table8b: `Table8b.csv`  (Content Search)
+  * hiadctb maps to file -- layout1ContentSearch.exe
+  * ctbhiad maps to file -- layout2ContentSearch.exe
+  * tbchiad maps to file -- layout3ContentSearch.exe
+  * tcbhiad maps to file -- layout4ContentSearch.exe
+  * btchiad maps to file -- layout5ContentSearch.exe
+  * bchiadt maps to file -- layout7ContentSearch.exe
+  * cbiadht maps to file -- layout8ContentSearch.exe
+  * M_Greedy maps to file -- layout8ContentSearchGreedy
+  * M_Solver maps to file -- layout8ContentSearchSolver
+
+- Table8c: `Table8c.csv`  (Tag Search)
+  * hiadctb maps to file -- layout1TagSearch.exe
+  * ctbhiad maps to file -- layout2TagSearch.exe
+  * tbchiad maps to file -- layout3TagSearch.exe
+  * tcbhiad maps to file -- layout4TagSearch.exe
+  * btchiad maps to file -- layout5TagSearch.exe
+  * bchiadt maps to file -- layout7TagSearch.exe
+  * cbiadht maps to file -- layout8TagSearch.exe
+  * M_Greedy maps to file -- layout8TagSearchGreedy
+  * M_Solver maps to file -- layout8TagSearchSolver
 
 ### Miscellaneous 
 

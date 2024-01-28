@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import os 
 import subprocess
 import re
@@ -93,11 +95,10 @@ def compile_with_ghc():
             file_path = rootdir + file
 
             file_without_haskell_extension = file.replace(".hs", '')
-            print("Compile " + file + "...")
-
+            #print("Compile " + file + "...")
             ghc_cmd_haskell = subprocess.run(["ghc", "-O2", file_path])
-            print("The GHC exit code was %d" % ghc_cmd_haskell.returncode)
-            print()
+            #print("The GHC exit code was %d" % ghc_cmd_haskell.returncode)
+            #print()
 
             executables.append(file_without_haskell_extension)
 
@@ -107,9 +108,9 @@ def time_ghc():
 
     for file in executables:
 
-            print()
-            print("Running the binary " + str(file))
-            print()
+            #print()
+            #print("Running the binary " + str(file))
+            #print()
 
             file_stats = rootdir + "/" + file + ".txt"
 
@@ -127,7 +128,7 @@ def time_ghc():
             median  = stat.median(run_times)
             a , l, u = mean_confidence_interval(run_times)
             tupleTimes = (average, median, (l, u))
-            print(tupleTimes)
+            #print(tupleTimes)
             Timings[file] = tupleTimes
 
             if "FindBlogs" in file: 
@@ -143,7 +144,7 @@ def time_ghc():
                  ErrorBarGhcLb_tag.append(l)
                  ErrorBarGhcUb_tag.append(u)
 
-            print()
+            #print()
 
 compile_with_ghc()
 time_ghc()

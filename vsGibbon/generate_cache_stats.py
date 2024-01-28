@@ -4,6 +4,7 @@ import subprocess
 import time
 import statistics
 import numpy as np
+import pandas as pd
 import scipy
 import re
 import os
@@ -186,7 +187,9 @@ for file in executables:
 df = pd.DataFrame(cacheStatsCache, index = ['TOT_INS', 'TOT_CYC', 'PAPI_L2_DCM'])
 
 
-CacheTable = [
+print("Print Table8a: ")
+print()
+Table8a = [
     "layout1FilterBlogs.exe",
     "layout2FilterBlogs.exe",
     "layout3FilterBlogs.exe",
@@ -197,14 +200,50 @@ CacheTable = [
     "layout8FilterBlogsGreedy",
     "layout8FilterBlogsSolver"
 ]
-
-print("Print CacheTable: ")
-print()
-print(df[CacheTable])
+print(df[Table8a])
 print()
 #save to csv file 
-CacheTableOut = df[CacheTable]
-CacheTableOut.to_csv(rootdirPath + 'Table8.csv')
+Table8aOut = df[Table8a]
+Table8aOut.to_csv(rootdir + 'Table8a.csv')
+
+
+print("Print Table8b: ")
+print()
+Table8b = [
+    "layout1ContentSearch.exe",
+    "layout2ContentSearch.exe",
+    "layout3ContentSearch.exe",
+    "layout4ContentSearch.exe",
+    "layout5ContentSearch.exe",
+    "layout7ContentSearch.exe",
+    "layout8ContentSearch.exe",
+    "layout8ContentSearchGreedy",
+    "layout8ContentSearchSolver"
+]
+print(df[Table8b])
+print()
+#save to csv file 
+Table8bOut = df[Table8b]
+Table8bOut.to_csv(rootdir + 'Table8b.csv')
+
+print("Print Table8c: ")
+print()
+Table8c = [
+    "layout1TagSearch.exe",
+    "layout2TagSearch.exe", 
+    "layout3TagSearch.exe",
+    "layout4TagSearch.exe",
+    "layout5TagSearch.exe",
+    "layout7TagSearch.exe",
+    "layout8TagSearch.exe",
+    "layout8TagSearchGreedy",
+    "layout8TagSearchSolver"
+]
+print(df[Table8c])
+print()
+#save to csv file 
+Table8cOut = df[Table8c]
+Table8cOut.to_csv(rootdir + 'Table8c.csv')
     
     
     

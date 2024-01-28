@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import subprocess
 import time
 import statistics
@@ -136,19 +138,19 @@ for file in filesToEvaluate:
             file_path = rootdirPath + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
-            print("Compile " + file + "...")
+            #print("Compile " + file + "...")
             gibbon_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", file_path]
         
             c = subprocess.Popen(gibbon_cmd)
             c.wait()
             output, error = c.communicate()
         
-            if error is None: 
-                print("Compiled " + file + " with gibbon succesfully!")
+            #if error is None: 
+            #    print("Compiled " + file + " with gibbon succesfully!")
                 
             executables.append(file_without_haskell_extension + ".exe")
             
-            print()
+            #print()
 
 # Compile all Marmoset binaries.
 for file in filesToEvaluateMarmoset: 
@@ -163,30 +165,30 @@ for file in filesToEvaluateMarmoset:
             executables.append(solver_binary_name)
             executables.append(greedy_binary_name)
         
-            print("Compile " + file + " with solver optimization..." )
+            #print("Compile " + file + " with solver optimization..." )
             solver_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", "--opt-layout-use-solver", file_path, "-o", solver_binary_name]
         
             c = subprocess.Popen(solver_cmd)
             c.wait()
             output, error = c.communicate()
         
-            if error is None: 
-                print("Compiled " + file + " with solver succesfully!")
+            #if error is None: 
+            #    print("Compiled " + file + " with solver succesfully!")
                 
-            print()
+            #print()
             
-            print("Compile " + file + " with greedy optimization..." )
+            #print("Compile " + file + " with greedy optimization..." )
             greedy_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", file_path, "-o", greedy_binary_name]
         
             c = subprocess.Popen(greedy_cmd)
             c.wait()
             output, error = c.communicate()
         
-            if error is None: 
-                print("Compiled " + file + " with greedy optimization succesfully!")
+            #if error is None: 
+            #    print("Compiled " + file + " with greedy optimization succesfully!")
                 
                 
-            print()
+            #print()
 
 
 
@@ -195,7 +197,7 @@ runTimeCache = {}
 #Run all executables
 for file in executables:
 
-        print("Running " + str(file) + "...")
+        #print("Running " + str(file) + "...")
         
         runtimeFile = file + ".txt"
         
@@ -294,7 +296,7 @@ Table1Out.to_csv(rootdirPath + 'Table1.csv')
 
 print("Print Table2: ")
 print()
-Table2 = ["layout1ListLen.exe", "layout2ListLen.exe", "layout2ListLenGreedy", "layout2ListLenSolver"]
+Table2 = ["layout2ListLen.exe", "layout1ListLen.exe", "layout2ListLenGreedy", "layout2ListLenSolver"]
 print(df[Table2])
 print()
 #save to csv file 
@@ -317,7 +319,7 @@ Table3Out.to_csv(rootdirPath + 'Table3.csv')
 
 print("Print Table4a: ")
 print()
-Table4a = ["TreeAddOnePrePost.exe", "TreeAddOnePre.exe", "TreeAddOnePost.exe", "TreeAddOneIn.exe", "TreeAddOnePreGreedy", "TreeAddOnePreSolver"]
+Table4a = ["TreeAddOnePrePost.exe", "TreeAddOnePre.exe", "TreeAddOneIn.exe", "TreeAddOnePost.exe", "TreeAddOnePreGreedy", "TreeAddOnePreSolver"]
 print(df[Table4a])
 print()
 #save to csv file 
@@ -326,7 +328,7 @@ Table4aOut.to_csv(rootdirPath + 'Table4a.csv')
 
 print("Print Table4b: ")
 print()
-Table4b = ["TreeExpoPrePost.exe", "TreeExpoPre.exe", "TreeExpoPost.exe", "TreeExpoIn.exe", "TreeExpoPreGreedy", "TreeExpoPreSolver"]
+Table4b = ["TreeExpoPrePost.exe", "TreeExpoPre.exe", "TreeExpoIn.exe", "TreeExpoPost.exe", "TreeExpoPreGreedy", "TreeExpoPreSolver"]
 print(df[Table4b])
 print()
 #save to csv file 
@@ -335,7 +337,7 @@ Table4bOut.to_csv(rootdirPath + 'Table4b.csv')
 
 print("Print Table4c: ")
 print()
-Table4c = ["TreeCopyPrePost.exe", "TreeCopyPre.exe", "TreeCopyPost.exe", "TreeCopyIn.exe", "TreeCopyPreGreedy", "TreeCopyPreSolver"]
+Table4c = ["TreeCopyPrePost.exe", "TreeCopyPre.exe", "TreeCopyIn.exe", "TreeCopyPost.exe", "TreeCopyPreGreedy", "TreeCopyPreSolver"]
 print(df[Table4c])
 print()
 #save to csv file 
@@ -454,4 +456,4 @@ print()
 Table7cOut = df[Table7c]
 Table7cOut.to_csv(rootdirPath + 'Table7c.csv')
 
-print("Finished running full mode!")
+#print("Finished running full mode!")
