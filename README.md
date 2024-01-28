@@ -311,7 +311,7 @@ In particular these are the source files we added to the framework.
 
 - Gibbon.Passes.SolveLayoutConstrs - This pass generates the ILP constraints and calls the solver.
 
-- Gibbon.Passes.OptimizeADTLayout - This pass optimizes the layout of each data constructors globally. 
+- Gibbon.Passes.OptimizeADTLayout - This pass optimizes the layout of each data constructor globally. 
 
 
 ### Build Marmoset and PAPI outside Docker for generating Table 8
