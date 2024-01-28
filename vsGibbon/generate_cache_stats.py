@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import subprocess
 import time
 import statistics
@@ -6,6 +8,7 @@ import scipy
 import re
 import os
 import sys
+import json
 
 iterations = 9
 inf_buffer_size = 10000000000
@@ -67,19 +70,19 @@ for file in gibbonFiles:
             file_path = rootdir + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
-            print("Compile " + file + "...")
+            #print("Compile " + file + "...")
             gibbon_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--enable-papi", file_path]
         
             c = subprocess.Popen(gibbon_cmd)
             c.wait()
             output, error = c.communicate()
         
-            if error is None: 
-                print("Compiled " + file + " succesfully!")
+            #if error is None: 
+            #    print("Compiled " + file + " succesfully!")
                 
             executables.append(file_without_haskell_extension + ".exe")
             
-            print()
+            #print()
 
 
 
@@ -96,35 +99,35 @@ for file in marmosetFiles:
             executables.append(solver_binary_name)
             executables.append(greedy_binary_name)
         
-            print("Compile " + file + " with solver optimization..." )
+            #print("Compile " + file + " with solver optimization..." )
             solver_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", "--opt-layout-use-solver", "--enable-papi", file_path, "-o", solver_binary_name]
         
             c = subprocess.Popen(solver_cmd)
             c.wait()
             output, error = c.communicate()
         
-            if error is None: 
-                print("Compiled " + file + " succesfully!")
+            #if error is None: 
+            #    print("Compiled " + file + " succesfully!")
                 
-            print()
+            #print()
             
-            print("Compile " + file + " with greedy optimization..." )
+            #print("Compile " + file + " with greedy optimization..." )
             greedy_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", "--enable-papi", file_path, "-o", greedy_binary_name]
         
             c = subprocess.Popen(greedy_cmd)
             c.wait()
             output, error = c.communicate()
         
-            if error is None: 
-                print("Compiled " + file + " succesfully!")
-                
-                
-            print()
+            #if error is None: 
+            #    print("Compiled " + file + " succesfully!")   
+            #print()
             
             
 papi_tot_ins = 0
 papi_tot_cyc = 0
 papi_l2_dcm = 0            
+
+cacheStatsCache = {}
 
 for file in executables:
     
@@ -132,21 +135,15 @@ for file in executables:
     c1 = subprocess.Popen(cmd2, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     c1.wait()
     
-    
     cmd =  [file , "--inf-buffer-size", str(inf_buffer_size), "--iterate", "9"]
-    
-    try:
-        c = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-        c.wait()
-        output, error = c.communicate()
-    except:
-        print("Error!")
+    c = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    c.wait()
+    output, error = c.communicate()
         
     if not os.path.exists(papi_dir):
         cmd =  [file, "--iterate", "9"]
         c = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         c.wait()
-
 
     if not os.path.exists(papi_dir):
         print("Papi did not output any stats!")
@@ -173,14 +170,41 @@ for file in executables:
     papi_tot_cyc = papi_tot_cyc / iterations
     papi_l2_dcm_avg = papi_l2_dcm / iterations
 
-    print(f + " : " + "ins : {}, cyc : {}, l2 dcm : {}".format(tot_ins_avg, papi_tot_cyc, papi_l2_dcm_avg))
+    #print(f + " : " + "ins : {}, cyc : {}, l2 dcm : {}".format(tot_ins_avg, papi_tot_cyc, papi_l2_dcm_avg))
+
+    f = file.replace(rootdir, "")
+    cacheStatsCache[f] = (tot_ins_avg, papi_tot_cyc, papi_l2_dcm_avg)
 
     papi_tot_ins = 0
     papi_tot_cyc = 0
     papi_l2_dcm = 0
     
     fl.close()
-    
+
+
+
+df = pd.DataFrame(cacheStatsCache, index = ['TOT_INS', 'TOT_CYC', 'PAPI_L2_DCM'])
+
+
+CacheTable = [
+    "layout1FilterBlogs.exe",
+    "layout2FilterBlogs.exe",
+    "layout3FilterBlogs.exe",
+    "layout4FilterBlogs.exe",
+    "layout5FilterBlogs.exe",
+    "layout7FilterBlogs.exe",
+    "layout8FilterBlogs.exe",
+    "layout8FilterBlogsGreedy",
+    "layout8FilterBlogsSolver"
+]
+
+print("Print CacheTable: ")
+print()
+print(df[CacheTable])
+print()
+#save to csv file 
+CacheTableOut = df[CacheTable]
+CacheTableOut.to_csv(rootdirPath + 'Table8.csv')
     
     
     
