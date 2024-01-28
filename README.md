@@ -45,7 +45,27 @@ This should take about a minute and at the end print the contents equivalent to
 the contents of Tables 1 and 2 in the paper. The `--quick` mode is specifically
 developed for the kick-the-tires stage.
 
-## Overview
+## Overview 
+
+* type of artifact - We have provided a pre-built docker image, including source files that 
+  can be used to build the docker image from source. The readme consists of all the information 
+  required to build the image. 
+
+* format - The output is produced as a combination of .csv files and .pdf files. 
+  These contain Tables and figures from the papers. 
+  The artifact constists of .py, .sh scripts. 
+  The source files are in haskell .hs format. 
+  The source of Marmoset (The framework) is available `marmoset.tar` in the source files.
+  We also have a README.md.
+
+* location in the container/VM - After entering the container via the instructions provided earlier, the structure 
+  of the container is as follows. The base of the container is mounted at /root. 
+  The run.sh script in this folder may serve as a master script to run the `--small` set of inputs or the full by default. 
+  We have two folders, vsGibbon and vsGHC. These contain benchmarks to evaluate marmoset against Gibbon and GHC. 
+  These folders contain .py scripts that can be invoked individually to run the desired experiments as before. 
+  There are two sub-folders in each of these folders that contain `small` and `large` benchmarks respectively.
+
+  Below are detailed instructions. 
 
 ### Structure
 
@@ -247,27 +267,6 @@ The statistics for greedy and solver are given by file names appended with text 
 
 - Some scripts output .pdf files, these can be transferred out of the docker container using [```docker cp```](https://docs.docker.com/engine/reference/commandline/container_cp/)
   command; in order to view them. 
-
-## Overview: What does the artifact comprise?
-
-Please list for each distinct component of your artifact:
-
-* type of artifact - We have provided a pre-built docker image, including source files that 
-  can be used to build the docker image from source. The readme consists of all the information 
-  required to build the image. 
-* format - The output is produced as a combination of .csv files and .pdf files. 
-  These contain Tables and figures from the papers. 
-  The artifact constists of .py, .sh scripts. 
-  The source files are in haskell .hs format. 
-  The source of Marmoset (The framework) is available `marmoset.tar` in the source files.
-  We also have a README.md.
-
-* location in the container/VM - After entering the container via the instructions provided earlier, the structure 
-  of the container is as follows. The base of the container is mounted at /root. 
-  The run.sh script in this folder may serve as a master script to run the `--small` set of inputs or the full by default. 
-  We have two folders, vsGibbon and vsGHC. These contain benchmarks to evaluate marmoset against Gibbon and GHC. 
-  These folders contain .py scripts that can be invoked individually to run the desired experiments as before. 
-  There are two sub-folders in each of these folders that contain `small` and `large` benchmarks respectively.
 
 ## For authors claiming an available badge
 
