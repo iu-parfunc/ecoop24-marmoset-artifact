@@ -299,6 +299,21 @@ This makes future research easy to build on top of the current framework.
 The solver used in marmoset is open source and the solver can be changed for other open source solvers which does not 
 restrict our implementation to just one available solver. We argue that this makes our framework marmoset reusable.
 
+In particular these are the source files we added to the framework.
+
+- Gibbon.Passes.ControlFlowGraph - This pass adds a static analysis to generate the control flow graph of the functions in the program.
+
+- Gibbon.Passes.DefinitionUseChains - This pass does a def-use, use-def chains analysis for each function.
+
+- Gibbon.Passes.CallGraph - This pass generates the call graph from the program.
+
+- Gibbon.Passes.AccessPatternsAnalysis - This pass generates a graph recording the access patterns between fields of a data constructor for each function in the program.
+
+- Gibbon.Passes.SolveLayoutConstrs - This pass generates the ILP constraints and calls the solver.
+
+- Gibbon.Passes.OptimizeADTLayout - This pass optimizes the layout of each data constructors globally. 
+
+
 ### Build Marmoset and PAPI outside Docker for generating Table 8
 
 Install dependencies to build Marmoset on Ubunut 22.04
