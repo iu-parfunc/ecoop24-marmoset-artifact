@@ -52,14 +52,6 @@ RUN tar -xf marmoset.tar && \
     make -f gibbon-rts/Makefile && \
     echo "pushd marmoset; source ./set_env.sh; popd;" >> ~/.bashrc
 
-# install PAPI
-RUN wget https://github.com/icl-utk-edu/papi/archive/refs/tags/papi-7-1-0-t.tar.gz && \
-    mkdir papi && \
-    tar -xvzf papi-7-1-0-t.tar.gz -C papi && \
-    cd papi && cd papi-papi-7-1-0-t && cd src && \
-    ./configure && make -j10 && make install
-ENV PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
-
 # Python packages: the ILP solver, benchmark runner
 RUN pip install cplex docplex statistics numpy scipy pandas pyarrow matplotlib
 
@@ -69,5 +61,7 @@ RUN cabal install --lib timeit time deepseq template-haskell random vector
 # Add benchmark sources
 ADD vsGibbon ./vsGibbon
 ADD vsGHC ./vsGHC
+COPY run.sh run.sh
+RUN chmod u+x run.sh
 
 ENTRYPOINT ["bash"]
