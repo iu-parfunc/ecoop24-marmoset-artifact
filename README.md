@@ -284,25 +284,21 @@ The default invokation of the master script is `./run.sh` in `/root` in the dock
 
 ## For authors claiming a reusable badge
 
-If some parts of your artifacts contains software:
-- is your implementation open-source?
-- how to recompile the software?
-
 The implementation of Marmoset is available in the open source. We will provide the link to the exact location after the 
 AEC evaluation is done in order to stay anonymous. In the meantime, the source code is avilable in the Zenodo link provided. 
 To re-compile the software, we have provided instructions to build Marmoset from source in this README.
 
-If you use benchmarks: are the benchmarks public and open-source?
+The benchmarks that we evaluated in the paper will be open sourced after AEC evaluation.
+In the meantime, the Zenodo link has the benchmarks available.
 
-The benchmarks that we evaluated in the paper will be open sourced after AEC evaluation. In the meantime, the Zenodo link has the benchmarks 
-available.
-
-Please list any reuse scenarios that you envision for your artifact, i.e., state how the artifact can be reused or repurposed beyond its role in the submitted paper. Example:
-
-* “The implementation can easily be modified to use a different algorithm than the one described in section 4.1 of our paper by implementing a corresponding module. We provide an interface specification in ...”
-
-
-
+Marmoset is based on the open source compiler Gibbon. 
+Gibbon is a compiler written in haskell that compiles high level programs written in a subset of haskell to operate on 
+serialized data in memory. The compiler is written as a series of micro passes that do a small amount of work.
+The marmoset passes are a combination of passes in that pipeline. It is fairly straightforward to register and write a pass in 
+the compiler. Hence the framework can be easily extended with more complex optimizations without much hassle. 
+This makes future research easy to build on top of the current framework.
+The solver used in marmoset is open source and the solver can be changed for other open source solvers which does not 
+restrict our implementation to just one available solver. We argue that this makes our framework marmoset reusable.
 
 ### Build Marmoset and PAPI outside Docker for generating Table 8
 
