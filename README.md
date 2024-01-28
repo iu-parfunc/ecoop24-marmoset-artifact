@@ -4,27 +4,6 @@ Title of the submitted paper:
 
 > Optimizing Layout of Recursive Data Types with Marmoset
 
-## Metadata to provide during artifact submission in HotCRP
-
-**No need to provide them again in the submission**
-
-- OS and resource (CPU, memory, disk, GPU) used by the authors to run the artifact  
-  Reproducing results at the full scale takes a lot of RAM: preferably >100Gb. 
-  Nevertheless, the RAM-heavy
-  scripts accept the `--small` flag that allows to reproduce the results at a smaller
-  scale and should be runnable on a modern mid-tier (under $1K) laptop with 16
-  Gb RAM (maybe less, but we didn't try it).
-
-- The output shown in Table 8 requires access to hardware counters via PAPI.
-  In Docker, as far as we are aware, PAPI cannot get permissions to access the hardware counters.
-  For that reason, we have provided manual instructions to build and install the required dependencies.
-
-- Estimation of the required hardware resources for evaluation: the master
-  script `run.sh` will take several hours in the default mode and tens of
-  minutes if run with the `--small` flag.
-
-- Which badges do you claim for your artifact? Functional? Reusable? Available? -- We seek all three, that is, Functional, Reusable and Available. 
-
 ## Quick-start guide (Kick-the-tires phase)
 
 The artifact is bundled as an OCI container created with Docker (Dockerfile is available).
