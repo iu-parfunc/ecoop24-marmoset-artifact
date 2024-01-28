@@ -126,6 +126,16 @@ The statistics for greedy and solver are given by file names appended with text 
 2. `~/vsGibbon/generate_cache_stats.py`
   - default mode: .csv files are written to `~/vsGibbon/large`: It outputs three .csv files for Table 8.
 
+### PDF files 
+
+1. `~/vsGibbon/generate_compile_times.py`
+  - Outputs three files: FilterBlogCompileTimes.pdf, ContentSearchCompileTimes.pdf and TagSearchCompileTimes.pdf for the three compile time figures respectively. 
+    these will be outputted in the directory the script is run in. 
+
+2. `~/vsGHC/generate_ghc_numbers.py`
+  - Outputs three files: SpeedupMarmosetGhcFilterBlogs.pdf, SpeedupMarmosetGhcContentSearch.pdf and SpeedupMarmosetGhcTagSearch.pdf respectively. 
+    these will always be outputted in `/root/vsGHC/large` or `/root/vsGHC/small` depending on which input set was run.
+
 
 #### Explanation of .csv files and mapping to tables in the paper. 
 
