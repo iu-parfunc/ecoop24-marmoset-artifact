@@ -252,26 +252,35 @@ The statistics for greedy and solver are given by file names appended with text 
 
 Please list for each distinct component of your artifact:
 
-* type of artifact (data, code, proof, etc.)
-* format (e.g., CSV, source code, binary, etc.)
-* location in the container/VM
+* type of artifact - We have provided a pre-built docker image, including source files that 
+  can be used to build the docker image from source. The readme consists of all the information 
+  required to build the image. 
+* format - The output is produced as a combination of .csv files and .pdf files. 
+  These contain Tables and figures from the papers. 
+  The artifact constists of .py, .sh scripts. 
+  The source files are in haskell .hs format. 
+  The source of Marmoset (The framework) is available `marmoset.tar` in the source files.
+  We also have a README.md.
+
+* location in the container/VM - After entering the container via the instructions provided earlier, the structure 
+  of the container is as follows. The base of the container is mounted at /root. 
+  The run.sh script in this folder may serve as a master script to run the `--small` set of inputs or the full by default. 
+  We have two folders, vsGibbon and vsGHC. These contain benchmarks to evaluate marmoset against Gibbon and GHC. 
+  These folders contain .py scripts that can be invoked individually to run the desired experiments as before. 
+  There are two sub-folders in each of these folders that contain `small` and `large` benchmarks respectively.
 
 ## For authors claiming an available badge
 
-We offer to publish the artifact on [DARTS](https://drops.dagstuhl.de/opus/institut_darts.php), in which case the available badge will be issued automatically.
-If you agree to publishing your artifact under a Creative Commons license, please indicate this here.
-
-In case you would like to publish your artifact under different licensing conditions on Zenodo, please state under which license will the artifact be published?
+We have made a Zenodo hosting our artifact. The Zenodo is available under the 
+`Creative Commons Attribution 4.0 International` liscense. 
+We have a [DOI](https://doi.org/10.5281/zenodo.10578171) for our submission.
 
 ## For authors claiming a functional or reusable badge
 
-For **all** experimental claims made in the paper, please:
-* Quote/reference the experimental claim
-* Explain how this claim can be reproduced with the artifact
-
-For example: “The data in table 1 can be obtained by running script ‘generate_table1.sh’”
-
-Please note: we highly advise authors to provide a push-button evaluation (cf. call for artifacts).
+We have provided detailed instructions that can be used to generate the data shown in the Tables and Figures 
+in the paper. We have a master script, `run.sh` that has two modes, `--small` and default, that can be used to 
+generate a small input batch and a large input batch. The default batch corresponds to the numbers in the paper. 
+The default invokation of the master script is `./run.sh` in `/root` in the docker container. 
 
 ## For authors claiming a reusable badge
 
@@ -279,11 +288,20 @@ If some parts of your artifacts contains software:
 - is your implementation open-source?
 - how to recompile the software?
 
+The implementation of Marmoset is available in the open source. We will provide the link to the exact location after the 
+AEC evaluation is done in order to stay anonymous. In the meantime, the source code is avilable in the Zenodo link provided. 
+To re-compile the software, we have provided instructions to build Marmoset from source in this README.
+
 If you use benchmarks: are the benchmarks public and open-source?
+
+The benchmarks that we evaluated in the paper will be open sourced after AEC evaluation. In the meantime, the Zenodo link has the benchmarks 
+available.
 
 Please list any reuse scenarios that you envision for your artifact, i.e., state how the artifact can be reused or repurposed beyond its role in the submitted paper. Example:
 
 * “The implementation can easily be modified to use a different algorithm than the one described in section 4.1 of our paper by implementing a corresponding module. We provide an interface specification in ...”
+
+
 
 
 ### Build Marmoset and PAPI outside Docker for generating Table 8
