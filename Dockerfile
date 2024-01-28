@@ -41,15 +41,16 @@ ARG RUST=1.71.0
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=${RUST} && \
     echo "source $HOME/.cargo/env" >> ~/.bashrc
 
-# Gibbon: download and build the layout branch (Marmoset), build Gibbon's RTS
-RUN git clone https://github.com/iu-parfunc/gibbon.git /gibbon && \
-    cd /gibbon && \
-    git checkout layout_changes && \
+COPY marmoset.tar marmoset.tar
+
+# Gibbon: build marmoset from source
+RUN tar -xf marmoset.tar && \
+    cd marmoset && \
     cd gibbon-compiler && cabal v2-build exe:gibbon && \
                           cabal v2-install exe:gibbon && cd .. && \
     . $HOME/.cargo/env && \
     make -f gibbon-rts/Makefile && \
-    echo "pushd /gibbon; source ./set_env.sh; popd;" >> ~/.bashrc
+    echo "pushd marmoset; source ./set_env.sh; popd;" >> ~/.bashrc
 
 # install PAPI
 RUN wget https://github.com/icl-utk-edu/papi/archive/refs/tags/papi-7-1-0-t.tar.gz && \
