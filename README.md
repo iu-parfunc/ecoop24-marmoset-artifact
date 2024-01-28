@@ -7,8 +7,19 @@ Title of the submitted paper:
 ## Quick-start guide (Kick-the-tires phase)
 
 The artifact is bundled as an OCI container created with Docker (Dockerfile is available).
-The docker image is compressed as `marmosetArtifact.tar`
 
+- The docker image is compressed as `marmosetArtifact.tar` (provided in the Zenodo link)
+- The image can be easily loaded via the following command.
+  
+```
+docker load --input marmosetArtifact.tar
+```
+
+Next, to run the image, execute the following command. 
+
+```
+docker run --rm -ti marmoset
+```
 
 (Optionally, if don't use our image) Build the image with the Dockerfile
 
