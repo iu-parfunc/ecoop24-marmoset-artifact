@@ -8,17 +8,17 @@ Title of the submitted paper:
 
 **No need to provide them again in the submission**
 
-- OS and resource (CPU, memory, disk, GPU) used by the authors to run the artifact -- Although the experiments are 
-single threaded, they will require a machine with a large RAM. Ideally, greater than 100GB would be good to run 
-the experiments.
+- Although the experiments are single threaded, they will require a machine with a large RAM for the large input set. 
+  Ideally, greater than 150GB would be good to run the large input set. For the smaller input set, a machine with a 
+  RAM in the range of 16GB-32GB should be sufficient.
 
-- The output shown in Table 8 requires access to harware counters via PAPI. 
+- The output shown in Table 8 requires access to hardware counters via PAPI. 
   In a docker, as far as we are aware, PAPI cannot get permissions to access the hardware counters.
   For that reason, we have provided manual instructions to build and install the required dependencies.
 
   TODO: (Artem) what is a reasonable minimum? We can't expect all evaluators to have 100 Gb RAM.
 
-- Estimation of the required hardware resources for evaluation. In case the evaluation takes multiple days or requires huge resources, please provide a scaled-down evaluation.
+- The small input provided for gibbon and and ghc will run within 30 minutes. The large input can take a few hours to run. 
 
 - Known compatibility issues of the container/VM -- NONE
   
@@ -44,11 +44,11 @@ For the kick-the-tires stage, execute the following commands upon entering the
 container:
 
 ``` shellsession
-cd ECOOP-2024-Bench
+cd vsGibbon
 python3 generate_runtimes.py --quick
 ```
 
-This should take several minutes and at the end print the contents equivalent to
+This should a few minutes and at the end print the contents equivalent to
 the contents of Tables 1 and 2 in the paper.
 
 ### Overview
@@ -72,26 +72,9 @@ Four Python scripts map on the figures and tables in the paper as follows:
 
 After executing `CMD1` and entering the session, use `python3` to run the provided scripts to reproduce the figures and tables.
 For example, `python3 generate_runtimes.py` generates the run times for Gibbon and Marmoset, stores them in a CSV files
-(you need to `cd` in the corresponding directory first). 
-Provided below is the mapping from file name to benchmarks in the paper.
+(you need to `cd` in the corresponding directory first).
 
-TODO: (Artem) document CSV outputs (location, ect.). Alsoi see the overview section below.
-
-```
-Table1: Layout1PowerList.hs, Layout2PowerList.hs 
-
-Table2: Layout1ListLen.hs, Layout2ListLen.hs 
-
-Table3: eval_r.hs and eval_l.hs 
-
-Table4: TreeAddOne*.hs, TreeCopy*.hs, TreeExpo*.hs 
-
-Table5: TreeRightMost_l.hs and TreeRightMost_r.hs 
-
-Table6: layoutxFilterBlogs.hs, layoutxContentSearch.hs and layoutxTagSearch.hs where x is the layout -- 1, 2, 3, 4, 5, 7, 8 respectively in the same order as in Table 6.
-
-Table7: manyFuncs.hs 
-```
+TODO: (Artem) document CSV outputs (location, ect.). Also see the overview section below.
 
 TODO: (Artem) is this still needed if we just print a table in the end? I think not.
 
@@ -137,7 +120,7 @@ Please list any reuse scenarios that you envision for your artifact, i.e., state
 ## Miscellaneous 
 
 - The output from `~/vsGibbon/generate_runtimes.py` is written to csv files and stdout. 
-  However, the output written to stdout may be compressed (... between the tables means compressed output).
+  However, the output written to stdout may be compressed (```...``` between the tables would suggest a compressed output).
   The user may try to minimize the terminal to see the full output. However, the csv files will have the full
   output. 
 
@@ -145,9 +128,6 @@ Please list any reuse scenarios that you envision for your artifact, i.e., state
   command; in order to view them. 
 
 ### Build Marmoset and PAPI outside Docker for generating Table 8
-
-Download and extract the tar file for marmoset from : (Wherever we plan to put a tar of marmoset, as a supplemental Zenodo link?)
-TODO: (vidush) have the exact commands to download and extract marmoset.
 
 Install dependencies to build marmoset on Ubunut 22.04
 
@@ -181,10 +161,11 @@ Install rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=1.71.0
 ```
 
-Build marmoset 
+Build marmoset (untar provided marmoset.tar)
 
 ```
-$ cd gibbon && source set_env.sh
+$ tar -xf marmoset.tar
+$ cd marmoset && source set_env.sh
 $ cd gibbon-compiler && cabal v2-build exe:gibbon && cabal v2-install exe:gibbon
 ```
 
