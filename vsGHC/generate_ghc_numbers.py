@@ -9,6 +9,7 @@ import scipy.stats
 import pandas as pd
 import sys
 import matplotlib.pyplot as plt
+import argparse
 
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
@@ -17,6 +18,11 @@ def mean_confidence_interval(data, confidence=0.95):
     h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
     return m, m-h, m+h
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--run",nargs='?',const="full", help = "specify the input size [small], defaults to full", type=str)
+parser.add_argument("--verbose", nargs='?',const=True, help = "specify if you want the output to be verbose.", type=bool)
+arguments = parser.parse_args()
 
 executables = []
 
@@ -28,17 +34,19 @@ rootdirGibbon = "/root/vsGibbon/"
 
 
 # Provide "--quick" flag for the kick-the-tires stage
-if not (((len(sys.argv) == 2) and (sys.argv[1] == "--small")) or (len(sys.argv) == 1) ):
-    print("Error: invalid arguments.")
-    print("Usage: python3 generate_ghc_numbers.py [--small]")
-    exit(1) 
+# if not (((len(sys.argv) == 2) and (sys.argv[1] == "--small")) or (len(sys.argv) == 1) ):
+#     print("Error: invalid arguments.")
+#     print("Usage: python3 generate_ghc_numbers.py [--small]")
+#     exit(1) 
 
-if(len(sys.argv) == 2):
-    runMode = sys.argv[1]
-else: 
-    runMode = "--full"
+# if(len(sys.argv) == 2):
+#     runMode = sys.argv[1]
+# else: 
+#     runMode = "--full"
 
-if runMode == "--small":
+runMode = arguments.run 
+
+if runMode == "small":
     rootdir = rootdir + "/small/"
     rootdirGibbon = rootdirGibbon + "/small/"
 else: 
@@ -95,10 +103,15 @@ def compile_with_ghc():
             file_path = rootdir + file
 
             file_without_haskell_extension = file.replace(".hs", '')
-            #print("Compile " + file + "...")
+            
+            if arguments.verbose:
+                print("Compile " + file + "...")
+            
             ghc_cmd_haskell = subprocess.run(["ghc", "-O2", file_path])
-            #print("The GHC exit code was %d" % ghc_cmd_haskell.returncode)
-            #print()
+
+            if arguments.verbose:
+                print("The GHC exit code was %d" % ghc_cmd_haskell.returncode)
+                print()
 
             executables.append(file_without_haskell_extension)
 
@@ -107,10 +120,11 @@ def time_ghc():
     Timings = {}
 
     for file in executables:
-
-            #print()
-            #print("Running the binary " + str(file))
-            #print()
+            
+            if arguments.verbose:
+                print()
+                print("Running the binary " + str(file))
+                print()
 
             file_stats = rootdir + "/" + file + ".txt"
 
@@ -128,7 +142,8 @@ def time_ghc():
             median  = stat.median(run_times)
             a , l, u = mean_confidence_interval(run_times)
             tupleTimes = (average, median, (l, u))
-            #print(tupleTimes)
+            if arguments.verbose:
+                print(tupleTimes)
             Timings[file] = tupleTimes
 
             if "FindBlogs" in file: 
@@ -143,8 +158,9 @@ def time_ghc():
                  Ghc_tag.append(average)
                  ErrorBarGhcLb_tag.append(l)
                  ErrorBarGhcUb_tag.append(u)
-
-            #print()
+            
+            if arguments.verbose:
+                print()
 
 compile_with_ghc()
 time_ghc()

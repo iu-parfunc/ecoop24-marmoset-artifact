@@ -9,6 +9,7 @@ import scipy
 import re
 import os
 import sys
+import argparse
 
 iterations = 9
 inf_buffer_size = 10000000000
@@ -22,20 +23,28 @@ def mean_confidence_interval(data, confidence=0.95):
 
 rootdir = "/root/vsGibbon/"
 
-# Provide "--quick" flag for the kick-the-tires stage
-if not (((len(sys.argv) == 2) and ( (sys.argv[1] == "--quick") or (sys.argv[1] == "--small"))) or (len(sys.argv) == 1)):
-    print("Error: invalid arguments.")
-    print("Usage: python3 generate_runtimes.py [--quick|--small]")
-    exit(1) 
 
-if (len(sys.argv) == 2):
-    runMode = sys.argv[1]
-else: 
-    runMode = "--full"
+parser = argparse.ArgumentParser()
+parser.add_argument("--run",nargs='?',const="full", help = "specify the input size [quick | small], defaults to full", type=str)
+parser.add_argument("--verbose", nargs='?',const=True, help = "specify if you want the output to be verbose.", type=bool)
+arguments = parser.parse_args()
+
+# Provide "--quick" flag for the kick-the-tires stage
+# if not (((len(sys.argv) == 2) and ( (sys.argv[1] == "--quick") or (sys.argv[1] == "--small"))) or (len(sys.argv) == 1)):
+#     print("Error: invalid arguments.")
+#     print("Usage: python3 generate_runtimes.py [--quick|--small]")
+#     exit(1) 
+
+# if (len(sys.argv) == 2):
+#     runMode = sys.argv[1]
+# else: 
+#     runMode = "--full"
 
 #runMode = "full"
 #if len(sys.argv) == 2:
 #    runMode = "quick"
+
+runMode = arguments.run
 
 #quick mode runs the microbenchmarks 
 #full mode runs the full suite
@@ -119,11 +128,11 @@ filesToEvaluate = []
 filesToEvaluateMarmoset = []
 
 rootdirPath = ""
-if runMode == "--quick":
+if runMode == "quick":
     filesToEvaluate = gibbonFilesQuickRun
     filesToEvaluateMarmoset = marmosetFilesQuickRun
     rootdirPath = rootdir + "/small/"
-elif runMode == "--small":
+elif runMode == "small":
     filesToEvaluate = gibbonFiles
     filesToEvaluateMarmoset = marmosetFiles
     rootdirPath = rootdir + "/small/"
@@ -138,19 +147,22 @@ for file in filesToEvaluate:
             file_path = rootdirPath + file
             
             file_without_haskell_extension = file_path.replace(".hs", '')
-            #print("Compile " + file + "...")
+            if arguments.verbose:
+                print("Compile " + file + "...")
             gibbon_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", file_path]
         
             c = subprocess.Popen(gibbon_cmd)
             c.wait()
             output, error = c.communicate()
-        
-            #if error is None: 
-            #    print("Compiled " + file + " with gibbon succesfully!")
+            
+            if arguments.verbose:
+                if error is None: 
+                    print("Compiled " + file + " with gibbon succesfully!")
                 
             executables.append(file_without_haskell_extension + ".exe")
             
-            #print()
+            if arguments.verbose:
+                print()
 
 # Compile all Marmoset binaries.
 for file in filesToEvaluateMarmoset: 
@@ -164,31 +176,38 @@ for file in filesToEvaluateMarmoset:
             
             executables.append(solver_binary_name)
             executables.append(greedy_binary_name)
-        
-            #print("Compile " + file + " with solver optimization..." )
+            
+            if arguments.verbose:
+                print("Compile " + file + " with solver optimization..." )
+
             solver_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", "--opt-layout-use-solver", file_path, "-o", solver_binary_name]
         
             c = subprocess.Popen(solver_cmd)
             c.wait()
             output, error = c.communicate()
-        
-            #if error is None: 
-            #    print("Compiled " + file + " with solver succesfully!")
-                
-            #print()
             
-            #print("Compile " + file + " with greedy optimization..." )
+            if arguments.verbose:
+                if error is None: 
+                    print("Compiled " + file + " with solver succesfully!")
+
+            if arguments.verbose:    
+                print()
+            
+            if arguments.verbose:
+                print("Compile " + file + " with greedy optimization..." )
+
             greedy_cmd = ["gibbon", "--no-gc", "--to-exe", "--packed", "--opt-layout-global", file_path, "-o", greedy_binary_name]
         
             c = subprocess.Popen(greedy_cmd)
             c.wait()
             output, error = c.communicate()
-        
-            #if error is None: 
-            #    print("Compiled " + file + " with greedy optimization succesfully!")
+            
+            if arguments.verbose:
+                if error is None: 
+                    print("Compiled " + file + " with greedy optimization succesfully!")
                 
-                
-            #print()
+            if arguments.verbose:    
+                print()
 
 
 
@@ -196,8 +215,9 @@ runTimeCache = {}
 
 #Run all executables
 for file in executables:
-
-        #print("Running " + str(file) + "...")
+        
+        if arguments.verbose:
+            print("Running " + str(file) + "...")
         
         runtimeFile = file + ".txt"
         
@@ -224,17 +244,21 @@ for file in executables:
             median = 0.0
             for lines in fileLines:
                 search = re.match("itertime: (-?\ *[0-9]+\.?[0-9]*(?:[Ee]\ *-?\ *[0-9]+)?)", lines)
-                #print(search)
+                if arguments.verbose:
+                    print(search)
                 if search is not None:
                     iterTimes.append(float(search.groups()[0]))
-            #print(iterTimes)
+
+            if arguments.verbose:        
+                print(iterTimes)
             mean = np.mean(iterTimes)
             median = np.median(iterTimes)
             a, l, u = mean_confidence_interval(iterTimes)
             
-            #print(str(file) + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+            if arguments.verbose:
+                print(str(file) + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+            
             #store the stats for a file as a tuple, (mean,median,upperbound,lowerbound)
-
             fileName = str(file).replace(rootdirPath, "")
             runTimeCache[fileName] = (mean, median, u, l)
             
@@ -267,7 +291,8 @@ for file in executables:
                 median = np.median(iterTimes)
                 a, l, u = mean_confidence_interval(iterTimes)
 
-                #print(str(file) + " " + str(cpass) + " " + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+                if arguments.verbose:  
+                    print(str(file) + " " + str(cpass) + " " + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
                 
                 passName = str(file).replace(".exe", "") + "-" + str(cpass)
                 #store the stats for a file as a tuple, (mean,median,upperbound,lowerbound)
@@ -303,7 +328,7 @@ print()
 Table2Out = df[Table2]
 Table2Out.to_csv(rootdirPath + 'Table2.csv')
 
-if runMode == "--quick":
+if runMode == "quick":
     exit(0)
 
 
@@ -456,4 +481,5 @@ print()
 Table7cOut = df[Table7c]
 Table7cOut.to_csv(rootdirPath + 'Table7c.csv')
 
-#print("Finished running full mode!")
+if arguments.verbose:
+    print("Finished running full mode!")
