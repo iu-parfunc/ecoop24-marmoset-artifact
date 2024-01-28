@@ -59,7 +59,9 @@ RUN cabal install --lib timeit time deepseq template-haskell random vector
 # Add benchmark sources
 COPY vsGibbon ./vsGibbon
 COPY vsGHC ./vsGHC
+COPY run.sh run.sh 
 
+RUN chmod u+x /root/run.sh
 RUN chmod u+x /root/vsGibbon/generate_compile_times.py
 RUN chmod u+x /root/vsGibbon/generate_cache_stats.py
 RUN chmod u+x /root/vsGibbon/generate_runtimes.py

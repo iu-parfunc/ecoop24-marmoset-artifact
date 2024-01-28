@@ -7,6 +7,8 @@ Title of the submitted paper:
 ## Quick-start guide (Kick-the-tires phase)
 
 The artifact is bundled as an OCI container created with Docker (Dockerfile is available).
+The docker image is compressed as `marmosetArtifact.tar`
+
 
 (Optionally, if don't use our image) Build the image with the Dockerfile
 
