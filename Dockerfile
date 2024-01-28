@@ -41,11 +41,9 @@ ARG RUST=1.71.0
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=${RUST} && \
     echo "source $HOME/.cargo/env" >> ~/.bashrc
 
-COPY marmoset.tar marmoset.tar
-
 # Gibbon: build marmoset from source
-RUN tar -xf marmoset.tar && \
-    cd marmoset && \
+ADD marmoset.tar /root
+RUN cd marmoset && \
     cd gibbon-compiler && cabal v2-build exe:gibbon && \
                           cabal v2-install exe:gibbon && cd .. && \
     . $HOME/.cargo/env && \
@@ -59,9 +57,7 @@ RUN pip install cplex docplex statistics numpy scipy pandas pyarrow matplotlib
 RUN cabal install --lib timeit time deepseq template-haskell random vector
 
 # Add benchmark sources
-ADD vsGibbon ./vsGibbon
-ADD vsGHC ./vsGHC
-COPY run.sh run.sh
-RUN chmod u+x run.sh
+COPY vsGibbon ./vsGibbon
+COPY vsGHC ./vsGHC
 
 ENTRYPOINT ["bash"]
