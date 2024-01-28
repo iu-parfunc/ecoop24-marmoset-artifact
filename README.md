@@ -112,7 +112,7 @@ The statistics for greedy and solver are given by file names appended with text 
   - default mode: .csv files are written to `~/vsGibbon/large`
 
 2. `~/vsGibbon/generate_cache_stats.py`
-  - default mode: .csv files are written to `~/vsGibbon/large`: It outputs one .csv file for Table 8 called `Table8.csv`
+  - default mode: .csv files are written to `~/vsGibbon/large`: It outputs three .csv files for Table 8.
 
 
 #### Explanation of .csv files and mapping to tables in the paper. 
