@@ -250,7 +250,7 @@ The statistics for greedy and solver are given by file names appended with text 
 - The output from `~/vsGibbon/generate_runtimes.py` is written to CSV files and stdout. 
   However, the output written to stdout may be compressed (`...` between columns in
   the tables means compressed output).
-  The user may try to maximize the terminal to see the full output. However, the CSV files will have the full
+  The user may try to minimize the font on the terminal to see the full output. However, the CSV files will have the full
   output. 
 
 - Some scripts output .pdf files, these can be transferred out of the docker container using [```docker cp```](https://docs.docker.com/engine/reference/commandline/container_cp/)
