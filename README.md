@@ -282,6 +282,7 @@ We have provided detailed instructions that can be used to generate the data sho
 in the paper. We have a master script, `run.sh` that has two modes, `small` and default, that can be used to 
 generate a small input batch and a large input batch. The default batch corresponds to the numbers in the paper. 
 The default invokation of the master script is `./run.sh` in `/root` in the docker container. 
+To run the small mode, invoke `./run.sh small` in `/root`.
 
 ## For authors claiming a reusable badge
 
