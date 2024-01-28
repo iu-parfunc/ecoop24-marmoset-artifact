@@ -8,15 +8,15 @@ then
     cd /root/vsGHC/ && python3 generate_ghc_numbers.py
 
 else
-    if [ "$1" != "--small" ]
+    if [ "$1" != "small" ]
     then 
-	echo "Correct argument not passed: Options: [--small]"
+	echo "Correct argument not passed: Options: [small]"
         exit 1
     fi	
     echo "Running the small input set."
-    python3 /root/vsGibbon/generate_runtimes.py $1
+    python3 /root/vsGibbon/generate_runtimes.py --run $1
     python3 /root/vsGibbon/generate_compile_times.py 
-    cd /root/vsGHC/ && python3 generate_ghc_numbers.py $1
+    cd /root/vsGHC/ && python3 generate_ghc_numbers.py --run $1
 fi
 
 

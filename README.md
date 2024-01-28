@@ -38,11 +38,11 @@ container:
 
 ``` shellsession
 cd vsGibbon
-python3 generate_runtimes.py --quick
+python3 generate_runtimes.py --run quick
 ```
 
 This should take about a minute and at the end print the contents equivalent to
-the contents of Tables 1 and 2 in the paper. The `--quick` mode is specifically
+the contents of Tables 1 and 2 in the paper. The `quick` mode is specifically
 developed for the kick-the-tires stage.
 
 ## Overview 
@@ -60,7 +60,7 @@ developed for the kick-the-tires stage.
 
 * location in the container/VM - After entering the container via the instructions provided earlier, the structure 
   of the container is as follows. The base of the container is mounted at /root. 
-  The run.sh script in this folder may serve as a master script to run the `--small` set of inputs or the full by default. 
+  The run.sh script in this folder may serve as a master script to run the `small` set of inputs or the full by default. 
   We have two folders, vsGibbon and vsGHC. These contain benchmarks to evaluate marmoset against Gibbon and GHC. 
   These folders contain .py scripts that can be invoked individually to run the desired experiments as before. 
   There are two sub-folders in each of these folders that contain `small` and `large` benchmarks respectively.
@@ -88,7 +88,7 @@ Four Python scripts map on the figures and tables in the paper as follows:
 Script [3] has no effect inside the container, and we provide direction for
 optionally running it outside Docker below. The other three scripts can be ran
 sequentially by one master script called `~/run.sh`. The master script accept
-the `--small` flag, as well as scripts [1] and [4], so that the results can be
+the `small` flag, as well as scripts [1] and [4], so that the results can be
 reproduced at a smaller scale on an average consumer machine.
 
 After executing `CMD1` and entering the session, use either the master script
@@ -104,7 +104,7 @@ The statistics for greedy and solver are given by file names appended with text 
 ### Approximate Timings
 
 1. `~/vsGibbon/generate_runtimes.py`
-  - `--small` mode: <10 minutes
+  - `small` mode: <10 minutes
   - default mode: <60 minutes
 
 2. `~/vsGibbon/generate_compile_times.py`
@@ -114,13 +114,13 @@ The statistics for greedy and solver are given by file names appended with text 
   - default mode: <30 minutes
 
 4. `~/vsGHC/generate_ghc_numbers.py`
-  - `--small` mode: ~15 minutes
+  - `small` mode: ~15 minutes
   - default mode: ~100 minutes
 
 ### CSV files
 
 1. `~/vsGibbon/generate_runtimes.py`
-  - `--small` mode: .csv files are written to `~/vsGibbon/small`
+  - `small` mode: .csv files are written to `~/vsGibbon/small`
   - default mode: .csv files are written to `~/vsGibbon/large`
 
 2. `~/vsGibbon/generate_cache_stats.py`
@@ -268,6 +268,8 @@ The statistics for greedy and solver are given by file names appended with text 
 - Some scripts output .pdf files, these can be transferred out of the docker container using [```docker cp```](https://docs.docker.com/engine/reference/commandline/container_cp/)
   command; in order to view them. 
 
+- `~/vsGibbon/generate_runtimes.py` and `~/vsGHC/generate_ghc_numbers.py` can take an additional `--verbose` flag to show extra output while the script is running.
+
 ## For authors claiming an available badge
 
 We have made a Zenodo hosting our artifact. The Zenodo is available under the 
@@ -277,7 +279,7 @@ We have a [DOI](https://doi.org/10.5281/zenodo.10578171) for our submission.
 ## For authors claiming a functional or reusable badge
 
 We have provided detailed instructions that can be used to generate the data shown in the Tables and Figures 
-in the paper. We have a master script, `run.sh` that has two modes, `--small` and default, that can be used to 
+in the paper. We have a master script, `run.sh` that has two modes, `small` and default, that can be used to 
 generate a small input batch and a large input batch. The default batch corresponds to the numbers in the paper. 
 The default invokation of the master script is `./run.sh` in `/root` in the docker container. 
 
