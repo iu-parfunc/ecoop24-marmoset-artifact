@@ -22,7 +22,7 @@ def mean_confidence_interval(data, confidence=0.95):
     return m, m-h, m+h
 
 rootdir = "/root/vsGibbon/large/"
-papi_dir = "/root/vsGibbon/large/papi_hl_output/"
+papi_dir = "/root/vsGibbon/papi_hl_output/"
 
 # Was thinking to make compile and run separate but not important right now.
 #compileTrue = sys.argv[2]
