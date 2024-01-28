@@ -5,7 +5,7 @@ then
     echo "No argument passed, running the large input set by default."
     python3 /root/vsGibbon/generate_runtimes.py
     python3 /root/vsGibbon/generate_compile_times.py
-    python3 /root/vsGHC/generate_ghc_numbers.py
+    cd /root/vsGHC/ && python3 generate_ghc_numbers.py
 
 else
     if [ "$1" != "--small" ]
@@ -16,7 +16,7 @@ else
     echo "Running the small input set."
     python3 /root/vsGibbon/generate_runtimes.py $1
     python3 /root/vsGibbon/generate_compile_times.py 
-    python3 /root/vsGHC/generate_ghc_numbers.py $1
+    cd /root/vsGHC/ && python3 generate_ghc_numbers.py $1
 fi
 
 
