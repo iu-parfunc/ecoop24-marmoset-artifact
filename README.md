@@ -8,20 +8,14 @@ Title of the submitted paper:
 
 The artifact is bundled as an OCI container created with Docker (Dockerfile is available).
 
-- The docker image is compressed as `marmosetArtifact.tar` (provided in the Zenodo link)
-- The image can be easily loaded via the following command.
+- The docker image file is `tar`red as `marmosetArtifact.tar`
+- The image can be added to the local Docker store as follows:
   
 ```
 docker load --input marmosetArtifact.tar
 ```
 
-Next, to run the image, execute the following command. 
-
-```
-docker run --rm -ti marmoset
-```
-
-(Optionally, if don't use our image) Build the image with the Dockerfile
+Alternatively, you can build the image with the Dockerfile
 
 ```
 DOCKER_BUILDKIT=1 docker image build -t marmoset -f Dockerfile .
@@ -33,12 +27,11 @@ Once you get the image, start the session as follows (so called `CMD1`):
 docker run --rm -ti marmoset
 ```
 
-For the kick-the-tires stage, execute the following commands upon entering the
-container:
+For the kick-the-tires stage, execute the following commands upon entering the container:
 
-``` shellsession
+```
 cd vsGibbon
-python3 generate_runtimes.py --run quick
+./generate_runtimes.py --run quick
 ```
 
 This should take about a minute and at the end print the contents equivalent to
@@ -47,33 +40,52 @@ developed for the kick-the-tires stage.
 
 ## Overview 
 
-* type of artifact - We have provided a pre-built docker image, including source files that 
-  can be used to build the docker image from source. The readme consists of all the information 
-  required to build the image. 
+* type of artifact — code, in particular:
+ - source files of the Gibbon compiler with our extension to it called Marmoset;
+ - Gibbon binaries including Marmoset;
+ - Python and Bash scripts to run Gibbon, Marmoset and GHC to reproduce the main
+   tables and figures of the paper.
 
-* format - The output is produced as a combination of .csv files and .pdf files. 
-  These contain Tables and figures from the papers. 
-  The artifact constists of .py, .sh scripts. 
-  The source files are in haskell .hs format. 
-  The source of Marmoset (The framework) is available `marmoset.tar` in the source files.
-  We also have a README.md.
+* format — Marmoset is implemented in Haskell (like the rest of Gibbon). The
+  scripts produce a combination of `.csv` and `.pdf` files holding the data in
+  the tables and figures. Also, the benchmark programs discussed in the paper
+  are stored as files with the `.hs` extension.
 
-* location in the container/VM - After entering the container via the instructions provided earlier, the structure 
-  of the container is as follows. The base of the container is mounted at /root. 
-  The run.sh script in this folder may serve as a master script to run the `small` set of inputs or the full by default. 
-  We have two folders, vsGibbon and vsGHC. These contain benchmarks to evaluate marmoset against Gibbon and GHC. 
-  These folders contain .py scripts that can be invoked individually to run the desired experiments as before. 
-  There are two sub-folders in each of these folders that contain `small` and `large` benchmarks respectively.
+* location in the container — After entering the container via the instructions
+  provided above, the structure of the container is as follows. The default
+  working directory and the `$HOME` in the container is `/root`. The `run.sh`
+  script in this directory may serve as a master script to run either the
+  `small` set of inputs or the full set (the default). The two folders
+  `~/vsGibbon` and `~/vsGHC` contain benchmarks to evaluate Marmoset against
+  Gibbon and GHC, following the Evaluation section of the paper. The
+  `~/marmoset` directory contains the Gibbon compiler with the Marmoset
+  extension. The code is pre-built and available in `$PATH` as `gibbon`
+  (Marmoset is activated by `gibbon` flags).
 
-  Below are detailed instructions. 
+## For authors claiming an available badge
 
-### Structure
+We posted the artifact on Zenodo:
+
+- [doi.org/10.5281/zenodo.10578171](https://doi.org/10.5281/zenodo.10578171)
+
+The artifact is available under the  `Creative Commons Attribution 4.0 International` license.
+
+## For authors claiming a functional or reusable badge
+
+### Files structure in the container
+
+The source files of Gibbon and Marmoset reside in `~/marmoset` (`~` is `/root`).
 
 All scripts and benchmarks reside in one of the two directories in the container:
 
-1. `~/vsGibbon` — evaluation for Gibbon and Marmoset (all tables and Figure 10).
+1. `~/vsGibbon` — evaluation for Gibbon and Marmoset (Tables 1–8 and Figure 10).
 
 2. `~/vsGHC` — evaluation for GHC and Marmoset (Figure 9).
+
+In each of these, there are two subdirectories that contain `small` and `large`
+benchmarks respectively. The two kinds of benchmark programs differ only in
+sizes of inputs. The `large` variant should more faithfully reproduce the results
+in the paper but requires big RAM (>100Gb).
 
 Four Python scripts map on the figures and tables in the paper as follows:
 
@@ -85,23 +97,23 @@ Four Python scripts map on the figures and tables in the paper as follows:
    
 4. `~/vsGHC/generate_ghc_numbers.py` — generates the run times for GHC, `Figure 9`.
 
-Script [3] has no effect inside the container, and we provide direction for
-optionally running it outside Docker below. The other three scripts can be ran
-sequentially by one master script called `~/run.sh`. The master script accept
-the `small` flag, as well as scripts [1] and [4], so that the results can be
-reproduced at a smaller scale on an average consumer machine.
+Script [3] relies on the PAPI framework, which does not function properly inside
+Docker. We provide directions for optionally running it outside the
+container below in the section “Build Marmoset and PAPI outside Docker for
+generating Table 8”.
+
+The other three scripts can be ran sequentially by one master script called
+`~/run.sh`. The master script accept the `small` flag, as well as scripts [1]
+and [4], so that the results can be reproduced at a smaller scale on an average
+consumer machine using the benchmarks in the `small` directories.
 
 After executing `CMD1` and entering the session, use either the master script
-`~/run.sh` or
-`python3` to run the individual scripts and reproduce the figures and tables.
-For example, `python3 generate_runtimes.py` generates the run times for Gibbon
-and Marmoset, stores them in a CSV files (you need to `cd vsGibbon` first). 
-Provided below is the mapping from file name to benchmarks in the paper.
+`~/run.sh` or the individual scripts and reproduce the figures and tables. For
+example, `./generate_runtimes.py` (inside `vsGibbon`) generates the run times
+for Gibbon and Marmoset, prints them in a tabular form, and stores them in CSV
+files.
 
-
-The statistics for greedy and solver are given by file names appended with text "Greedy" and "Solver" respectively.
-
-### Approximate Timings
+### Approximate timings
 
 1. `~/vsGibbon/generate_runtimes.py`
   - `small` mode: <10 minutes
@@ -117,7 +129,9 @@ The statistics for greedy and solver are given by file names appended with text 
   - `small` mode: ~15 minutes
   - default mode: ~100 minutes
 
-### CSV files
+### Output files
+
+#### CSV files
 
 1. `~/vsGibbon/generate_runtimes.py`
   - `small` mode: .csv files are written to `~/vsGibbon/small`
@@ -126,206 +140,166 @@ The statistics for greedy and solver are given by file names appended with text 
 2. `~/vsGibbon/generate_cache_stats.py`
   - default mode: .csv files are written to `~/vsGibbon/large`: It outputs three .csv files for Table 8.
 
-### PDF files 
+#### PDF files 
 
-1. `~/vsGibbon/generate_compile_times.py`
-  - Outputs three files: FilterBlogCompileTimes.pdf, ContentSearchCompileTimes.pdf and TagSearchCompileTimes.pdf for the three compile time figures respectively. 
-    these will be outputted in the directory the script is run in. 
+1. `~/vsGibbon/generate_compile_times.py` outputs three PDF files: 
+  - `FilterBlogCompileTimes.pdf`,
+  - `ContentSearchCompileTimes.pdf`, and 
+  -`TagSearchCompileTimes.pdf`
+  for the three compile time subfigures in Figure 10 respectively. The files will be written in the working directory.
 
-2. `~/vsGHC/generate_ghc_numbers.py`
-  - Outputs three files: SpeedupMarmosetGhcFilterBlogs.pdf, SpeedupMarmosetGhcContentSearch.pdf and SpeedupMarmosetGhcTagSearch.pdf respectively. 
-    these will always be outputted in `/root/vsGHC/large` or `/root/vsGHC/small` depending on which input set was run.
+2. `~/vsGHC/generate_ghc_numbers.py` outputs three PDF files: 
+  - `SpeedupMarmosetGhcFilterBlogs.pdf`,
+  - `SpeedupMarmosetGhcContentSearch.pdf`, and 
+  - `SpeedupMarmosetGhcTagSearch.pdf`. 
+  The files will always be written in `~/vsGHC/large` or `~/vsGHC/small`
+  depending on which mode we run in.
 
+#### Mapping of CSV files to the tables in the paper
 
-#### Explanation of .csv files and mapping to tables in the paper. 
+For every table (in some cases, section of a table) we show how the column names
+in the paper map on the column names in the CSV files, which also coinside with
+the names of the benchmark programs.
 
-- Table1: `Table1.csv`
-  * List/foo maps to -- layout1PowerList.exe
-  * List'/foo' maps to -- layout2PowerList.exe
+- Table 1: `Table1.csv`
+  * `List/foo` maps to `layout1PowerList.exe`
+  * `List'/foo'` maps to `layout2PowerList.exe`
 
-- Table2: `Table2.csv`
-  * List maps to -- layout2ListLen.exe
-  * List' maps to -- layout1ListLen.exe 
-  * M_Greedy maps to file -- layout2ListLenGreedy 
-  * M_Solver maps to file -- layout2ListLenSolver
+- Table 2: `Table2.csv`
+  * `List` maps to `layout2ListLen.exe`
+  * `List'` maps to `layout1ListLen.exe `
+  * `M_Greedy` maps to `layout2ListLenGreedy `
+  * `M_Solver` maps to `layout2ListLenSolver`
   
-- Table3: `Table3.csv`
-  * lr maps to file -- eval_l.exe 
-  * rl maps to file -- eval_r.exe 
-  * M_Greedy maps to file -- eval_rGreedy
-  * M_Solver maps to file -- eval_lSolver
+- Table 3: `Table3.csv`
+  * `lr` maps to `eval_l.exe `
+  * `rl` maps to `eval_r.exe `
+  * `M_Greedy` maps to `eval_rGreedy`
+  * `M_Solver` maps to `eval_lSolver`
   
-- Table4a: `Table4a.csv` (Add One Tree)
-  * Misaligned_pre maps to file -- TreeAddOnePrePost.exe 
-  * Aligned_pre maps to file -- TreeAddOnePre.exe
-  * Aligned_in maps to file -- TreeAddOneIn.exe
-  * Aligned_post maps to file -- TreeAddOnePost.exe
-  * M_Greedy maps to file -- TreeAddOnePreGreedy 
-  * M_Solver maps to file -- TreeAddOnePreSolver
+- Table 4, section Add One Tree: `Table4a.csv` 
+  * `Misaligned_pre` maps to `TreeAddOnePrePost.exe `
+  * `Aligned_pre` maps to `TreeAddOnePre.exe`
+  * `Aligned_in` maps to `TreeAddOneIn.exe`
+  * `Aligned_post` maps to `TreeAddOnePost.exe`
+  * `M_Greedy` maps to `TreeAddOnePreGreedy `
+  * `M_Solver` maps to `TreeAddOnePreSolver`
 
-- Table4b: `Table4b.csv` (Exponentiation Tree)
-  * Misaligned_pre maps to file -- TreeExpoPrePost.exe
-  * Aligned_pre maps to file -- TreeExpoPre.exe
-  * Aligned_in maps to file -- TreeExpoIn.exe 
-  * Aligned_post maps to file -- TreeExpoPost.exe
-  * M_Greedy maps to file -- TreeExpoPreGreedy
-  * M_Solver maps to file -- TreeExpoPreSolver
+- Table 4, section Exponentiation Tree: `Table4b.csv`
+  * `Misaligned_pre` maps to `TreeExpoPrePost.exe`
+  * `Aligned_pre` maps to `TreeExpoPre.exe`
+  * `Aligned_in` maps to `TreeExpoIn.exe `
+  * `Aligned_post` maps to `TreeExpoPost.exe`
+  * `M_Greedy` maps to `TreeExpoPreGreedy`
+  * `M_Solver` maps to `TreeExpoPreSolver`
 
-- Table4c: `Table4c.csv` (Copy Tree)
-  * Misaligned_pre maps to file -- TreeCopyPrePost.exe 
-  * Aligned_pre maps to file -- TreeCopyPre.exe
-  * Aligned_in maps to file -- TreeCopyIn.exe
-  * Aligned_post maps to file -- TreeCopyPost.exe
-  * M_Greedy maps to file -- TreeCopyPreGreedy
-  * M_Solver maps to file -- TreeCopyPreSolver
+- Table 4, section Copy Tree: `Table4c.csv`
+  * `Misaligned_pre` maps to `TreeCopyPrePost.exe `
+  * `Aligned_pre` maps to `TreeCopyPre.exe`
+  * `Aligned_in` maps to `TreeCopyIn.exe`
+  * `Aligned_post` maps to `TreeCopyPost.exe`
+  * `M_Greedy` maps to `TreeCopyPreGreedy`
+  * `M_Solver` maps to `TreeCopyPreSolver`
 
-- Table5: `Table5.csv`
-  * lr maps to file -- TreeRightMost_l.exe
-  * rl maps to file -- TreeRightMost_r.exe
-  * M_Greedy maps to file -- TreeRightMost_lGreedy
-  * M_Solver maps to file -- TreeRightMost_lSolver
+- Table 5: `Table5.csv`
+  * `lr` maps to `TreeRightMost_l.exe`
+  * `rl` maps to `TreeRightMost_r.exe`
+  * `M_Greedy` maps to `TreeRightMost_lGreedy`
+  * `M_Solver` maps to `TreeRightMost_lSolver`
   
-- Table6a: `Table6a.csv` (Filter Blogs)
-  * hiadctb maps to file -- layout1FilterBlogs.exe
-  * ctbhiad maps to file -- layout2FilterBlogs.exe
-  * tbchiad maps to file -- layout3FilterBlogs.exe
-  * tcbhiad maps to file -- layout4FilterBlogs.exe
-  * btchiad maps to file -- layout5FilterBlogs.exe
-  * bchiadt maps to file -- layout7FilterBlogs.exe
-  * cbiadht maps to file -- layout8FilterBlogs.exe
-  * M_Greedy maps to file -- layout8FilterBlogsGreedy
-  * M_Solver maps to file -- layout8FilterBlogsSolver
+- Table 6, section Filter Blogs: `Table6a.csv`
+  * `hiadctb` maps to `layout1FilterBlogs.exe`
+  * `ctbhiad` maps to `layout2FilterBlogs.exe`
+  * `tbchiad` maps to `layout3FilterBlogs.exe`
+  * `tcbhiad` maps to `layout4FilterBlogs.exe`
+  * `btchiad` maps to `layout5FilterBlogs.exe`
+  * `bchiadt` maps to `layout7FilterBlogs.exe`
+  * `cbiadht` maps to `layout8FilterBlogs.exe`
+  * `M_Greedy` maps to `layout8FilterBlogsGreedy`
+  * `M_Solver` maps to `layout8FilterBlogsSolver`
   
-- Table6b: `Table6b.csv` (Emph Content)
-  * hiadctb maps to file -- layout1ContentSearch.exe
-  * ctbhiad maps to file -- layout2ContentSearch.exe
-  * tbchiad maps to file -- layout3ContentSearch.exe
-  * tcbhiad maps to file -- layout4ContentSearch.exe
-  * btchiad maps to file -- layout5ContentSearch.exe
-  * bchiadt maps to file -- layout7ContentSearch.exe
-  * cbiadht maps to file -- layout8ContentSearch.exe
-  * M_Greedy maps to file -- layout8ContentSearchGreedy
-  * M_Solver maps to file -- layout8ContentSearchSolver
+- Table 6, section Emph Content: `Table6b.csv`
+  * `hiadctb` maps to `layout1ContentSearch.exe`
+  * `ctbhiad` maps to `layout2ContentSearch.exe`
+  * `tbchiad` maps to `layout3ContentSearch.exe`
+  * `tcbhiad` maps to `layout4ContentSearch.exe`
+  * `btchiad` maps to `layout5ContentSearch.exe`
+  * `bchiadt` maps to `layout7ContentSearch.exe`
+  * `cbiadht` maps to `layout8ContentSearch.exe`
+  * `M_Greedy` maps to `layout8ContentSearchGreedy`
+  * `M_Solver` maps to `layout8ContentSearchSolver`
 
-- Table6c: `Table6c.csv` (Tag Search)
-  * hiadctb maps to file -- layout1TagSearch.exe
-  * ctbhiad maps to file -- layout2TagSearch.exe
-  * tbchiad maps to file -- layout3TagSearch.exe
-  * tcbhiad maps to file -- layout4TagSearch.exe
-  * btchiad maps to file -- layout5TagSearch.exe
-  * bchiadt maps to file -- layout7TagSearch.exe
-  * cbiadht maps to file -- layout8TagSearch.exe
-  * M_Greedy maps to file -- layout8TagSearchGreedy
-  * M_Solver maps to file -- layout8TagSearchSolver
+- Table 6, section Tag Search: `Table6c.csv`
+  * `hiadctb` maps to `layout1TagSearch.exe`
+  * `ctbhiad` maps to `layout2TagSearch.exe`
+  * `tbchiad` maps to `layout3TagSearch.exe`
+  * `tcbhiad` maps to `layout4TagSearch.exe`
+  * `btchiad` maps to `layout5TagSearch.exe`
+  * `bchiadt` maps to `layout7TagSearch.exe`
+  * `cbiadht` maps to `layout8TagSearch.exe`
+  * `M_Greedy` maps to `layout8TagSearchGreedy`
+  * `M_Solver` maps to `layout8TagSearchSolver`
   
-- Table7a: `Table7a.csv` (Filter Blogs)
-  * Gibbon maps to -- manyFuncs-FilterBlogs
-  * M_Greedy maps to -- manyFuncsGreedy-FilterBlogs
-  * M_Solver maps to -- manyFuncsSolver-FilterBlogs
+- Table 7, section Filter Blogs: `Table7a.csv`
+  * `Gibbon` maps to `manyFuncs-FilterBlogs`
+  * `M_Greedy` maps to `manyFuncsGreedy-FilterBlogs`
+  * `M_Solver` maps to `manyFuncsSolver-FilterBlogs`
 
-- Table7b: `Table7b.csv` (Emph Content)
-  * Gibbon maps to -- manyFuncs-EmphKeyword
-  * M_Greedy maps to -- manyFuncsGreedy-EmphKeyword
-  * M_Solver maps to -- manyFuncsSolver-EmphKeyword
+- Table 7, section Emph Content: `Table7b.csv`
+  * `Gibbon` maps to `manyFuncs-EmphKeyword`
+  * `M_Greedy` maps to `manyFuncsGreedy-EmphKeyword`
+  * `M_Solver` maps to `manyFuncsSolver-EmphKeyword`
 
-- Table7c: `Table7c.csv` (Tag Search)
-  * Gibbon maps to -- manyFuncs-EmphKeywordInTag
-  * M_Greedy maps to -- manyFuncsGreedy-EmphKeywordInTag
-  * M_Solver maps to -- manyFuncsSolver-EmphKeywordInTag
-  
-(If run outside of the docker using the cache script) 
-- Table8a: `Table8a.csv`   (Filter Blogs)
-  * hiadctb maps to file -- layout1FilterBlogs.exe
-  * ctbhiad maps to file -- layout2FilterBlogs.exe
-  * tbchiad maps to file -- layout3FilterBlogs.exe
-  * tcbhiad maps to file -- layout4FilterBlogs.exe
-  * btchiad maps to file -- layout5FilterBlogs.exe
-  * bchiadt maps to file -- layout7FilterBlogs.exe
-  * cbiadht maps to file -- layout8FilterBlogs.exe
-  * M_Greedy maps to file -- layout8FilterBlogsGreedy
-  * M_Solver maps to file -- layout8FilterBlogsSolver
+- Table 7, section Tag Search: `Table7c.csv`
+  * `Gibbon` maps to `manyFuncs-EmphKeywordInTag`
+  * `M_Greedy` maps to `manyFuncsGreedy-EmphKeywordInTag`
+  * `M_Solver` maps to `manyFuncsSolver-EmphKeywordInTag`
 
-- Table8b: `Table8b.csv`  (Content Search)
-  * hiadctb maps to file -- layout1ContentSearch.exe
-  * ctbhiad maps to file -- layout2ContentSearch.exe
-  * tbchiad maps to file -- layout3ContentSearch.exe
-  * tcbhiad maps to file -- layout4ContentSearch.exe
-  * btchiad maps to file -- layout5ContentSearch.exe
-  * bchiadt maps to file -- layout7ContentSearch.exe
-  * cbiadht maps to file -- layout8ContentSearch.exe
-  * M_Greedy maps to file -- layout8ContentSearchGreedy
-  * M_Solver maps to file -- layout8ContentSearchSolver
+- Table 8, section Filter Blogs: `Table8a.csv` (if run outside of the docker using the cache script)
+  * `hiadctb` maps to `layout1FilterBlogs.exe`
+  * `ctbhiad` maps to `layout2FilterBlogs.exe`
+  * `tbchiad` maps to `layout3FilterBlogs.exe`
+  * `tcbhiad` maps to `layout4FilterBlogs.exe`
+  * `btchiad` maps to `layout5FilterBlogs.exe`
+  * `bchiadt` maps to `layout7FilterBlogs.exe`
+  * `cbiadht` maps to `layout8FilterBlogs.exe`
+  * `M_Greedy` maps to `layout8FilterBlogsGreedy`
+  * `M_Solver` maps to `layout8FilterBlogsSolver`
 
-- Table8c: `Table8c.csv`  (Tag Search)
-  * hiadctb maps to file -- layout1TagSearch.exe
-  * ctbhiad maps to file -- layout2TagSearch.exe
-  * tbchiad maps to file -- layout3TagSearch.exe
-  * tcbhiad maps to file -- layout4TagSearch.exe
-  * btchiad maps to file -- layout5TagSearch.exe
-  * bchiadt maps to file -- layout7TagSearch.exe
-  * cbiadht maps to file -- layout8TagSearch.exe
-  * M_Greedy maps to file -- layout8TagSearchGreedy
-  * M_Solver maps to file -- layout8TagSearchSolver
+- Table 8, section Content Search: `Table8b.csv`
+  * `hiadctb` maps to `layout1ContentSearch.exe`
+  * `ctbhiad` maps to `layout2ContentSearch.exe`
+  * `tbchiad` maps to `layout3ContentSearch.exe`
+  * `tcbhiad` maps to `layout4ContentSearch.exe`
+  * `btchiad` maps to `layout5ContentSearch.exe`
+  * `bchiadt` maps to `layout7ContentSearch.exe`
+  * `cbiadht` maps to `layout8ContentSearch.exe`
+  * `M_Greedy` maps to `layout8ContentSearchGreedy`
+  * `M_Solver` maps to `layout8ContentSearchSolver`
+
+- Table 8, section Tag Search: `Table8c.csv`
+  * `hiadctb` maps to `layout1TagSearch.exe`
+  * `ctbhiad` maps to `layout2TagSearch.exe`
+  * `tbchiad` maps to `layout3TagSearch.exe`
+  * `tcbhiad` maps to `layout4TagSearch.exe`
+  * `btchiad` maps to `layout5TagSearch.exe`
+  * `bchiadt` maps to `layout7TagSearch.exe`
+  * `cbiadht` maps to `layout8TagSearch.exe`
+  * `M_Greedy` maps to `layout8TagSearchGreedy`
+  * `M_Solver` maps to `layout8TagSearchSolver`
 
 ### Miscellaneous 
 
-- The output from `~/vsGibbon/generate_runtimes.py` is written to CSV files and stdout. 
-  However, the output written to stdout may be compressed (`...` between columns in
-  the tables means compressed output).
-  The user may try to minimize the font on the terminal to see the full output. However, the CSV files will have the full
-  output. 
+- The output from `~/vsGibbon/generate_runtimes.py` is written to CSV files and
+  stdout. However, the output written to stdout may be compressed (`...` between
+  columns in the tables means compressed output). The user may try to decrease
+  the font size in the terminal to see the full output. In any case, the CSV
+  files have the full output.
 
-- Some scripts output .pdf files, these can be transferred out of the docker container using [```docker cp```](https://docs.docker.com/engine/reference/commandline/container_cp/)
-  command; in order to view them. 
+- Some scripts output PDF files, which can be transferred out of the container using [```docker cp```](https://docs.docker.com/engine/reference/commandline/container_cp/)
+  command, in order to view them. 
 
 - `~/vsGibbon/generate_runtimes.py` and `~/vsGHC/generate_ghc_numbers.py` can take an additional `--verbose` flag to show extra output while the script is running.
-
-## For authors claiming an available badge
-
-We have made a Zenodo hosting our artifact. The Zenodo is available under the 
-`Creative Commons Attribution 4.0 International` liscense. 
-We have a [DOI](https://doi.org/10.5281/zenodo.10578171) for our submission.
-
-## For authors claiming a functional or reusable badge
-
-We have provided detailed instructions that can be used to generate the data shown in the Tables and Figures 
-in the paper. We have a master script, `run.sh` that has two modes, `small` and default, that can be used to 
-generate a small input batch and a large input batch. The default batch corresponds to the numbers in the paper. 
-The default invokation of the master script is `./run.sh` in `/root` in the docker container. 
-To run the small mode, invoke `./run.sh small` in `/root`.
-
-## For authors claiming a reusable badge
-
-The implementation of Marmoset is available in the open source. We will provide the link to the exact location after the 
-AEC evaluation is done in order to stay anonymous. In the meantime, the source code is avilable in the Zenodo link provided. 
-To re-compile the software, we have provided instructions to build Marmoset from source in this README.
-
-The benchmarks that we evaluated in the paper will be open sourced after AEC evaluation.
-In the meantime, the Zenodo link has the benchmarks available.
-
-Marmoset is based on the open source compiler Gibbon. 
-Gibbon is a compiler written in haskell that compiles high level programs written in a subset of haskell to operate on 
-serialized data in memory. The compiler is written as a series of micro passes that do a small amount of work.
-The marmoset passes are a combination of passes in that pipeline. It is fairly straightforward to register and write a pass in 
-the compiler. Hence the framework can be easily extended with more complex optimizations without much hassle. 
-This makes future research easy to build on top of the current framework.
-The solver used in marmoset is open source and the solver can be changed for other open source solvers which does not 
-restrict our implementation to just one available solver. We argue that this makes our framework marmoset reusable.
-
-In particular these are the source files we added to the framework.
-
-- Gibbon.Passes.ControlFlowGraph - This pass adds a static analysis to generate the control flow graph of the functions in the program.
-
-- Gibbon.Passes.DefinitionUseChains - This pass does a def-use, use-def chains analysis for each function.
-
-- Gibbon.Passes.CallGraph - This pass generates the call graph from the program.
-
-- Gibbon.Passes.AccessPatternsAnalysis - This pass generates a graph recording the access patterns between fields of a data constructor for each function in the program.
-
-- Gibbon.Passes.SolveLayoutConstrs - This pass generates the ILP constraints and calls the solver.
-
-- Gibbon.Passes.OptimizeADTLayout - This pass optimizes the layout of each data constructor globally. 
-
 
 ### Build Marmoset and PAPI outside Docker for generating Table 8
 
@@ -383,3 +357,42 @@ $ export PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
 - Run `vsGibbon/generate_cache_stats.py` to generate Table 8 of the paper.
 - Set `rootdir` in the script to `pathto/vsGibbon/large/`
 - Set `papi_dir` to `pathto/vsGibbon/papi_hl_output`
+
+## For authors claiming a reusable badge
+
+The implementation of Marmoset is currently under review for inclusion in the
+main line of the Gibbon project, which is open source. The implementation is
+also available as a part of this artifact and can be obtained on Zenodo.
+The way to build the code is shown in the Dockerfile, and it is identical to the standard
+instructions to build Gibbon.
+
+The benchmarks are available as the part of this artifact.
+
+### Structure of the Marmoset implementation
+
+Marmoset is an extension to Gibbon, an open source compiler written in Haskell.
+Gibbon compiles high level programs written in a subset of Haskell to operate on
+serialized data in memory. The compiler is written as a series of micro passes
+that do a small amount of work. Marmoset is implemented as a combination of
+passes in that pipeline. It is fairly straightforward to register and write a
+pass in the compiler. Hence our framework can be extended with more complex
+optimizations without substantial changes to the compiler. This makes future
+research easy to build on top of the current framework. 
+
+The solver used in Marmoset is open source, and the solver can be changed for
+other solvers.
+
+Marmoset consists of the following modules extending Gibbon (files locations
+relative to `~/marmoset/gibbon-compiler/src` in the container):
+
+- `Gibbon/Passes/ControlFlowGraph.hs` — This pass adds a static analysis to generate the control flow graph of the functions in the program.
+
+- `Gibbon/Passes/DefinitionUseChains.hs` — This pass does a def-use, use-def chains analysis for each function.
+
+- `Gibbon/Passes/CallGraph.hs` — This pass generates the call graph from the program.
+
+- `Gibbon/Passes/AccessPatternsAnalysis.hs` — This pass generates a graph recording the access patterns between fields of a data constructor for each function in the program.
+
+- `Gibbon/Passes/SolveLayoutConstrs.hs` — This pass generates the ILP constraints and calls the solver.
+
+- `Gibbon/Passes/OptimizeADTLayout.hs` — This pass optimizes the layout of each data constructor globally.
