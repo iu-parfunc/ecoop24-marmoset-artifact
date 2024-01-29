@@ -63,9 +63,7 @@ developed for the kick-the-tires stage.
 
 ## For authors claiming an available badge
 
-We posted the artifact on Zenodo:
-
-- [doi.org/10.5281/zenodo.10578171](https://doi.org/10.5281/zenodo.10578171)
+We posted the artifact on Zenodo: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10578861.svg)](https://doi.org/10.5281/zenodo.10578861)
 
 The artifact is available under the  `Creative Commons Attribution 4.0 International` license.
 
