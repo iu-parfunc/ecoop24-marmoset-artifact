@@ -7,7 +7,7 @@ Title of the submitted paper:
 ## Quick-start guide (Kick-the-tires phase)
 
 The artifact is bundled as an OCI container created with Docker (Dockerfile is available).
-The docker image file is `tar`red as `marmosetArtifact.tar`
+The Docker image is `tar`red as `marmosetArtifact.tar`
 The image can be added to the local Docker store as follows:
   
 ```
