@@ -41,10 +41,10 @@ developed for the kick-the-tires stage.
 ## Overview 
 
 * type of artifact — code, in particular:
- - source files of the Gibbon compiler with our extension to it called Marmoset;
- - Gibbon binaries including Marmoset;
- - Python and Bash scripts to run Gibbon, Marmoset and GHC to reproduce the main
-   tables and figures of the paper.
+  - source files of the Gibbon compiler with our extension to it called Marmoset;
+  - Gibbon binaries including Marmoset;
+  - Python and Bash scripts to run Gibbon, Marmoset and GHC to reproduce the main
+    tables and figures of the paper.
 
 * format — Marmoset is implemented in Haskell (like the rest of Gibbon). The
   scripts produce a combination of `.csv` and `.pdf` files holding the data in
@@ -116,8 +116,8 @@ files.
 ### Approximate timings
 
 1. `~/vsGibbon/generate_runtimes.py`
-  - `small` mode: <10 minutes
-  - default mode: <60 minutes
+    - `small` mode: <10 minutes
+    - default mode: <60 minutes
 
 2. `~/vsGibbon/generate_compile_times.py`
   - default mode: <10 minutes
