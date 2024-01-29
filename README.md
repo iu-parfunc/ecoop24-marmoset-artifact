@@ -7,9 +7,8 @@ Title of the submitted paper:
 ## Quick-start guide (Kick-the-tires phase)
 
 The artifact is bundled as an OCI container created with Docker (Dockerfile is available).
-
-- The docker image file is `tar`red as `marmosetArtifact.tar`
-- The image can be added to the local Docker store as follows:
+The docker image file is `tar`red as `marmosetArtifact.tar`
+The image can be added to the local Docker store as follows:
   
 ```
 docker load --input marmosetArtifact.tar
@@ -120,40 +119,40 @@ files.
     - default mode: <60 minutes
 
 2. `~/vsGibbon/generate_compile_times.py`
-  - default mode: <10 minutes
+    - default mode: <10 minutes
 
 3. `~/vsGibbon/generate_cache_stats.py`
-  - default mode: <30 minutes
+    - default mode: <30 minutes
 
 4. `~/vsGHC/generate_ghc_numbers.py`
-  - `small` mode: ~15 minutes
-  - default mode: ~100 minutes
+    - `small` mode: ~15 minutes
+    - default mode: ~100 minutes
 
 ### Output files
 
 #### CSV files
 
 1. `~/vsGibbon/generate_runtimes.py`
-  - `small` mode: .csv files are written to `~/vsGibbon/small`
-  - default mode: .csv files are written to `~/vsGibbon/large`
+    - `small` mode: .csv files are written to `~/vsGibbon/small`
+    - default mode: .csv files are written to `~/vsGibbon/large`
 
 2. `~/vsGibbon/generate_cache_stats.py`
-  - default mode: .csv files are written to `~/vsGibbon/large`: It outputs three .csv files for Table 8.
+    - default mode: .csv files are written to `~/vsGibbon/large`: It outputs three .csv files for Table 8.
 
 #### PDF files 
 
 1. `~/vsGibbon/generate_compile_times.py` outputs three PDF files: 
-  - `FilterBlogCompileTimes.pdf`,
-  - `ContentSearchCompileTimes.pdf`, and 
-  -`TagSearchCompileTimes.pdf`
-  for the three compile time subfigures in Figure 10 respectively. The files will be written in the working directory.
+    - `FilterBlogCompileTimes.pdf`,
+    - `ContentSearchCompileTimes.pdf`, and 
+    -`TagSearchCompileTimes.pdf`
+    for the three compile time subfigures in Figure 10 respectively. The files will be written in the working directory.
 
 2. `~/vsGHC/generate_ghc_numbers.py` outputs three PDF files: 
-  - `SpeedupMarmosetGhcFilterBlogs.pdf`,
-  - `SpeedupMarmosetGhcContentSearch.pdf`, and 
-  - `SpeedupMarmosetGhcTagSearch.pdf`. 
-  The files will always be written in `~/vsGHC/large` or `~/vsGHC/small`
-  depending on which mode we run in.
+    - `SpeedupMarmosetGhcFilterBlogs.pdf`,
+    - `SpeedupMarmosetGhcContentSearch.pdf`, and 
+    - `SpeedupMarmosetGhcTagSearch.pdf`. 
+    The files will always be written in `~/vsGHC/large` or `~/vsGHC/small`
+    depending on which mode we run in.
 
 #### Mapping of CSV files to the tables in the paper
 
