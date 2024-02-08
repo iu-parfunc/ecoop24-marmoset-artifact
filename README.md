@@ -357,8 +357,6 @@ $ export PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
 ```
 
 - Run `vsGibbon/generate_cache_stats.py` to generate Table 8 of the paper.
-- Set `rootdir` in the script to `pathto/vsGibbon/large/`
-- Set `papi_dir` to `pathto/vsGibbon/papi_hl_output`
 
 ## For authors claiming a reusable badge
 
