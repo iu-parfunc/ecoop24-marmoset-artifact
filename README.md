@@ -108,7 +108,8 @@ After executing `CMD1` and entering the session, use either the master script
 `~/run.sh` or the individual scripts and reproduce the figures and tables. For
 example, `./generate_runtimes.py` (inside `vsGibbon`) generates the run times
 for Gibbon and Marmoset, prints them in a tabular form, and stores them in CSV
-files.
+files. In addition to the raw runtimes, the script also prints out the speedup. 
+speedup = (slowest Gibbon, i.e, (red color in the table)) / Marmoset_solver.
 
 ### Approximate timings
 

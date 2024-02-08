@@ -19,7 +19,7 @@ def mean_confidence_interval(data, confidence=0.95):
     n = len(a)
     m, se = np.mean(a), scipy.stats.sem(a)
     h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
-    return m, m-h, m+h
+    return m, abs(m-h), abs(m+h)
 
 rootdir = "/root/vsGibbon/"
 
@@ -313,19 +313,22 @@ df = pd.DataFrame(runTimeCache, index = ['mean', 'median', 'upperbound', 'lowerb
 Table1 = ["layout1PowerList.exe", "layout2PowerList.exe"] 
 print("Print Table1: ")
 print()
-print(df[Table1])
+Table1Out = df[Table1].copy()
+Table1Out['Speedup'] = Table1Out["layout1PowerList.exe"] / Table1Out["layout2PowerList.exe"]
+print(Table1Out)
 print()
 #save to csv file 
-Table1Out = df[Table1]
 Table1Out.to_csv(rootdirPath + 'Table1.csv')
 
 print("Print Table2: ")
 print()
 Table2 = ["layout2ListLen.exe", "layout1ListLen.exe", "layout2ListLenGreedy", "layout2ListLenSolver"]
-print(df[Table2])
+Table2Out = df[Table2].copy()
+Table2Out['Speedup'] = Table2Out["layout2ListLen.exe"] / Table2Out["layout2ListLenSolver"]
+print(Table2Out)
 print()
 #save to csv file 
-Table2Out = df[Table2]
+
 Table2Out.to_csv(rootdirPath + 'Table2.csv')
 
 if runMode == "quick":
@@ -335,7 +338,9 @@ if runMode == "quick":
 print("Print Table3: ")
 print()
 Table3 = ["eval_l.exe", "eval_r.exe", "eval_rGreedy", "eval_rSolver"]
-print(df[Table3])
+Table3Out = df[Table3].copy()
+Table3Out['Speedup'] = Table3Out["eval_r.exe"] / Table3Out["eval_rSolver"]
+print(Table3Out)
 print()
 #save to csv file 
 Table3Out = df[Table3]
@@ -345,28 +350,31 @@ Table3Out.to_csv(rootdirPath + 'Table3.csv')
 print("Print Table4a: ")
 print()
 Table4a = ["TreeAddOnePrePost.exe", "TreeAddOnePre.exe", "TreeAddOneIn.exe", "TreeAddOnePost.exe", "TreeAddOnePreGreedy", "TreeAddOnePreSolver"]
-print(df[Table4a])
+Table4aOut = df[Table4a].copy()
+Table4aOut["Speedup"] = Table4aOut["TreeAddOnePrePost.exe"] / Table4aOut["TreeAddOnePreSolver"]
+print(Table4aOut)
 print()
 #save to csv file 
-Table4aOut = df[Table4a]
 Table4aOut.to_csv(rootdirPath + 'Table4a.csv')
 
 print("Print Table4b: ")
 print()
 Table4b = ["TreeExpoPrePost.exe", "TreeExpoPre.exe", "TreeExpoIn.exe", "TreeExpoPost.exe", "TreeExpoPreGreedy", "TreeExpoPreSolver"]
-print(df[Table4b])
+Table4bOut = df[Table4b].copy()
+Table4bOut["Speedup"] = Table4bOut["TreeExpoPrePost.exe"] / Table4bOut["TreeExpoPreSolver"]
+print(Table4bOut)
 print()
-#save to csv file 
-Table4bOut = df[Table4b]
+#save to csv file
 Table4bOut.to_csv(rootdirPath + 'Table4b.csv')
 
 print("Print Table4c: ")
 print()
 Table4c = ["TreeCopyPrePost.exe", "TreeCopyPre.exe", "TreeCopyIn.exe", "TreeCopyPost.exe", "TreeCopyPreGreedy", "TreeCopyPreSolver"]
-print(df[Table4c])
+Table4cOut = df[Table4c].copy()
+Table4cOut["Speedup"] = Table4cOut["TreeCopyPrePost.exe"] / Table4cOut["TreeCopyPreSolver"]
+print(Table4cOut)
 print()
 #save to csv file 
-Table4cOut = df[Table4c]
 Table4cOut.to_csv(rootdirPath + 'Table4c.csv')
 
 print("Print Table5: ")
@@ -377,10 +385,11 @@ Table5 = [
     "TreeRightMost_lGreedy",
     "TreeRightMost_lSolver"
 ]
-print(df[Table5])
+Table5Out = df[Table5].copy()
+Table5Out["Speedup"] = Table5Out["TreeRightMost_l.exe"] / Table5Out["TreeRightMost_lSolver"]
+print(Table5Out)
 print()
 #save to csv file 
-Table5Out = df[Table5]
 Table5Out.to_csv(rootdirPath + 'Table5.csv')
 
 
@@ -397,10 +406,11 @@ Table6a = [
     "layout8FilterBlogsGreedy",
     "layout8FilterBlogsSolver"
 ]
-print(df[Table6a])
+Table6aOut = df[Table6a].copy()
+Table6aOut["Speedup"] = Table6aOut["layout7FilterBlogs.exe"] / Table6aOut["layout8FilterBlogsSolver"]
+print(Table6aOut)
 print()
 #save to csv file 
-Table6aOut = df[Table6a]
 Table6aOut.to_csv(rootdirPath + 'Table6a.csv')
 
 
@@ -417,10 +427,11 @@ Table6b = [
     "layout8ContentSearchGreedy",
     "layout8ContentSearchSolver"
 ]
-print(df[Table6b])
+Table6bOut = df[Table6b].copy()
+Table6bOut["Speedup"] = Table6bOut["layout3ContentSearch.exe"] / Table6bOut["layout8ContentSearchSolver"]
+print(Table6bOut)
 print()
-#save to csv file 
-Table6bOut = df[Table6b]
+#save to csv file
 Table6bOut.to_csv(rootdirPath + 'Table6b.csv')
 
 print("Print Table6c: ")
@@ -436,10 +447,11 @@ Table6c = [
     "layout8TagSearchGreedy",
     "layout8TagSearchSolver"
 ]
-print(df[Table6c])
+Table6cOut = df[Table6c].copy()
+Table6cOut["Speedup"] = Table6cOut["layout7TagSearch.exe"] / Table6cOut["layout8TagSearchSolver"]
+print(Table6cOut)
 print()
 #save to csv file 
-Table6cOut = df[Table6c]
 Table6cOut.to_csv(rootdirPath + 'Table6c.csv')
 
 print("Print Table7a: ")
@@ -449,10 +461,11 @@ Table7a = [
     "manyFuncsGreedy-FilterBlogs",
     "manyFuncsSolver-FilterBlogs"
 ]
-print(df[Table7a])
+Table7aOut = df[Table7a].copy()
+Table7aOut["Speedup"] = Table7aOut["manyFuncs-FilterBlogs"] / Table7aOut["manyFuncsSolver-FilterBlogs"]
+print(Table7aOut)
 print()
-#save to csv file 
-Table7aOut = df[Table7a]
+#save to csv file
 Table7aOut.to_csv(rootdirPath + 'Table7a.csv')
 
 print("Print Table7b: ")
@@ -462,10 +475,11 @@ Table7b = [
     "manyFuncsGreedy-EmphKeyword",
     "manyFuncsSolver-EmphKeyword" 
 ]
-print(df[Table7b])
+Table7bOut = df[Table7b].copy()
+Table7bOut["Speedup"] = Table7bOut["manyFuncs-EmphKeyword"] / Table7bOut["manyFuncsSolver-EmphKeyword"]
+print(Table7bOut)
 print()
-#save to csv file 
-Table7bOut = df[Table7b]
+#save to csv file
 Table7bOut.to_csv(rootdirPath + 'Table7b.csv')
 
 print("Print Table7c: ")
@@ -475,10 +489,11 @@ Table7c = [
     "manyFuncsGreedy-EmphKeywordInTag",
     "manyFuncsSolver-EmphKeywordInTag"
 ]
-print(df[Table7c])
+Table7cOut = df[Table7c].copy()
+Table7cOut["Speedup"] = Table7cOut["manyFuncs-EmphKeywordInTag"] / Table7cOut["manyFuncsSolver-EmphKeywordInTag"]
+print(Table7cOut)
 print()
 #save to csv file 
-Table7cOut = df[Table7c]
 Table7cOut.to_csv(rootdirPath + 'Table7c.csv')
 
 if arguments.verbose:
