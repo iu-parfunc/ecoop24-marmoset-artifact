@@ -14,6 +14,8 @@ import argparse
 iterations = 9
 inf_buffer_size = 10000000000
 
+WORKDIR=os.path.dirname(__file__)
+
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
     n = len(a)
@@ -21,7 +23,7 @@ def mean_confidence_interval(data, confidence=0.95):
     h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
     return m, abs(m-h), abs(m+h)
 
-rootdir = "/root/vsGibbon/"
+rootdir = WORKDIR
 
 
 parser = argparse.ArgumentParser()

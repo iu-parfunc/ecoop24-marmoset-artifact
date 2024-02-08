@@ -8,17 +8,25 @@ import scipy
 import re
 import os
 import matplotlib.pyplot as plt
+import argparse
+
 
 iterations = 9
+
+WORKDIR=os.path.dirname(__file__)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--verbose", nargs='?',const=True, help = "specify if you want the output to be verbose.", type=bool)
+arguments = parser.parse_args()
 
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
     n = len(a)
     m, se = np.mean(a), scipy.stats.sem(a)
     h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
-    return m, m-h, m+h
+    return m, abs(m-h), abs(m+h)
 
-rootdir = "/root/vsGibbon/large/"
+rootdir = WORKDIR + "/large/"
 
 gibbonFiles = [
 
@@ -137,7 +145,8 @@ for file in gibbonFiles:
             
             m, lb, ub = mean_confidence_interval(iterTimes)
             median = statistics.median(iterTimes) 
-            #print("Gibbon Time: " + file + " : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
+            if arguments.verbose:
+                 print("Gibbon Time: " + file + " : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
 
             if "Filter" in file: 
                 tot_compile_gibbon_filter.append(m)
@@ -151,7 +160,8 @@ for file in gibbonFiles:
                 tot_compile_gibbon_tag.append(m)
                 gibbon_ub_tag.append(ub)
                 gibbon_lb_tag.append(lb)
-            #print()
+            if arguments.verbose:
+                print()
             
             
             
@@ -162,9 +172,11 @@ def parse_solver_times(array):
     for line in array:
 
         result = re.findall("iter time: ((\d+).(\d+))", line)
-        #print(result)
+        if arguments.verbose:
+            print(result)
         if not result == []:
-            #print(float(result[0][0]))
+            if arguments.verbose:
+                print(float(result[0][0]))
             solver_times.append(float(result[0][0]))
 
     return sum(solver_times)
@@ -189,14 +201,17 @@ for file in marmosetFiles:
                 lines = read_file_handle.readlines()
                 read_file_handle.close()
                 solver_time = parse_solver_times(lines)
-                #print()
-                #print(solver_time)
-                #print()
+                if arguments.verbose:
+                    print()
+                    print(solver_time)
+                    print()
                 solver_times.append(solver_time)
-                #print()
+                if arguments.verbose:
+                    print()
            
-            #print(iterTimes)
-            #print(solver_times)
+            if arguments.verbose:
+                print(iterTimes)
+                print(solver_times)
            
             file_handle.close()
             read_file_handle.close()
@@ -206,8 +221,9 @@ for file in marmosetFiles:
            
             mm, lbb, ubb = mean_confidence_interval(solver_times)
             mediann = statistics.median(solver_times)
-            #print(file + " (total_solver_time) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
-            #print(file + " (only_solver_time) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(mediann, mm, lbb, ubb))
+            if arguments.verbose:
+                print(file + " (total_solver_time) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
+                print(file + " (only_solver_time) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(mediann, mm, lbb, ubb))
 
             if "Filter" in file: 
                 tot_filter.append(m)
@@ -253,7 +269,8 @@ for file in marmosetFiles:
 
             m, lb, ub = mean_confidence_interval(iterTimes)
             median = statistics.median(iterTimes)
-            #print(file + " (Greedy Times) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
+            if arguments.verbose:
+                print(file + " (Greedy Times) : " + "Median: {}, Mean: {}, lb: {}, ub: {}".format(median, m, lb, ub))
             if "Filter" in file: 
                 tot_compile_greedy_filter.append(m)
                 greedy_lb_filter.append(lb)

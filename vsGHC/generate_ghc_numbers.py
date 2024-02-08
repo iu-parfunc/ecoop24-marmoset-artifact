@@ -11,12 +11,14 @@ import sys
 import matplotlib.pyplot as plt
 import argparse
 
+WORKDIR=os.path.dirname(__file__)
+
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
     n = len(a)
     m, se = np.mean(a), scipy.stats.sem(a)
     h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
-    return m, m-h, m+h
+    return m, abs(m-h), abs(m+h)
 
 
 parser = argparse.ArgumentParser()
@@ -28,10 +30,9 @@ executables = []
 
 iterations = 9
 
-rootdir = "/root/vsGHC/"
+rootdir = WORKDIR
 #setting this to large input for now. Maybe we should have a Ghc version of the smaller inputs?
-rootdirGibbon = "/root/vsGibbon/"
-
+rootdirGibbon =  WORKDIR.replace("/vsGHC/", "") + "/vsGibbon/"
 
 # Provide "--quick" flag for the kick-the-tires stage
 # if not (((len(sys.argv) == 2) and (sys.argv[1] == "--small")) or (len(sys.argv) == 1) ):

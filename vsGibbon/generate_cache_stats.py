@@ -14,15 +14,17 @@ import json
 iterations = 9
 inf_buffer_size = 10000000000
 
+WORKDIR=os.path.dirname(__file__)
+
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
     n = len(a)
     m, se = np.mean(a), scipy.stats.sem(a)
     h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
-    return m, m-h, m+h
+    return m, abs(m-h), abs(m+h)
 
-rootdir = "/root/vsGibbon/large/"
-papi_dir = "/root/vsGibbon/papi_hl_output/"
+rootdir = WORKDIR + "/large/"
+papi_dir =  WORKDIR + "/papi_hl_output/"
 
 # Was thinking to make compile and run separate but not important right now.
 #compileTrue = sys.argv[2]
