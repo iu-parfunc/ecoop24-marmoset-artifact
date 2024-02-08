@@ -95,7 +95,10 @@ gibbonFiles = [
     'TreeExpoPost.hs',
     'TreeAddOnePrePost.hs',
     'TreeCopyPrePost.hs',
-    'TreeExpoPrePost.hs'
+    'TreeExpoPrePost.hs',
+    'TreeAddOnePostPre.hs', 
+    'TreeCopyPostPre.hs',
+    'TreeExpoPostPre.hs'
 ]
 
 #runs powerlist, listen, and eval tree. 
@@ -351,7 +354,7 @@ Table3Out.to_csv(rootdirPath + 'Table3.csv')
 
 print("Print Table4a: ")
 print()
-Table4a = ["TreeAddOnePrePost.exe", "TreeAddOnePre.exe", "TreeAddOneIn.exe", "TreeAddOnePost.exe", "TreeAddOnePreGreedy", "TreeAddOnePreSolver"]
+Table4a = ["TreeAddOnePrePost.exe", "TreeAddOnePostPre.exe", "TreeAddOnePre.exe", "TreeAddOneIn.exe", "TreeAddOnePost.exe", "TreeAddOnePreGreedy", "TreeAddOnePreSolver"]
 Table4aOut = df[Table4a].copy()
 Table4aOut["Speedup"] = Table4aOut["TreeAddOnePrePost.exe"] / Table4aOut["TreeAddOnePreSolver"]
 print(Table4aOut)
@@ -361,7 +364,7 @@ Table4aOut.to_csv(rootdirPath + 'Table4a.csv')
 
 print("Print Table4b: ")
 print()
-Table4b = ["TreeExpoPrePost.exe", "TreeExpoPre.exe", "TreeExpoIn.exe", "TreeExpoPost.exe", "TreeExpoPreGreedy", "TreeExpoPreSolver"]
+Table4b = ["TreeExpoPrePost.exe", "TreeExpoPostPre.exe", "TreeExpoPre.exe", "TreeExpoIn.exe", "TreeExpoPost.exe", "TreeExpoPreGreedy", "TreeExpoPreSolver"]
 Table4bOut = df[Table4b].copy()
 Table4bOut["Speedup"] = Table4bOut["TreeExpoPrePost.exe"] / Table4bOut["TreeExpoPreSolver"]
 print(Table4bOut)
@@ -371,7 +374,7 @@ Table4bOut.to_csv(rootdirPath + 'Table4b.csv')
 
 print("Print Table4c: ")
 print()
-Table4c = ["TreeCopyPrePost.exe", "TreeCopyPre.exe", "TreeCopyIn.exe", "TreeCopyPost.exe", "TreeCopyPreGreedy", "TreeCopyPreSolver"]
+Table4c = ["TreeCopyPrePost.exe", "TreeCopyPostPre.exe", "TreeCopyPre.exe", "TreeCopyIn.exe", "TreeCopyPost.exe", "TreeCopyPreGreedy", "TreeCopyPreSolver"]
 Table4cOut = df[Table4c].copy()
 Table4cOut["Speedup"] = Table4cOut["TreeCopyPrePost.exe"] / Table4cOut["TreeCopyPreSolver"]
 print(Table4cOut)
