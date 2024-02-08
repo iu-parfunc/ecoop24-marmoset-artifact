@@ -162,6 +162,10 @@ the names of the benchmark programs.
 - Table 1: `Table1.csv`
   * `List/foo` maps to `layout1PowerList.exe`
   * `List'/foo'` maps to `layout2PowerList.exe`
+  * Note that we show extra rows for this table. In the paper, since the table 
+    is in the design section we only included the median times. However, for the 
+    sake of generality, we include all rows (as in the evaluation section) for 
+    this table in the artifact.
 
 - Table 2: `Table2.csv`
   * `List` maps to `layout2ListLen.exe`
