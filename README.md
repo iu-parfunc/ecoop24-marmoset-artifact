@@ -108,8 +108,10 @@ After executing `CMD1` and entering the session, use either the master script
 `~/run.sh` or the individual scripts and reproduce the figures and tables. For
 example, `./generate_runtimes.py` (inside `vsGibbon`) generates the run times
 for Gibbon and Marmoset, prints them in a tabular form, and stores them in CSV
-files. In addition to the raw runtimes, the script also prints out the speedup. 
-speedup = (slowest Gibbon, i.e, (red color in the table)) / Marmoset_solver.
+files. In addition to the raw run times, the script also prints out the speedups
+in a separate column (the last column). In particular,
+
+> `speedup` = (slowest Gibbon, i.e, red color in the table) / `Marmoset_solver`.
 
 ### Approximate timings
 
@@ -162,10 +164,10 @@ the names of the benchmark programs.
 - Table 1: `Table1.csv`
   * `List/foo` maps to `layout1PowerList.exe`
   * `List'/foo'` maps to `layout2PowerList.exe`
-  * Note that we show extra rows for this table. In the paper, since the table 
-    is in the design section we only included the median times. However, for the 
-    sake of generality, we include all rows (as in the evaluation section) for 
-    this table in the artifact.
+
+  Note that the script shows extra rows for this table: the paper only shows the
+  median times for Table 1, while the script treats all tables uniformly and
+  prints the mean, median, and lower and upper bounds of the confidence interval.
 
 - Table 2: `Table2.csv`
   * `List` maps to `layout2ListLen.exe`
