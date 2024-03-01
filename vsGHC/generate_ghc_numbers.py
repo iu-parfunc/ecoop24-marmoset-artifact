@@ -32,7 +32,7 @@ iterations = 9
 
 rootdir = WORKDIR
 #setting this to large input for now. Maybe we should have a Ghc version of the smaller inputs?
-rootdirGibbon =  WORKDIR.replace("/vsGHC/", "") + "/vsGibbon/"
+rootdirGibbon = os.path.join(os.path.split(WORKDIR)[0], "vsGibbon/")
 
 # Provide "--quick" flag for the kick-the-tires stage
 # if not (((len(sys.argv) == 2) and (sys.argv[1] == "--small")) or (len(sys.argv) == 1) ):
