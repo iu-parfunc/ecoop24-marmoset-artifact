@@ -1,13 +1,13 @@
-datatype dat_Inline = Str of (char ArraySlice.slice) | Emph of ( dat_PList_v_1084)| Space 
+datatype dat_Inline = Str of (CharArraySlice.slice) | Emph of ( dat_PList_v_1084)| Space 
 and dat_Block = Plain of ( dat_PList_v_1084) | Null
-and dat_BlogHeader = Header of (char ArraySlice.slice)
+and dat_BlogHeader = Header of (CharArraySlice.slice)
 and dat_BlogId = ID of (int)
-and dat_BlogAuthor = Author of (char ArraySlice.slice)
-and dat_BlogDate = Date of (char ArraySlice.slice)
+and dat_BlogAuthor = Author of (CharArraySlice.slice)
+and dat_BlogDate = Date of (CharArraySlice.slice)
 and dat_BlogContent = Content of ( dat_Block)
 and dat_BlogTags = TagList of ( dat_PList_v_1085)
 and dat_Blog = End | Layout1 of ( dat_BlogHeader  *  dat_BlogId *  dat_BlogAuthor *  dat_BlogDate *  dat_BlogContent *  dat_BlogTags *  dat_Blog)| Layout2 of ( dat_BlogContent  *  dat_BlogTags *  dat_Blog *  dat_BlogHeader *  dat_BlogId *  dat_BlogAuthor *  dat_BlogDate)| Layout3 of ( dat_BlogTags  *  dat_Blog *  dat_BlogContent *  dat_BlogHeader *  dat_BlogId *  dat_BlogAuthor *  dat_BlogDate)| Layout4 of ( dat_BlogTags  *  dat_BlogContent *  dat_Blog *  dat_BlogHeader *  dat_BlogId *  dat_BlogAuthor *  dat_BlogDate)| Layout5 of ( dat_Blog  *  dat_BlogTags *  dat_BlogContent *  dat_BlogHeader *  dat_BlogId *  dat_BlogAuthor *  dat_BlogDate)| Layout6 of ( dat_BlogHeader  *  dat_BlogId *  dat_BlogAuthor *  dat_BlogDate *  dat_BlogContent *  dat_Blog *  dat_BlogTags)| Layout7 of ( dat_Blog  *  dat_BlogContent *  dat_BlogHeader *  dat_BlogId *  dat_BlogAuthor *  dat_BlogDate *  dat_BlogTags)| Layout8 of ( dat_BlogContent  *  dat_Blog *  dat_BlogId *  dat_BlogAuthor *  dat_BlogDate *  dat_BlogHeader *  dat_BlogTags)
-and dat_PList_v_1085 = Nil_v_1085 | Cons_v_1085 of (char ArraySlice.slice  *  dat_PList_v_1085)
+and dat_PList_v_1085 = Nil_v_1085 | Cons_v_1085 of (CharArraySlice.slice  *  dat_PList_v_1085)
 and dat_PList_v_1084 = Nil_v_1084 | Cons_v_1084 of ( dat_Inline  *  dat_PList_v_1084)
 and dat_PList_v_1087 = Nil_v_1087 | Cons_v_1087 of ( dat_Block  *  dat_PList_v_1087) ;
 
@@ -556,8 +556,8 @@ fun maxInt (a_410_2820_4007 , b_411_2821_4008) =
 fun cmp (start_330_2772_3976 , end_331_2773_3977, word1_332_2774_3978, word2_333_2775_3979) = 
   let val fltIf_3871_3980 = (start_330_2772_3976 < end_331_2773_3977) in 
   (if fltIf_3871_3980 then 
-  let val a_334_2776_3983 = (ArraySlice.sub(word1_332_2774_3978 , start_330_2772_3976)) in 
-  let val b_335_2777_3986 = (ArraySlice.sub(word2_333_2775_3979 , start_330_2772_3976)) in 
+  let val a_334_2776_3983 = (CharArraySlice.sub(word1_332_2774_3978 , start_330_2772_3976)) in 
+  let val b_335_2777_3986 = (CharArraySlice.sub(word2_333_2775_3979 , start_330_2772_3976)) in 
   let val fltIf_3872_3987 = (a_334_2776_3983 = b_335_2777_3986) in 
   let val eq_336_2778_3988 = 
   (if fltIf_3872_3987 then true 
@@ -567,8 +567,8 @@ fun cmp (start_330_2772_3976 , end_331_2773_3977, word1_332_2774_3978, word2_333
    else true) end;
 
 fun compareWord (word1_338_2780_3991 , word2_339_2781_3992) = 
-  let val len1_340_2782_3994 = (ArraySlice.length word1_338_2780_3991) in 
-  let val len2_341_2783_3996 = (ArraySlice.length word2_339_2781_3992) in 
+  let val len1_340_2782_3994 = (CharArraySlice.length word1_338_2780_3991) in 
+  let val len2_341_2783_3996 = (CharArraySlice.length word2_339_2781_3992) in 
   let val fltIf_3874_3997 = (len1_340_2782_3994 = len2_341_2783_3996) in 
   let val compare_len_342_2784_3998 = 
   (if fltIf_3874_3997 then true 
@@ -585,90 +585,90 @@ fun mkSomeTags (len_205_2667_3957) =
   let val fltIf_3864_3958 = (len_205_2667_3957 <= 0) in 
   (if fltIf_3864_3958 then Nil_v_1085 
    else 
-  let val vec_220_206_2668_3959 = ((fn internal__ => ArraySlice.full(Array.array(internal__, 0))) 1) in 
-  let val internal__207_2669_3960 = let val _ = (ArraySlice.update(vec_220_206_2668_3959 , 0, a)) in vec_220_206_2668_3959 end in 
+  let val vec_220_206_2668_3959 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
+  let val internal__207_2669_3960 = let val _ = (CharArraySlice.update(vec_220_206_2668_3959 , 0, #"a")) in vec_220_206_2668_3959 end in 
   let val fltAppE_3865_3962 = (len_205_2667_3957 - 1) in 
   let val rst_209_2671_3963 = (mkSomeTags fltAppE_3865_3962) in (Cons_v_1085 (vec_220_206_2668_3959 , rst_209_2671_3963)) end end end end) end;
 
 fun getChar (decimal_67_2534_3931) = 
   let val fltIf_3839_3932 = (decimal_67_2534_3931 = 0) in 
-  (if fltIf_3839_3932 then a 
+  (if fltIf_3839_3932 then #"a" 
    else 
   let val fltIf_3840_3933 = (decimal_67_2534_3931 = 1) in 
-  (if fltIf_3840_3933 then b 
+  (if fltIf_3840_3933 then #"b" 
    else 
   let val fltIf_3841_3934 = (decimal_67_2534_3931 = 2) in 
-  (if fltIf_3841_3934 then c 
+  (if fltIf_3841_3934 then #"c" 
    else 
   let val fltIf_3842_3935 = (decimal_67_2534_3931 = 3) in 
-  (if fltIf_3842_3935 then d 
+  (if fltIf_3842_3935 then #"d" 
    else 
   let val fltIf_3843_3936 = (decimal_67_2534_3931 = 4) in 
-  (if fltIf_3843_3936 then e 
+  (if fltIf_3843_3936 then #"e" 
    else 
   let val fltIf_3844_3937 = (decimal_67_2534_3931 = 5) in 
-  (if fltIf_3844_3937 then f 
+  (if fltIf_3844_3937 then #"f" 
    else 
   let val fltIf_3845_3938 = (decimal_67_2534_3931 = 6) in 
-  (if fltIf_3845_3938 then g 
+  (if fltIf_3845_3938 then #"g" 
    else 
   let val fltIf_3846_3939 = (decimal_67_2534_3931 = 7) in 
-  (if fltIf_3846_3939 then h 
+  (if fltIf_3846_3939 then #"h" 
    else 
   let val fltIf_3847_3940 = (decimal_67_2534_3931 = 8) in 
-  (if fltIf_3847_3940 then i 
+  (if fltIf_3847_3940 then #"i" 
    else 
   let val fltIf_3848_3941 = (decimal_67_2534_3931 = 9) in 
-  (if fltIf_3848_3941 then j 
+  (if fltIf_3848_3941 then #"j" 
    else 
   let val fltIf_3849_3942 = (decimal_67_2534_3931 = 10) in 
-  (if fltIf_3849_3942 then k 
+  (if fltIf_3849_3942 then #"k" 
    else 
   let val fltIf_3850_3943 = (decimal_67_2534_3931 = 11) in 
-  (if fltIf_3850_3943 then l 
+  (if fltIf_3850_3943 then #"l" 
    else 
   let val fltIf_3851_3944 = (decimal_67_2534_3931 = 12) in 
-  (if fltIf_3851_3944 then m 
+  (if fltIf_3851_3944 then #"m" 
    else 
   let val fltIf_3852_3945 = (decimal_67_2534_3931 = 13) in 
-  (if fltIf_3852_3945 then n 
+  (if fltIf_3852_3945 then #"n" 
    else 
   let val fltIf_3853_3946 = (decimal_67_2534_3931 = 14) in 
-  (if fltIf_3853_3946 then o 
+  (if fltIf_3853_3946 then #"o" 
    else 
   let val fltIf_3854_3947 = (decimal_67_2534_3931 = 15) in 
-  (if fltIf_3854_3947 then p 
+  (if fltIf_3854_3947 then #"p" 
    else 
   let val fltIf_3855_3948 = (decimal_67_2534_3931 = 16) in 
-  (if fltIf_3855_3948 then q 
+  (if fltIf_3855_3948 then #"q" 
    else 
   let val fltIf_3856_3949 = (decimal_67_2534_3931 = 17) in 
-  (if fltIf_3856_3949 then r 
+  (if fltIf_3856_3949 then #"r" 
    else 
   let val fltIf_3857_3950 = (decimal_67_2534_3931 = 18) in 
-  (if fltIf_3857_3950 then s 
+  (if fltIf_3857_3950 then #"s" 
    else 
   let val fltIf_3858_3951 = (decimal_67_2534_3931 = 19) in 
-  (if fltIf_3858_3951 then t 
+  (if fltIf_3858_3951 then #"t" 
    else 
   let val fltIf_3859_3952 = (decimal_67_2534_3931 = 20) in 
-  (if fltIf_3859_3952 then u 
+  (if fltIf_3859_3952 then #"u" 
    else 
   let val fltIf_3860_3953 = (decimal_67_2534_3931 = 21) in 
-  (if fltIf_3860_3953 then v 
+  (if fltIf_3860_3953 then #"v" 
    else 
   let val fltIf_3861_3954 = (decimal_67_2534_3931 = 22) in 
-  (if fltIf_3861_3954 then w 
+  (if fltIf_3861_3954 then #"w" 
    else 
   let val fltIf_3862_3955 = (decimal_67_2534_3931 = 23) in 
-  (if fltIf_3862_3955 then x 
+  (if fltIf_3862_3955 then #"x" 
    else 
   let val fltIf_3863_3956 = (decimal_67_2534_3931 = 24) in 
-  (if fltIf_3863_3956 then y 
-   else z) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end;
+  (if fltIf_3863_3956 then #"y" 
+   else #"z") end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end) end;
 
 fun mkChar (val_377_2819_4004) = 
-  let val fltPrm_3876_4005 = (MltonRandom.rand()) in 
+  let val fltPrm_3876_4005 = (Word.toInt (MLton.Random.rand())) in 
   let val fltAppE_3875_4006 = (fltPrm_3876_4005 mod 26) in (getChar fltAppE_3875_4006) end end;
 
 fun generate_loop_1097_1588 (vec_633_2977_4010 , idx_634_2978_4011, end_635_2979_4012) = 
@@ -676,12 +676,12 @@ fun generate_loop_1097_1588 (vec_633_2977_4010 , idx_634_2978_4011, end_635_2979
   (if fltIf_3878_4013 then vec_633_2977_4010 
    else 
   let val fltPrm_3879_4014 = (mkChar idx_634_2978_4011) in 
-  let val vec1_638_2980_4015 = let val _ = (ArraySlice.update(vec_633_2977_4010 , idx_634_2978_4011, fltPrm_3879_4014)) in vec_633_2977_4010 end in 
+  let val vec1_638_2980_4015 = let val _ = (CharArraySlice.update(vec_633_2977_4010 , idx_634_2978_4011, fltPrm_3879_4014)) in vec_633_2977_4010 end in 
   let val fltAppE_3880_4016 = (idx_634_2978_4011 + 1) in (generate_loop_1097_1588(vec1_638_2980_4015 , fltAppE_3880_4016, end_635_2979_4012)) end end end) end;
 
 fun getRandomString (length_376_2818_3999) = 
   let val n__381_2974_3765_4001 = (maxInt(length_376_2818_3999 , 0)) in 
-  let val vec_382_2975_3766_4002 = ((fn internal__ => ArraySlice.full(Array.array(internal__, 0))) n__381_2974_3765_4001) in 
+  let val vec_382_2975_3766_4002 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) n__381_2974_3765_4001) in 
   let val vec1_383_2976_3767_4003 = (generate_loop_1097_1588(vec_382_2975_3766_4002 , 0, n__381_2974_3765_4001)) in vec1_383_2976_3767_4003 end end end;
 
 fun mkRandomInlineList (len_210_2672_3964) = 
@@ -716,12 +716,26 @@ fun mkBlogs_layout3 (length_57_2524_3911 , contlen_58_2525_3912, taglen_59_2526_
 
 fun searchBlogTags (keyword_54_2521_3908 , tags_55_2522_3909) = (case tags_55_2522_3909 of TagList (list_56_2523_3910) => (searchTagList(keyword_54_2521_3908 , list_56_2523_3910)));
 
-fun checkBlogs (keyword_44_2511_3897 , blogs_45_2512_3898) = (case blogs_45_2512_3898 of End => true 
+fun checkBlogs (keyword_44_2511_3897 , blogs_45_2512_3898) = (case blogs_45_2512_3898 of End => true
+  | Layout1 (a, b, c, d, e, f, g) => false
+  | Layout2 (a, b, c, d, e, f, g) => false
+  | Layout4 (a, b, c, d, e, f, g) => false
+  | Layout5 (a, b, c, d, e, f, g) => false
+  | Layout6 (a, b, c, d, e, f, g) => false
+  | Layout7 (a, b, c, d, e, f, g) => false
+  | Layout8 (a, b, c, d, e, f, g) => false
   | Layout3 (tags_46_2513_3899 , rst_47_2514_3900, content_48_2515_3901, header_49_2516_3902, id_50_2517_3903, author_51_2518_3904, date_52_2519_3905) => 
   let val present_53_2520_3906 = (searchBlogTags(keyword_44_2511_3897 , tags_46_2513_3899)) in 
   let val fltPrm_3828_3907 = (checkBlogs(keyword_44_2511_3897 , rst_47_2514_3900)) in (present_53_2520_3906 andalso fltPrm_3828_3907) end end);
 
 fun filterByKeywordInTagList (keyword_33_2500_3886 , blogs_34_2501_3887) = (case blogs_34_2501_3887 of End => End 
+  | Layout1 (a, b, c, d, e, f, g) => Layout1 (a, b, c, d, e, f, g)
+  | Layout2 (a, b, c, d, e, f, g) => Layout2 (a, b, c, d, e, f, g)
+  | Layout4 (a, b, c, d, e, f, g) => Layout4 (a, b, c, d, e, f, g)
+  | Layout5 (a, b, c, d, e, f, g) => Layout5 (a, b, c, d, e, f, g)
+  | Layout6 (a, b, c, d, e, f, g) => Layout6 (a, b, c, d, e, f, g)
+  | Layout7 (a, b, c, d, e, f, g) => Layout7 (a, b, c, d, e, f, g)
+  | Layout8 (a, b, c, d, e, f, g) => Layout8 (a, b, c, d, e, f, g) 
   | Layout3 (tags_35_2502_3888 , rst_36_2503_3889, content_37_2504_3890, header_38_2505_3891, id_39_2506_3892, author_40_2507_3893, date_41_2508_3894) => 
   let val present_42_2509_3895 = (searchBlogTags(keyword_33_2500_3886 , tags_35_2502_3888)) in 
   (if present_42_2509_3895 then 
@@ -729,7 +743,7 @@ fun filterByKeywordInTagList (keyword_33_2500_3886 , blogs_34_2501_3887) = (case
    else (filterByKeywordInTagList(keyword_33_2500_3886 , rst_36_2503_3889))) end);
 val _ = ((fn true => print "True" | false => print "False") 
   let val blogs_27_2495_3881 = (mkBlogs_layout3(1000000 , 500, 5)) in 
-  let val vec_24_28_2496_3882 = ((fn internal__ => ArraySlice.full(Array.array(internal__, 0))) 1) in 
-  let val internal__29_2497_3883 = let val _ = (ArraySlice.update(vec_24_28_2496_3882 , 0, a)) in vec_24_28_2496_3882 end in 
+  let val vec_24_28_2496_3882 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
+  let val internal__29_2497_3883 = let val _ = (CharArraySlice.update(vec_24_28_2496_3882 , 0, #"a")) in vec_24_28_2496_3882 end in 
   let val newblgs_31_2499_3885 = (filterByKeywordInTagList(vec_24_28_2496_3882 , blogs_27_2495_3881)) in (checkBlogs(vec_24_28_2496_3882 , newblgs_31_2499_3885)) end end end end);
 val _ = print "\n"
