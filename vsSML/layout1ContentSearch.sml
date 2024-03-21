@@ -692,9 +692,9 @@ fun generate_loop_1077_1562 (vec_616_2941_4053 , idx_617_2942_4054, end_618_2943
   let val fltAppE_3857_4059 = (idx_617_2942_4054 + 1) in (generate_loop_1077_1562(vec1_621_2944_4058 , fltAppE_3857_4059, end_618_2943_4055)) end end end) end;
 
 fun getRandomString (length_359_2782_4042) = 
-  let val n__364_2938_3732_4044 = (maxInt(length_359_2782_4042 , 0)) in 
+  let val n__364_2938_3732_4044 = 0 in 
   let val vec_365_2939_3733_4045 = ((fn internal__ =>
-  CharArraySlice.full(CharArray.array(internal__, #"0"))) n__364_2938_3732_4044) in 
+  CharArraySlice.full(CharArray.array(internal__, #"0"))) length_359_2782_4042) in 
   let val vec1_366_2940_3734_4046 = (generate_loop_1077_1562(vec_365_2939_3733_4045 , 0, n__364_2938_3732_4044)) in vec1_366_2940_3734_4046 end end end;
 
 fun mkRandomInlineList (len_193_2636_3998) = 
@@ -765,10 +765,8 @@ fun emphKeywordInContent (keyword_25_2474_3865 , blogs_26_2475_3866) = (case blo
   let val newRst_36_2484_3875 = (emphKeywordInContent(keyword_25_2474_3865 , rst_33_2482_3873)) in (Layout1 (header_27_2476_3867 , id_28_2477_3868, author_29_2478_3869, date_30_2479_3870, newContent_35_2483_3874, tags_32_2481_3872, newRst_36_2484_3875)) end end);
 val _ = ((fn true => print "True" | false => print "False") 
   let val blogs_19_2469_3859 = (mkBlogs_layout1(1000000 , 50, 10)) in 
-  let val vec_16_20_2470_3860 = ((fn internal__ =>
-  CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
-  let val internal__21_2471_3861 = let val _ =
-  (CharArraySlice.update(vec_16_20_2470_3860 , 0, #"a")) in vec_16_20_2470_3860 end in 
+  let val vec_16_20_2470_3860 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
+  let val internal__21_2471_3861 = let val _ = (CharArraySlice.update(vec_16_20_2470_3860 , 0, #"a")) in vec_16_20_2470_3860 end in 
   let val newblgs_23_2473_3863 = (emphKeywordInContent(vec_16_20_2470_3860 , blogs_19_2469_3859)) in 
   let val fltPrm_3795_3864 = (blogLength newblgs_23_2473_3863) in (fltPrm_3795_3864 = 1000000) end end end end end);
 val _ = print "\n"

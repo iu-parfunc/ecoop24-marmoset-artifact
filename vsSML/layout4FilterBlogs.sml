@@ -679,10 +679,11 @@ fun generate_loop_1097_1588 (vec_633_2977_4010 , idx_634_2978_4011, end_635_2979
   let val vec1_638_2980_4015 = let val _ = (CharArraySlice.update(vec_633_2977_4010 , idx_634_2978_4011, fltPrm_3879_4014)) in vec_633_2977_4010 end in 
   let val fltAppE_3880_4016 = (idx_634_2978_4011 + 1) in (generate_loop_1097_1588(vec1_638_2980_4015 , fltAppE_3880_4016, end_635_2979_4012)) end end end) end;
 
-fun getRandomString (length_376_2818_3999) = 
-  let val n__381_2974_3765_4001 = (maxInt(length_376_2818_3999 , 0)) in 
-  let val vec_382_2975_3766_4002 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) n__381_2974_3765_4001) in 
-  let val vec1_383_2976_3767_4003 = (generate_loop_1097_1588(vec_382_2975_3766_4002 , 0, n__381_2974_3765_4001)) in vec1_383_2976_3767_4003 end end end;
+fun getRandomString (length_359_2782_4042) = 
+  let val n__364_2938_3732_4044 = 0 in 
+  let val vec_365_2939_3733_4045 = ((fn internal__ =>
+  CharArraySlice.full(CharArray.array(internal__, #"0"))) length_359_2782_4042) in 
+  let val vec1_366_2940_3734_4046 = (generate_loop_1097_1588(vec_365_2939_3733_4045 , 0, n__364_2938_3732_4044)) in vec1_366_2940_3734_4046 end end end;
 
 fun mkRandomInlineList (len_210_2672_3964) = 
   let val fltIf_3866_3965 = (len_210_2672_3964 <= 0) in 
