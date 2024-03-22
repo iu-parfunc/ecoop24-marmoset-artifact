@@ -702,7 +702,7 @@ fun getRandomString (length_359_2782_4042) =
   let val n__364_2938_3732_4044 = 0 in 
   let val vec_365_2939_3733_4045 = ((fn internal__ =>
   CharArraySlice.full(CharArray.array(internal__, #"0"))) length_359_2782_4042) in 
-  let val vec1_366_2940_3734_4046 = (generate_loop_1077_1562(vec_365_2939_3733_4045 , 0, n__364_2938_3732_4044)) in vec1_366_2940_3734_4046 end end end;
+  let val vec1_366_2940_3734_4046 = (generate_loop_1078_1567(vec_365_2939_3733_4045 , 0, n__364_2938_3732_4044)) in vec1_366_2940_3734_4046 end end end;
 
 fun mkRandomInlineList (len_195_2644_4008) = 
   let val fltIf_3845_4009 = (len_195_2644_4008 <= 0) in 
@@ -769,11 +769,18 @@ fun emphKeywordInTag (keyword_24_2478_3871 , blogs_25_2479_3872) = (case blogs_2
   let val present_33_2487_3880 = (searchBlogTags(keyword_24_2478_3871 , tags_26_2480_3873)) in 
   let val newContent_34_2488_3881 = (emphasizeBlogContent(keyword_24_2478_3871 , content_27_2481_3874)) in 
   let val newRst_35_2489_3882 = (emphKeywordInTag(keyword_24_2478_3871 , rst_28_2482_3875)) in (Layout4 (tags_26_2480_3873 , newContent_34_2488_3881, newRst_35_2489_3882, header_29_2483_3876, id_30_2484_3877, author_31_2485_3878, date_32_2486_3879)) end end end);
+
 val _ = ((fn true => print "True" | false => print "False") 
   let val blogs_18_2473_3864 = (mkBlogs_layout4(400000 , 500, 5)) in 
   let val vec_15_19_2474_3865 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
   let val internal__20_2475_3866 = let val _ = (CharArraySlice.update(vec_15_19_2474_3865 , 0, #"a")) in vec_15_19_2474_3865 end in 
-  let val newblgs_22_2477_3868 = (emphKeywordInTag(vec_15_19_2474_3865 , blogs_18_2473_3864)) in 
+  let val start = Time.toNanoseconds(Time.now()) in
+  let val newblgs_22_2477_3868 = (emphKeywordInTag(vec_15_19_2474_3865 , blogs_18_2473_3864)) in
+  let val stop = Time.toNanoseconds(Time.now()) in
+  let val execTime = stop - start in
+  let val _ = print "ExecTime (ns): " in
+  let val _ = print (LargeInt.toString execTime) in
+  let val _ = print "\n" in
   let val fltPrm_3797_3869 = (blogLength newblgs_22_2477_3868) in 
-  let val fltPrm_3798_3870 = (blogLength blogs_18_2473_3864) in (fltPrm_3797_3869 = fltPrm_3798_3870) end end end end end end);
+  let val fltPrm_3798_3870 = (blogLength blogs_18_2473_3864) in (fltPrm_3797_3869 = fltPrm_3798_3870) end end end end end end end end end end end end);
 val _ = print "\n"

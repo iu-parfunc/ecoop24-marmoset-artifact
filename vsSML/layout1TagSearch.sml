@@ -698,7 +698,7 @@ fun getRandomString (length_359_2782_4042) =
   let val n__364_2938_3732_4044 = 0 in 
   let val vec_365_2939_3733_4045 = ((fn internal__ =>
   CharArraySlice.full(CharArray.array(internal__, #"0"))) length_359_2782_4042) in 
-  let val vec1_366_2940_3734_4046 = (generate_loop_1077_1562(vec_365_2939_3733_4045 , 0, n__364_2938_3732_4044)) in vec1_366_2940_3734_4046 end end end;
+  let val vec1_366_2940_3734_4046 = (generate_loop_1085_1576(vec_365_2939_3733_4045 , 0, n__364_2938_3732_4044)) in vec1_366_2940_3734_4046 end end end;
 
 fun mkRandomInlineList (len_201_2658_4026) = 
   let val fltIf_3862_4027 = (len_201_2658_4026 <= 0) in 
@@ -772,11 +772,18 @@ fun emphKeywordInTag (keyword_28_2491_3888 , blogs_29_2492_3889) = (case blogs_2
   let val newRst_40_2502_3899 = (emphKeywordInTag(keyword_28_2491_3888 , rst_36_2499_3896)) in (Layout1 (header_30_2493_3890 , id_31_2494_3891, author_32_2495_3892, date_33_2496_3893, newContent_39_2501_3898, tags_35_2498_3895, newRst_40_2502_3899)) end end 
    else 
   let val newRst_41_2503_3900 = (emphKeywordInTag(keyword_28_2491_3888 , rst_36_2499_3896)) in (Layout1 (header_30_2493_3890 , id_31_2494_3891, author_32_2495_3892, date_33_2496_3893, content_34_2497_3894, tags_35_2498_3895, newRst_41_2503_3900)) end) end);
+
 val _ = ((fn true => print "True" | false => print "False") 
   let val blogs_22_2486_3881 = (mkBlogs_layout1(400000 , 500, 5)) in 
   let val vec_19_23_2487_3882 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
-  let val internal__24_2488_3883 = let val _ = (CharArraySlice.update(vec_19_23_2487_3882 , 0, #"a")) in vec_19_23_2487_3882 end in 
+  let val internal__24_2488_3883 = let val _ = (CharArraySlice.update(vec_19_23_2487_3882 , 0, #"a")) in vec_19_23_2487_3882 end in
+  let val start = Time.toNanoseconds(Time.now()) in 
   let val newblgs_26_2490_3885 = (emphKeywordInTag(vec_19_23_2487_3882 , blogs_22_2486_3881)) in 
+  let val stop = Time.toNanoseconds(Time.now()) in
+  let val execTime = stop - start in
+  let val _ = print "ExecTime (ns): " in
+  let val _ = print (LargeInt.toString execTime) in
+  let val _ = print "\n" in
   let val fltPrm_3814_3886 = (blogLength newblgs_26_2490_3885) in 
-  let val fltPrm_3815_3887 = (blogLength blogs_22_2486_3881) in (fltPrm_3814_3886 = fltPrm_3815_3887) end end end end end end);
+  let val fltPrm_3815_3887 = (blogLength blogs_22_2486_3881) in (fltPrm_3814_3886 = fltPrm_3815_3887) end end end end end end end end end end end end);
 val _ = print "\n"

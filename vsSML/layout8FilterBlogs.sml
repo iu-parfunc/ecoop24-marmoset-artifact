@@ -742,9 +742,16 @@ fun filterByKeywordInTagList (keyword_33_2500_3886 , blogs_34_2501_3887) = (case
   (if present_42_2509_3895 then 
   let val newRst_43_2510_3896 = (filterByKeywordInTagList(keyword_33_2500_3886 , rst_36_2503_3889)) in (Layout8 (content_35_2502_3888 , newRst_43_2510_3896, id_37_2504_3890, author_38_2505_3891, date_39_2506_3892, header_40_2507_3893, tags_41_2508_3894)) end 
    else (filterByKeywordInTagList(keyword_33_2500_3886 , rst_36_2503_3889))) end);
+
 val _ = ((fn true => print "True" | false => print "False") 
   let val blogs_27_2495_3881 = (mkBlogs_layout8(1000000 , 500, 5)) in 
   let val vec_24_28_2496_3882 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
   let val internal__29_2497_3883 = let val _ = (CharArraySlice.update(vec_24_28_2496_3882 , 0, #"a")) in vec_24_28_2496_3882 end in 
-  let val newblgs_31_2499_3885 = (filterByKeywordInTagList(vec_24_28_2496_3882 , blogs_27_2495_3881)) in (checkBlogs(vec_24_28_2496_3882 , newblgs_31_2499_3885)) end end end end);
+  let val start = Time.toNanoseconds(Time.now()) in
+  let val newblgs_31_2499_3885 = (filterByKeywordInTagList(vec_24_28_2496_3882 , blogs_27_2495_3881)) in 
+  let val stop = Time.toNanoseconds(Time.now()) in
+  let val execTime = stop - start in
+  let val _ = print "ExecTime (ns): " in
+  let val _ = print (LargeInt.toString execTime) in
+  let val _ = print "\n" in (checkBlogs(vec_24_28_2496_3882 , newblgs_31_2499_3885)) end end end end end end end end end end);
 val _ = print "\n"

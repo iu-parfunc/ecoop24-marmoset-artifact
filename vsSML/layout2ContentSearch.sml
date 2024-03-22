@@ -766,7 +766,13 @@ fun emphKeywordInContent (keyword_25_2474_3865 , blogs_26_2475_3866) = (case blo
 val _ = ((fn true => print "True" | false => print "False") 
   let val blogs_19_2469_3859 = (mkBlogs_layout2(1000000 , 50, 10)) in 
   let val vec_16_20_2470_3860 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
-  let val internal__21_2471_3861 = let val _ = (CharArraySlice.update(vec_16_20_2470_3860 , 0, #"a")) in vec_16_20_2470_3860 end in 
-  let val newblgs_23_2473_3863 = (emphKeywordInContent(vec_16_20_2470_3860 , blogs_19_2469_3859)) in 
-  let val fltPrm_3795_3864 = (blogLength newblgs_23_2473_3863) in (fltPrm_3795_3864 = 1000000) end end end end end);
+  let val internal__21_2471_3861 = let val _ = (CharArraySlice.update(vec_16_20_2470_3860 , 0, #"a")) in vec_16_20_2470_3860 end in
+  let val start = Time.toNanoseconds(Time.now()) in
+  let val newblgs_23_2473_3863 = (emphKeywordInContent(vec_16_20_2470_3860 , blogs_19_2469_3859)) in
+  let val stop = Time.toNanoseconds(Time.now()) in
+  let val execTime = stop - start in
+  let val _ = print "ExecTime (ns): " in
+  let val _ = print (LargeInt.toString execTime) in
+  let val _ = print "\n" in
+  let val fltPrm_3795_3864 = (blogLength newblgs_23_2473_3863) in (fltPrm_3795_3864 = 1000000) end end end end end end end end end end end);
 val _ = print "\n"
