@@ -32,7 +32,11 @@ iterations = 9
 
 rootdir = WORKDIR
 #setting this to large input for now. Maybe we should have a Ghc version of the smaller inputs?
-rootdirGibbon = os.path.join(os.path.split(WORKDIR)[0], "vsSML/")
+rootdirGibbon = os.path.join(os.path.split(WORKDIR)[0], "vsGibbon/")
+
+if arguments.verbose: 
+    print("Gibbon root dir: ")
+    print(rootdirGibbon)
 
 # Provide "--quick" flag for the kick-the-tires stage
 # if not (((len(sys.argv) == 2) and (sys.argv[1] == "--small")) or (len(sys.argv) == 1) ):
@@ -154,7 +158,7 @@ def time_sml():
                 print(tupleTimes)
             Timings[file] = tupleTimes
 
-            if "FindBlogs" in file: 
+            if "FilterBlogs" in file: 
                  Sml_filter.append(average)
                  ErrorBarSmlLb_filter.append(l)
                  ErrorBarSmlUb_filter.append(u)
@@ -173,6 +177,16 @@ def time_sml():
 compile_with_sml()
 time_sml()
 
+if arguments.verbose: 
+    print(Sml_filter)
+    print(ErrorBarSmlLb_filter)
+    print(ErrorBarSmlUb_filter)
+    print(Sml_content)
+    print(ErrorBarSmlLb_content)
+    print(ErrorBarSmlUb_content)
+    print(Sml_tag)
+    print(ErrorBarSmlLb_tag)
+    print(ErrorBarSmlUb_tag)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
