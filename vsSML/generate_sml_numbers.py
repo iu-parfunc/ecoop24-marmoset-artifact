@@ -211,7 +211,7 @@ table6a = pd.read_csv(rootdirGibbon + "Table6a.csv")
 column = table6a.iloc[:,9]
 
 print(column)
-Marmoset_Median_filter = column[0]
+Marmoset_Median_filter = column[1]
 
 Sml_filter_speedup = [x/Marmoset_Median_filter for x in Sml_filter]
 
@@ -266,7 +266,7 @@ if not os.path.exists(rootdirGibbon + "Table6b.csv"):
 table6b = pd.read_csv(rootdirGibbon + "Table6b.csv")
 
 column = table6b.iloc[:,9]
-Marmoset_Median_content = column[0]
+Marmoset_Median_content = column[1]
 
 Sml_content_speedup = [x/Marmoset_Median_content for x in Sml_content]
 
@@ -322,7 +322,7 @@ if not os.path.exists(rootdirGibbon + "Table6c.csv"):
 table6c = pd.read_csv(rootdirGibbon + "Table6c.csv")
 
 column = table6c.iloc[:,9]
-Marmoset_Median_tag = column[0]
+Marmoset_Median_tag = column[1]
 
 Sml_tag_speedup = [x/Marmoset_Median_tag for x in Sml_tag]
 
