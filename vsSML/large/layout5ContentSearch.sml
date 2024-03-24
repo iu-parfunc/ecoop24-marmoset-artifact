@@ -765,7 +765,7 @@ fun emphKeywordInContent (keyword_25_2474_3865 , blogs_26_2475_3866) = (case blo
   let val newRst_36_2484_3875 = (emphKeywordInContent(keyword_25_2474_3865 , rst_27_2476_3867)) in (Layout5 (newRst_36_2484_3875 , tags_28_2477_3868, newContent_35_2483_3874, header_30_2479_3870, id_31_2480_3871, author_32_2481_3872, date_33_2482_3873)) end end);
 
 val _ = ((fn true => print "True" | false => print "False") 
-  let val blogs_19_2469_3859 = (mkBlogs_layout5(1000000 , 50, 10)) in 
+  let val blogs_19_2469_3859 = (mkBlogs_layout5(1000000 , 100, 10)) in 
   let val vec_16_20_2470_3860 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
   let val internal__21_2471_3861 = let val _ = (CharArraySlice.update(vec_16_20_2470_3860 , 0, #"a")) in vec_16_20_2470_3860 end in 
   let val start = Time.toNanoseconds(Time.now()) in

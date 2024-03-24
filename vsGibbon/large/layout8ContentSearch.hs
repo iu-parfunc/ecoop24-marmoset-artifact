@@ -17,7 +17,7 @@ emphKeywordInContent keyword blogs =
 -- main function 
 gibbon_main = 
    let 
-       blogs = mkBlogs_layout8 1000000 50 10 
+       blogs = mkBlogs_layout8 1000000 100 10 
        keyword :: Vector Char  
        keyword = "a"
        newblgs = iterate (emphKeywordInContent keyword blogs)

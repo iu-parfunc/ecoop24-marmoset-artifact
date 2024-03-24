@@ -159,15 +159,15 @@ def time_sml():
             Timings[file] = tupleTimes
 
             if "FilterBlogs" in file: 
-                 Sml_filter.append(average)
+                 Sml_filter.append(median)
                  ErrorBarSmlLb_filter.append(l)
                  ErrorBarSmlUb_filter.append(u)
             elif "ContentSearch" in file: 
-                 Sml_content.append(average)
+                 Sml_content.append(median)
                  ErrorBarSmlLb_content.append(l)
                  ErrorBarSmlUb_content.append(u)
             elif "TagSearch" in file:
-                 Sml_tag.append(average)
+                 Sml_tag.append(median)
                  ErrorBarSmlLb_tag.append(l)
                  ErrorBarSmlUb_tag.append(u)
             
@@ -222,7 +222,18 @@ delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(Erro
 plt.ylim([0, 6])
 
 # Stacked bar chart, marmoset
-ax.bar(values , Sml_filter, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
+bar1 = ax.bar(values , Sml_filter, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
+
+make_bar_text = []
+for i in range(0, 7):
+    marmoset_m = Marmoset_Median_filter[i]
+    sml_m = Sml_filter[i]
+    val = "(" + str(marmoset_m) + "," + str(sml_m) + ")"
+    make_bar_text.append(val)
+
+for rect in bar1: 
+    height = rect.get_height()
+    plt.text(rect.get_x(), height, make_bar_text, ha='center', va='bottom')
 
 plt.xticks(values, groups, color='black', rotation=25, fontweight='normal', fontstyle='italic', fontsize='36', horizontalalignment='center')
 
@@ -264,10 +275,21 @@ ErrorBarSmlLb_content = [x//Marmoset_LB_content for x in ErrorBarSmlLb_content]
 ErrorBarSmlUb_content = [x//Marmoset_UB_content for x in ErrorBarSmlUb_content]
 
 delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(ErrorBarSmlUb_content, ErrorBarSmlLb_content)]
-plt.ylim([0, 8])
+plt.ylim([0, 15])
 
 # Stacked bar chart, marmoset
-ax.bar(values , Sml_content, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
+bar1 = ax.bar(values , Sml_content, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
+
+make_bar_text = []
+for i in range(0, 7):
+    marmoset_m = Marmoset_Median_content[i]
+    sml_m = Sml_content[i]
+    val = "(" + str(marmoset_m) + "," + str(sml_m) + ")"
+    make_bar_text.append(val)
+
+for rect in bar1: 
+    height = rect.get_height()
+    plt.text(rect.get_x(), height, make_bar_text, ha='center', va='bottom')
 
 plt.xticks(values, groups, color='black', rotation=25, fontweight='normal', fontstyle='italic', fontsize='36', horizontalalignment='center')
 
@@ -314,7 +336,18 @@ delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(Erro
 plt.ylim([0, 40])
 
 # Stacked bar chart, marmoset
-ax.bar(values , Sml_tag, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
+bar1 = ax.bar(values , Sml_tag, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
+
+make_bar_text = []
+for i in range(0, 7):
+    marmoset_m = Marmoset_Median_tag[i]
+    sml_m = Sml_tag[i]
+    val = "(" + str(marmoset_m) + "," + str(sml_m) + ")"
+    make_bar_text.append(val)
+
+for rect in bar1: 
+    height = rect.get_height()
+    plt.text(rect.get_x(), height, make_bar_text, ha='center', va='bottom')
 
 plt.xticks(values, groups, color='black', rotation=25, fontweight='normal', fontstyle='italic', fontsize='36', horizontalalignment='center')
 

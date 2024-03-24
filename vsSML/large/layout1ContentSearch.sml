@@ -766,7 +766,7 @@ fun emphKeywordInContent (keyword_25_2474_3865 , blogs_26_2475_3866) = (case blo
 
 
 val _ = ((fn true => print "True" | false => print "False") 
-  let val blogs_19_2469_3859 = (mkBlogs_layout1(1000000 , 50, 10)) in 
+  let val blogs_19_2469_3859 = (mkBlogs_layout1(1000000 , 100, 10)) in 
   let val vec_16_20_2470_3860 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
   let val internal__21_2471_3861 = let val _ = (CharArraySlice.update(vec_16_20_2470_3860 , 0, #"a")) in vec_16_20_2470_3860 end in 
   let val start = Time.toNanoseconds(Time.now()) in
