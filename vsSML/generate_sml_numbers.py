@@ -187,9 +187,8 @@ if arguments.verbose:
     print(Sml_tag)
     print(ErrorBarSmlLb_tag)
     print(ErrorBarSmlUb_tag)
-
-#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+    
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #GHC VS GIBBON SPEEDUPS Filter Blogs
 width = 0.4
@@ -209,31 +208,32 @@ if not os.path.exists(rootdirGibbon + "Table6a.csv"):
 #read csv file 
 table6a = pd.read_csv(rootdirGibbon + "Table6a.csv")
 
-column = table6a.iloc[:,8]
-Marmoset_Median_filter = column[0]
-Marmoset_UB_filter     = column[2]
-Marmoset_LB_filter     = column[3]
+column = table6a.iloc[:,9]
 
-Sml_filter = [x//Marmoset_Median_filter for x in Sml_filter]
-ErrorBarSmlLb_filter = [x//Marmoset_LB_filter for x in ErrorBarSmlLb_filter] 
-ErrorBarSmlUb_filter = [x//Marmoset_UB_filter for x in ErrorBarSmlUb_filter]
+print(column)
+Marmoset_Median_filter = column[0]
+
+Sml_filter_speedup = [x/Marmoset_Median_filter for x in Sml_filter]
 
 delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(ErrorBarSmlUb_filter, ErrorBarSmlLb_filter)]
-plt.ylim([0, 6])
+delta_error_ghc = delta_error_ghc / Marmoset_Median_filter
+plt.ylim([0, 8])
 
 # Stacked bar chart, marmoset
-bar1 = ax.bar(values , Sml_filter, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
+bar1 = ax.bar(values , Sml_filter_speedup, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
 
 make_bar_text = []
 for i in range(0, 7):
-    marmoset_m = Marmoset_Median_filter[i]
-    sml_m = Sml_filter[i]
+    marmoset_m = round(Marmoset_Median_filter, 2)
+    sml_m = round(Sml_filter[i], 2)
     val = "(" + str(marmoset_m) + "," + str(sml_m) + ")"
     make_bar_text.append(val)
 
+i = 0
 for rect in bar1: 
-    height = rect.get_height()
-    plt.text(rect.get_x(), height, make_bar_text, ha='center', va='bottom')
+    height = rect.get_height() + 0.4
+    plt.text(rect.get_x() + rect.get_width() / 2.0, height, make_bar_text[i], ha='center', va='bottom', fontsize=18)
+    i = i + 1
 
 plt.xticks(values, groups, color='black', rotation=25, fontweight='normal', fontstyle='italic', fontsize='36', horizontalalignment='center')
 
@@ -265,31 +265,30 @@ if not os.path.exists(rootdirGibbon + "Table6b.csv"):
 #read csv file 
 table6b = pd.read_csv(rootdirGibbon + "Table6b.csv")
 
-column = table6b.iloc[:,8]
+column = table6b.iloc[:,9]
 Marmoset_Median_content = column[0]
-Marmoset_UB_content     = column[2]
-Marmoset_LB_content     = column[3]
 
-Sml_content = [x//Marmoset_Median_content for x in Sml_content]
-ErrorBarSmlLb_content = [x//Marmoset_LB_content for x in ErrorBarSmlLb_content] 
-ErrorBarSmlUb_content = [x//Marmoset_UB_content for x in ErrorBarSmlUb_content]
+Sml_content_speedup = [x/Marmoset_Median_content for x in Sml_content]
 
 delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(ErrorBarSmlUb_content, ErrorBarSmlLb_content)]
+delta_error_ghc = delta_error_ghc / Marmoset_Median_content
 plt.ylim([0, 15])
 
 # Stacked bar chart, marmoset
-bar1 = ax.bar(values , Sml_content, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
+bar1 = ax.bar(values , Sml_content_speedup, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
 
 make_bar_text = []
 for i in range(0, 7):
-    marmoset_m = Marmoset_Median_content[i]
-    sml_m = Sml_content[i]
+    marmoset_m = round(Marmoset_Median_content, 2)
+    sml_m = round(Sml_content[i], 2)
     val = "(" + str(marmoset_m) + "," + str(sml_m) + ")"
     make_bar_text.append(val)
 
+i = 0
 for rect in bar1: 
-    height = rect.get_height()
-    plt.text(rect.get_x(), height, make_bar_text, ha='center', va='bottom')
+    height = rect.get_height() + 0.4
+    plt.text(rect.get_x() + rect.get_width() / 2.0, height, make_bar_text[i], ha='center', va='bottom', fontsize=18)
+    i = i + 1
 
 plt.xticks(values, groups, color='black', rotation=25, fontweight='normal', fontstyle='italic', fontsize='36', horizontalalignment='center')
 
@@ -322,32 +321,31 @@ if not os.path.exists(rootdirGibbon + "Table6c.csv"):
 #read csv file 
 table6c = pd.read_csv(rootdirGibbon + "Table6c.csv")
 
-column = table6c.iloc[:,8]
+column = table6c.iloc[:,9]
 Marmoset_Median_tag = column[0]
-Marmoset_UB_tag     = column[2]
-Marmoset_LB_tag     = column[3]
 
-Sml_tag = [x//Marmoset_Median_tag for x in Sml_tag]
-ErrorBarSmlLb_tag = [x//Marmoset_LB_tag for x in ErrorBarSmlLb_tag] 
-ErrorBarSmlUb_tag = [x//Marmoset_UB_tag for x in ErrorBarSmlUb_tag]
-
+Sml_tag_speedup = [x/Marmoset_Median_tag for x in Sml_tag]
 
 delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(ErrorBarSmlUb_tag, ErrorBarSmlLb_tag)]
-plt.ylim([0, 40])
+delta_error_ghc = delta_error_ghc / Marmoset_Median_tag
+plt.ylim([0, 48])
 
 # Stacked bar chart, marmoset
-bar1 = ax.bar(values , Sml_tag, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
+bar1 = ax.bar(values , Sml_tag_speedup, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))
 
 make_bar_text = []
 for i in range(0, 7):
-    marmoset_m = Marmoset_Median_tag[i]
-    sml_m = Sml_tag[i]
+    marmoset_m = round(Marmoset_Median_tag, 2)
+    sml_m = round(Sml_tag[i], 2)
     val = "(" + str(marmoset_m) + "," + str(sml_m) + ")"
     make_bar_text.append(val)
 
+i = 0
 for rect in bar1: 
-    height = rect.get_height()
-    plt.text(rect.get_x(), height, make_bar_text, ha='center', va='bottom')
+    height = rect.get_height() + 0.5
+    plt.text(rect.get_x() + rect.get_width() / 2.0, height, make_bar_text[i],ha='center', va='bottom', fontsize=18)
+    i = i + 1
+
 
 plt.xticks(values, groups, color='black', rotation=25, fontweight='normal', fontstyle='italic', fontsize='36', horizontalalignment='center')
 
