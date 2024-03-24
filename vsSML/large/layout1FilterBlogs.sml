@@ -744,7 +744,7 @@ fun filterByKeywordInTagList (keyword_33_2500_3886 , blogs_34_2501_3887) = (case
    else (filterByKeywordInTagList(keyword_33_2500_3886 , rst_41_2508_3894))) end);
 
 val _ = ((fn true => print "True" | false => print "False") 
-  let val blogs_27_2495_3881 = (mkBlogs_layout1(1000000 , 500, 5)) in 
+  let val blogs_27_2495_3881 = (mkBlogs_layout1(1000000 , 500, 100)) in 
   let val vec_24_28_2496_3882 = ((fn internal__ => CharArraySlice.full(CharArray.array(internal__, #"0"))) 1) in 
   let val internal__29_2497_3883 = let val _ = (CharArraySlice.update(vec_24_28_2496_3882 , 0, #"a")) in vec_24_28_2496_3882 end in
   let val start = Time.toNanoseconds(Time.now()) in

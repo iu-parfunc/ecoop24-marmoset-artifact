@@ -311,7 +311,7 @@ ErrorBarSmlUb_tag = [x//Marmoset_UB_tag for x in ErrorBarSmlUb_tag]
 
 
 delta_error_ghc = [abs(element1 - element2) for (element1, element2) in zip(ErrorBarSmlUb_tag, ErrorBarSmlLb_tag)]
-plt.ylim([0, 25])
+plt.ylim([0, 40])
 
 # Stacked bar chart, marmoset
 ax.bar(values , Sml_tag, yerr = delta_error_ghc , width=width, ecolor = 'black', color= 'blue', error_kw=dict(lw=1, capsize=2, capthick=1))

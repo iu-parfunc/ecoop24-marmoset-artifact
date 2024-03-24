@@ -1,2 +1,0 @@
-ExecTime (ns): 63773000
-True
