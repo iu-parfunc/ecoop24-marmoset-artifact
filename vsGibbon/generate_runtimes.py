@@ -11,7 +11,7 @@ import os
 import sys
 import argparse
 
-iterations = 9
+iterations = 21
 inf_buffer_size = 10000000000
 
 WORKDIR=os.path.dirname(__file__)
