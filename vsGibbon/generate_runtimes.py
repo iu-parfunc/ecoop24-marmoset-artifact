@@ -11,7 +11,7 @@ import os
 import sys
 import argparse
 
-iterations = 21
+iterations = 99
 inf_buffer_size = 10000000000
 
 WORKDIR=os.path.dirname(__file__)
@@ -226,7 +226,7 @@ for file in executables:
         
         runtimeFile = file + ".txt"
         
-        cmd =  [file , "--inf-buffer-size", str(inf_buffer_size), "--iterate", "9"]
+        cmd =  [file , "--inf-buffer-size", str(inf_buffer_size), "--iterate", str(iterations)]
         
         writeFileHandle = open(runtimeFile, "w")
 
@@ -234,8 +234,14 @@ for file in executables:
         c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
         c.wait()
         output, error = c.communicate()
-        if error is not None:
-            cmd =  [file , "--iterate", "9"]
+        
+        if arguments.verbose:
+            print(output)
+            print(error)
+            print(c)
+
+        if c.returncode != 0 :
+            cmd =  [file , "--iterate", str(iterations)]
             c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
             c.wait()
 
@@ -256,16 +262,27 @@ for file in executables:
 
             if arguments.verbose:        
                 print(iterTimes)
-            mean = np.mean(iterTimes)
-            median = np.median(iterTimes)
-            a, l, u = mean_confidence_interval(iterTimes)
+            
+            mean = 0
+            median = 0
+            q1 = 0 
+            q3 = 0 
+            a = 0
+            l = 0
+            u = 0
+            if (iterTimes != []):
+                mean = np.mean(iterTimes)
+                median = np.median(iterTimes)
+                q1 = np.percentile(iterTimes, 25)
+                q3 = np.percentile(iterTimes, 75)
+                a, l, u = mean_confidence_interval(iterTimes)
             
             if arguments.verbose:
-                print(str(file) + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
+                print(str(file) + "(mean:{0}, median:{1}, lower:{2}, upper:{3}, q1:{4}, q3:{5})".format(str(mean), str(median), str(l), str(u), str(q1), str(q3)))
             
             #store the stats for a file as a tuple, (mean,median,upperbound,lowerbound)
             fileName = str(file).replace(rootdirPath, "")
-            runTimeCache[fileName] = (mean, median, u, l)
+            runTimeCache[fileName] = (mean, median, u, l, q1, q3)
             
             readFileHandle.close()
         elif "manyFuncs" in file: 
@@ -291,10 +308,21 @@ for file in executables:
 
                     if flag and lines == "END\n":
                         break
+                
+                mean = 0
+                median = 0 
+                q1 = 0 
+                q3 = 0
+                a = 0
+                l = 0
+                u = 0
 
-                mean = np.mean(iterTimes)
-                median = np.median(iterTimes)
-                a, l, u = mean_confidence_interval(iterTimes)
+                if (iterTimes != []):
+                    mean = np.mean(iterTimes)
+                    median = np.median(iterTimes)
+                    q1 = np.percentile(iterTimes, 25)
+                    q3 = np.percentile(iterTimes, 75)
+                    a, l, u = mean_confidence_interval(iterTimes)
 
                 if arguments.verbose:  
                     print(str(file) + " " + str(cpass) + " " + "(mean:{0}, median:{1}, lower:{2}, upper:{3})".format(str(mean), str(median), str(l), str(u)))
@@ -302,7 +330,7 @@ for file in executables:
                 passName = str(file).replace(".exe", "") + "-" + str(cpass)
                 #store the stats for a file as a tuple, (mean,median,upperbound,lowerbound)
                 fileName = passName.replace(rootdirPath, "")
-                runTimeCache[fileName] = (mean, median, u, l)
+                runTimeCache[fileName] = (mean, median, u, l, q1, q3)
 
 
                 if functionsToParse == []: 
@@ -313,7 +341,7 @@ for file in executables:
 
 #make the table once all the data is collected. 
 
-df = pd.DataFrame(runTimeCache, index = ['mean', 'median', 'upperbound', 'lowerbound'])
+df = pd.DataFrame(runTimeCache, index = ['mean', 'median', 'upperbound', 'lowerbound', 'lower_median', 'upper_median'])
 
 Table1 = ["layout1PowerList.exe", "layout2PowerList.exe"] 
 print("Print Table1: ")

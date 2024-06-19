@@ -16,9 +16,8 @@ mkSnocList len = if len <= 0
             in Snoc rst val
 
 getLengthSnoc :: List -> Int
-{-# ANN getLengthSnoc Snoc #-}
 getLengthSnoc lst = case lst of
-               Snoc rst val -> 1 + getLengthSnoc rst
+               Snoc rst val -> (getLengthSnoc rst) + 1
                E            -> 0
 
 
