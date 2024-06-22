@@ -11,7 +11,7 @@ import os
 import sys
 import argparse
 
-iterations = 99
+iterations = 50
 inf_buffer_size = 10000000000
 
 WORKDIR=os.path.dirname(__file__)
@@ -54,6 +54,13 @@ runMode = arguments.run
 executables = []
 
 gibbonFiles = [
+    'layout3TagSearch.hs',
+    'layout5TagSearch.hs',
+    'layout7TagSearch.hs',
+    'TreeCopyIn.hs',
+    'TreeCopyPre.hs',
+    'TreeCopyPost.hs',
+    'layout1ListLen.hs',
     'eval_r.hs',
     'layout3FilterBlogs.hs',
     'TreeExpoPre.hs',
@@ -67,29 +74,22 @@ gibbonFiles = [
     'layout3ContentSearch.hs',
     'eval_l.hs',
     'TreeAddOnePre.hs',
-    'layout7TagSearch.hs',
     'layout2ContentSearch.hs',
     'TreeRightMost_l.hs',
     'layout2FilterBlogs.hs',
     'manyFuncs.hs',
     'layout1PowerList.hs',
-    'TreeCopyPre.hs',
     'TreeAddOneIn.hs',
     'layout4TagSearch.hs',
-    'layout1ListLen.hs',
-    'TreeCopyPost.hs',
     'layout8ContentSearch.hs',
     'TreeRightMost_r.hs',
     'TreeAddOnePost.hs',
     'layout1ContentSearch.hs',
-    'TreeCopyIn.hs',
     'layout7ContentSearch.hs',
-    'layout3TagSearch.hs',
     'layout2PowerList.hs',
     'layout5ContentSearch.hs',
     'layout4FilterBlogs.hs',
     'layout5FilterBlogs.hs',
-    'layout5TagSearch.hs',
     'layout7FilterBlogs.hs',
     'layout1FilterBlogs.hs',
     'TreeExpoPost.hs',
@@ -240,7 +240,7 @@ for file in executables:
             print(error)
             print(c)
 
-        if c.returncode != 0 :
+        if c.returncode != 0:
             cmd =  [file , "--iterate", str(iterations)]
             c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
             c.wait()
@@ -259,8 +259,12 @@ for file in executables:
                     print(search)
                 if search is not None:
                     iterTimes.append(float(search.groups()[0]))
+            
+            if (iterTimes != []):
+                iterTimes = iterTimes[1:iterations]
 
-            if arguments.verbose:        
+            if arguments.verbose:
+                print("Here are the iterTimes\n")        
                 print(iterTimes)
             
             mean = 0
@@ -316,6 +320,9 @@ for file in executables:
                 a = 0
                 l = 0
                 u = 0
+
+                if (iterTimes != []):
+                    iterTimes = iterTimes[1:iterations]
 
                 if (iterTimes != []):
                     mean = np.mean(iterTimes)
