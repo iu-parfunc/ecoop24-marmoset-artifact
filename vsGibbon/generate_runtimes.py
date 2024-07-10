@@ -27,7 +27,7 @@ rootdir = WORKDIR
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--run",nargs='?',const="full", help = "specify the input size [quick | small], defaults to full", type=str)
+parser.add_argument("--run",nargs='?',const="full", help = "specify the input size [quick | small | vsSML], defaults to full", type=str)
 parser.add_argument("--verbose", nargs='?',const=True, help = "specify if you want the output to be verbose.", type=bool)
 arguments = parser.parse_args()
 
@@ -141,6 +141,10 @@ elif runMode == "small":
     filesToEvaluate = gibbonFiles
     filesToEvaluateMarmoset = marmosetFiles
     rootdirPath = rootdir + "/small/"
+elif runMode == "vsSML":
+    filesToEvaluate = gibbonFiles
+    filesToEvaluateMarmoset = marmosetFiles
+    rootdirPath = rootdir + "/large_sml/"
 else: 
     filesToEvaluate = gibbonFiles
     filesToEvaluateMarmoset = marmosetFiles
