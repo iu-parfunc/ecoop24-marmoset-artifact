@@ -11,7 +11,7 @@ import os
 import sys
 import argparse
 
-iterations = 50
+iterations = 72
 inf_buffer_size = 10000000000
 
 WORKDIR=os.path.dirname(__file__)
@@ -225,25 +225,44 @@ for file in executables:
             print("Running " + str(file) + "...")
         
         runtimeFile = file + ".txt"
-        
-        cmd =  [file , "--inf-buffer-size", str(inf_buffer_size), "--iterate", str(iterations)]
-        
+
         writeFileHandle = open(runtimeFile, "w")
-
-
-        c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
-        c.wait()
-        output, error = c.communicate()
         
-        if arguments.verbose:
-            print(output)
-            print(error)
-            print(c)
+        if "RightMost" not in file:
 
-        if c.returncode != 0:
-            cmd =  [file , "--iterate", str(iterations)]
+            cmd =  [file , "--inf-buffer-size", str(inf_buffer_size), "--iterate", str(iterations)]
+
             c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
             c.wait()
+            output, error = c.communicate()
+        
+            if arguments.verbose:
+                print(output)
+                print(error)
+                print(c)
+
+            if c.returncode != 0:
+                cmd =  [file , "--iterate", str(iterations)]
+                c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
+                c.wait()
+        else:
+
+            for i in range(iterations):
+                cmd =  [file , "--inf-buffer-size", str(inf_buffer_size), "--iterate", "1"]
+
+                c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
+                c.wait()
+                output, error = c.communicate()
+
+                if arguments.verbose:
+                    print(output)
+                    print(error)
+                    print(c)
+
+                if c.returncode != 0:
+                    cmd =  [file , "--iterate", "1"]
+                    c = subprocess.Popen(cmd, stdout=writeFileHandle, stderr=subprocess.PIPE, universal_newlines=True)
+                    c.wait()
 
         writeFileHandle.close()
         readFileHandle = open(runtimeFile, "r")

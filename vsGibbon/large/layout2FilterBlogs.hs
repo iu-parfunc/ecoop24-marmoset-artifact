@@ -22,7 +22,7 @@ checkBlogs keyword blogs = case blogs of
                                                                                                         
 gibbon_main = 
    let 
-       blogs     = mkBlogs_layout2  1000000 500 100
+       blogs     = mkBlogs_layout2  1000000 500 5
        keyword :: Vector Char  
        keyword = "a"
        newblgs = iterate (filterByKeywordInTagList keyword blogs)
