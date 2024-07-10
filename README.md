@@ -55,8 +55,8 @@ developed for the kick-the-tires stage.
   working directory and the `$HOME` in the container is `/root`. The `run.sh`
   script in this directory may serve as a master script to run either the
   `small` set of inputs or the full set (the default). The two folders
-  `~/vsGibbon` and `~/vsGHC` contain benchmarks to evaluate Marmoset against
-  Gibbon and GHC, following the Evaluation section of the paper. The
+  `~/vsGibbon`, `~/vsGHC` and `~/vsSML` contain benchmarks to evaluate Marmoset against
+  Gibbon, GHC and standard ML, following the Evaluation section of the paper. The
   `~/marmoset` directory contains the Gibbon compiler with the Marmoset
   extension. The code is pre-built and available in `$PATH` as `gibbon`
   (Marmoset is activated by `gibbon` flags).
@@ -75,9 +75,9 @@ The source files of Gibbon and Marmoset reside in `~/marmoset` (`~` is `/root`).
 
 All scripts and benchmarks reside in one of the two directories in the container:
 
-1. `~/vsGibbon` — evaluation for Gibbon and Marmoset (Tables 1–8 and Figure 10).
+1. `~/vsGibbon` — evaluation for Gibbon and Marmoset (Tables 1–8 and Figure 9).
 
-2. `~/vsGHC` — evaluation for GHC and Marmoset (Figure 9).
+2. `~/vsSML` — evaluation for GHC and Marmoset (Figure 10).
 
 In each of these, there are two subdirectories that contain `small` and `large`
 benchmarks respectively. The two kinds of benchmark programs differ only in
@@ -88,11 +88,11 @@ Four Python scripts map on the figures and tables in the paper as follows:
 
 1. `~/vsGibbon/generate_runtimes.py` — generates the run times  for Gibbon, Marmoset-greedy, and Marmoset-solver, `Tables 1-7`
 
-2. `~/vsGibbon/generate_compile_times.py` — generates the compile times, `Figure 10`.
+2. `~/vsGibbon/generate_compile_times.py` — generates the compile times, `Figure 9`.
 
-3. `~/vsGibbon/generate_cache_stats.py` — generates the statistics for cache, `Table 8`.
+3. `~/vsGibbon/generate_cache_stats.py` — generates the statistics for cache, `Table 5`.
    
-4. `~/vsGHC/generate_ghc_numbers.py` — generates the run times for GHC, `Figure 9`.
+4. `~/vsGHC/generate_sml_numbers.py` — generates the run times for GHC, `Figure 8`.
 
 Script [3] relies on the PAPI framework, which does not function properly inside
 Docker. We provide directions for optionally running it outside the
@@ -117,6 +117,7 @@ in a separate column (the last column). In particular,
 
 1. `~/vsGibbon/generate_runtimes.py`
     - `small` mode: <10 minutes
+    - `vsSML` mode: <60 minutes
     - default mode: <60 minutes
 
 2. `~/vsGibbon/generate_compile_times.py`
@@ -129,16 +130,20 @@ in a separate column (the last column). In particular,
     - `small` mode: ~15 minutes
     - default mode: ~100 minutes
 
+5. `~/vsGHC/generate_sml_numbers.py`
+    - default mode: ~100 minutes
+
 ### Output files
 
 #### CSV files
 
 1. `~/vsGibbon/generate_runtimes.py`
     - `small` mode: .csv files are written to `~/vsGibbon/small`
+    - `vsSML` mode: .csv files are written to `~/vsGibbon/large_sml`
     - default mode: .csv files are written to `~/vsGibbon/large`
 
 2. `~/vsGibbon/generate_cache_stats.py`
-    - default mode: .csv files are written to `~/vsGibbon/large`: It outputs three .csv files for Table 8.
+    - default mode: .csv files are written to `~/vsGibbon/large`: It outputs three .csv files for Table 5.
 
 #### PDF files 
 
@@ -153,6 +158,13 @@ in a separate column (the last column). In particular,
     - `SpeedupMarmosetGhcContentSearch.pdf`, and 
     - `SpeedupMarmosetGhcTagSearch.pdf`. 
     The files will always be written in `~/vsGHC/large` or `~/vsGHC/small`
+    depending on which mode we run in.
+
+3. `~/vsGHC/generate_sml_numbers.py` outputs three PDF files: 
+    - `SpeedupMarmosetSmlFilterBlogs.pdf`,
+    - `SpeedupMarmosetSmlContentSearch.pdf`, and 
+    - `SpeedupMarmosetSmlTagSearch.pdf`. 
+    The files will always be written in `~/vsSML/large` or `~/vsSML/small`
     depending on which mode we run in.
 
 #### Mapping of CSV files to the tables in the paper
@@ -303,7 +315,7 @@ the names of the benchmark programs.
 - Some scripts output PDF files, which can be transferred out of the container using [```docker cp```](https://docs.docker.com/engine/reference/commandline/container_cp/)
   command, in order to view them. 
 
-- `~/vsGibbon/generate_runtimes.py` and `~/vsGHC/generate_ghc_numbers.py` can take an additional `--verbose` flag to show extra output while the script is running.
+- `~/vsGibbon/generate_runtimes.py`, `~/vsGHC/generate_ghc_numbers.py` and `~/vsGHC/generate_sml_numbers.py` can take an additional `--verbose` flag to show extra output while the script is running.
 
 ### Build Marmoset and PAPI outside Docker for generating Table 8
 
