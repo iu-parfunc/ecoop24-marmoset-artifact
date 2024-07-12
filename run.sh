@@ -5,6 +5,7 @@ then
     echo "No argument passed, running the large input set by default."
     python3 /root/vsGibbon/generate_runtimes.py
     python3 /root/vsGibbon/generate_compile_times.py
+    cd /root/vsSML/ && python3 generate_sml_numbers.py
     cd /root/vsGHC/ && python3 generate_ghc_numbers.py
 
 else
