@@ -1,0 +1,232 @@
+\documentclass[a4paper,UKenglish, authorcolumns]{darts-v2021}
+%This is a template for producing DARTS artifact descriptions. 
+%for A4 paper format use option "a4paper", for US-letter use option "letterpaper"
+%for british hyphenation rules use option "UKenglish", for american hyphenation rules use option "USenglish"
+% for section-numbered lemmas etc., use "numberwithinsect"
+%for anonymousing the authors (e.g. for double-blind review), add "anonymous"
+%for enabling a two-column layout for the author/affilation part (only applicable for > 6 authors), use "authorcolumns"
+%for producing a PDF according the PDF/A standard, add "pdfa"
+ 
+\usepackage{microtype}%if unwanted, comment out or use option "draft"
+\usepackage{xspace}
+
+
+%\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
+
+%\nolinenumbers to disable line numbers
+
+\bibliographystyle{plainurl}% the mandatory bibstyle
+
+% Commands for artifact descriptions
+% Written by Camil Demetrescu and Erik Ernst
+% April 8, 2014
+
+\newenvironment{scope}{\section{Scope}}{}
+\newenvironment{content}{\section{Content}}{}
+\newenvironment{getting}{\section{Getting the artifact} The artifact 
+endorsed by the Artifact Evaluation Committee is available free of 
+charge on the Dagstuhl Research Online Publication Server (DROPS).}{}
+\newenvironment{platforms}{\section{Tested platforms}}{}
+\newcommand{\license}[1]{{\section{License}#1}}
+\newcommand{\mdsum}[1]{{\section{MD5 sum of the artifact}#1}}
+\newcommand{\artifactsize}[1]{{\section{Size of the artifact}#1}}
+
+
+% Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Optimizing Layout of Recursive Datatypes with Marmoset (Artifact)} %TODO Please add
+
+%\titlerunning{A Sample DARTS Research Description (Artifact)} %optional, in case that the title is too long; the running title should fit into the top page column
+
+% ARTIFACT: Authors may not be exactly the same as the related scholarly paper, e.g., you may want to include authors who contributed to the preparation of the artifact, but not to the companion paper
+
+\author{Vidush Singhal}{Purdue University, USA}
+{singhav@purdue.edu}{https://orcid.org/0000-0001-6912-3840}
+{}
+
+\author{Chaitanya Koparkar}{Indiana University, USA}
+{ckoparka@indiana.edu}{https://orcid.org/0000-0002-4515-8499}
+{}
+
+\author{Joseph Zullo}{Purdue University, USA}
+{jzullo@purdue.edu}{https://orcid.org/0000-0002-3908-9853}
+{}
+
+\author{Artem Pelenitsyn}{Purdue University, USA}
+{apelenit@purdue.edu}{https://orcid.org/0000-0001-8334-8106}
+{}
+
+\author{Michael Vollmer}{University of Kent, UK}
+{M.Vollmer@kent.ac.uk}{https://orcid.org/0000-0002-0496-8268}
+{}
+
+\author{Mike Rainey}{Carnegie Mellon University, USA}
+{me@mike-rainey.site}{https://orcid.org/0009-0002-9659-1636}
+{}
+
+\author{Ryan Newton}{Purdue University, USA}
+{rrnewton@purdue.edu}{https://orcid.org/0000-0003-3934-9165}
+{}
+
+%$^*$
+\author{Milind Kulkarni}{Purdue University, USA}
+{milind@purdue.edu}{https://orcid.org/0000-0001-6827-345X}
+{}
+
+
+%\author{John Q. Public}{Dummy University Computing Laboratory, [optional: Address], Country \and My second affiliation, Country \and \url{http://www.myhomepage.edu} }{johnqpublic@dummyuni.org}{https://orcid.org/0000-0002-1825-0097}{(Optional) author-specific funding acknowledgements}%TODO mandatory, please use full name; only 1 author per \author macro; first two parameters are mandatory, other parameters can be empty. Please provide at least the name of the affiliation and the country. The full address is optional
+
+%\author{Joan R. Public\footnote{Optional footnote, e.g. to mark corresponding author}}{Department of Informatics, Dummy College, [optional: Address], Country}{joanrpublic@dummycollege.org}{[orcid]}{[funding]}
+
+%\authorrunning{J.\,Q. Public and J.\,R. Public}%TODO mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et al.'
+
+\authorrunning{V. Singhal et al.}
+
+%\Copyright{John Q. Public and Joan R. Public}%TODO mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+
+\Copyright{Vidush Singhal, Chaitanya K., Joseph Z., Artem P., Michael V., Mike R., Ryan N. and Milind K.}
+
+%\ccsdesc[100]{General and reference~General literature}
+%\ccsdesc[100]{General and reference}%TODO mandatory: Please choose ACM 2012 classifications from https://dl.acm.org/ccs/ccs_flat.cfm 
+
+\ccsdesc[500]{Software and its engineering~Compilers}
+\ccsdesc[500]{Software and its engineering~Software performance}
+\ccsdesc[500]{Information systems~Data layout}
+
+%\keywords{Dummy keyword}%TODO mandatory; please add comma-separated list of keywords
+
+\keywords{Tree traversals, Compilers, Data layout optimization, Dense data layout} %TODO mandatory; please add comma-separated list of keywords
+
+
+%TODO Please provide information to the related scholarly article
+\RelatedArticle{``Optimizing Layout of Recursive Datatypes with Marmoset''}
+
+\acknowledgements{This work was supported in part by NSF CCF-1908504, CCF-1919197, CCF-2216978, CCF-2119352, CCF-1909862
+and EPSRC EP/X021173/1.}
+%\funding{(Optional) general funding statement \dots}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
+
+%\nolinenumbers %uncomment to disable line numbering
+
+%Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Volume{3}
+\Issue{2}
+\Article{1}
+\RelatedConference{42nd Conference on Very Important Topics (CVIT 2016), December 24--27, 2016, Little Whinging, United Kingdom}
+% Editor-only macros::end %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\system}{{\sc Marmoset}\xspace}
+\newcommand{\gibbon}{{\sc Gibbon}\xspace}
+\newcommand{\mlton}{{\sc MLton}\xspace}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    While programmers know that memory representation of data structures can have significant effects
+    on performance, compiler support to {\em optimize} the layout of those structures is an under-explored field.
+    Prior work has optimized the layout of individual, \textit{non-recursive} structures without considering how
+    collections of those objects in linked or \textit{recursive} data structures are laid out.
+    %The internal layout of constituent objects in linked data structures is an under-explored field.
+    
+    %or focused on arranging the
+    %placement of linked data structures without considering the internal layout of the constituent objects.
+    
+    This work introduces \system, a compiler that optimizes the layouts of algebraic datatypes, with a special focus
+    on producing highly optimized, {\em packed} data layouts where recursive structures can be traversed with minimal
+    pointer chasing. \system performs an analysis of how a recursive ADT is used across functions to choose a \textit{global} layout
+    that promotes simple, strided access for that ADT in memory. It does so by building and solving a constraint system
+    to minimize an abstract cost model, yielding a predicted efficient layout for the ADT. \system then builds on top
+    of \gibbon, a prior compiler for packed, mostly-serial representations, to synthesize optimized ADTs. We show experimentally
+    that \system is able to choose optimal layouts across a series of microbenchmarks and case studies, outperforming both
+    \gibbon's baseline approach, as well as \mlton, a Standard ML compiler that uses traditional
+    pointer-heavy representations.
+\end{abstract}
+
+% ARTIFACT: please stick to the structure of 7 sections provided below
+
+% ARTIFACT: section on the scope of the artifact (what claims of the paper are intended to be backed by this artifact?)
+\begin{scope}
+%What is the scope of the artifact? What claims of the related scholarly paper are intended to be backed by this artifact?
+
+This artifact is an accompaniment to the conference paper "Optimizing Layout of Recursive Datatypes with Marmoset".
+This artifact helps validate the claims made in the evaluation section of the paper. 
+It helps to validate the results shown in Table 1-5 and Figures 8 and 9. 
+\end{scope}
+
+% ARTIFACT: section on the contents of the artifact (code, data, etc.)
+\begin{content}
+The artifact package includes:
+\begin{itemize}
+\item A README with instructions on how to install the artifact.
+\item A Dockerfile to build a Docker~\cite{merkel2014docker} image. 
+\item A tar ball of the pre built docker image.
+\item Python scripts to run the experiments.
+\item Source files of benchmarks. 
+\end{itemize}
+\end{content}
+
+% ARTIFACT: section containing links to sites holding the
+% latest version of the code/data, if any
+\begin{getting}
+% leave empty if the artifact is only available on the DROPS server.
+% otherwise, provide links to the latest version of the artifact (e.g., on github)
+In addition, the artifact is also available at:
+\begin{itemize}
+\item Zenodo: \url{https://zenodo.org/records/10732462}
+\item Github: \url{https://github.com/iu-parfunc/ecoop24-marmoset-artifact.git}
+\end{itemize}
+For the most current version of the artifact, please check the github repository 
+for the most recent updates.
+\end{getting}
+
+% ARTIFACT: section specifying the platforms on which the artifact is known to
+% work, including requirements beyond the operating system such as large
+% amounts of memory or many processor cores
+\begin{platforms}
+The Artifact will work on any CPU configuration. However, it requires a large RAM for bigger 
+datasets to work. The experiments were run on an AMD Ryzen Threadripper 3990X 64-Core processor.
+It has 252 Gb of RAM and the operating system is Ubuntu 22.04.3 LTS.
+It is recommended to run the experiments on a system with > 100 GB of RAM. 
+\end{platforms}
+
+% ARTIFACT: section specifying the license under which the artifact is
+% made available
+\license{The artifact is available under The Creative Commons Attribution 4.0 International License.~\cite{CC-Liscense}}
+
+% ARTIFACT: section specifying the md5 sum of the artifact master file
+% uploaded to the Dagstuhl Research Online Publication Server, enabling 
+% downloaders to check that the file is the expected version and suffered 
+% no damage during download.
+\mdsum{224d1336264a5fd07c2cc56d525ee33e}
+
+% ARTIFACT: section specifying the size of the artifact master file uploaded
+% to the Dagstuhl Research Online Publication Server
+\artifactsize{3.0GB}
+
+\input{README.tex}
+
+% ARTIFACT: optional appendix
+%\appendix
+%\section{Morbi eros magna}
+
+%Morbi eros magna, vestibulum non posuere non, porta eu quam. Maecenas vitae orci risus, eget imperdiet mauris. Donec massa mauris, pellentesque vel lobortis eu, molestie ac turpis. Sed condimentum convallis dolor, a dignissim est ultrices eu. Donec consectetur volutpat eros, et ornare dui ultricies id. Vivamus eu augue eget dolor euismod ultrices et sit amet nisi. Vivamus malesuada leo ac leo ullamcorper tempor. Donec justo mi, tempor vitae aliquet non, faucibus eu lacus. Donec dictum gravida neque, non porta turpis imperdiet eget. Curabitur quis euismod ligula \cite{DBLP:books/mk/GrayR93,DBLP:conf/focs/FOCS16,DBLP:conf/focs/HopcroftPV75,DBLP:journals/cacm/Dijkstra68a,DBLP:journals/cacm/Knuth74}. 
+
+
+% ARTIFACT: include here any additional references, if needed...
+
+%%
+%% Bibliography
+%%
+
+%% Either use bibtex (recommended), 
+
+\bibliography{darts-v2021-sample-article}
+
+%% .. or use the thebibliography environment explicitely
+
+
+
+\end{document}

@@ -1,0 +1,75 @@
+@misc{CC-Liscense,
+  title = {Creative Commons Attribution 4.0 International License},
+  howpublished = {\url{https://creativecommons.org/licenses/by/4.0/}},
+  note = {Accessed: 2024-07-12}
+}
+
+@misc{singhal2024optimizinglayoutrecursivedatatypes,
+      title={Optimizing Layout of Recursive Datatypes with Marmoset}, 
+      author={Vidush Singhal and Chaitanya Koparkar and Joseph Zullo and Artem Pelenitsyn and Michael Vollmer and Mike Rainey and Ryan Newton and Milind Kulkarni},
+      year={2024},
+      eprint={2405.17590},
+      archivePrefix={arXiv},
+      primaryClass={cs.PL},
+      url={https://arxiv.org/abs/2405.17590}, 
+}
+
+@article {icl:31,
+	title = {A Portable Programming Interface for Performance Evaluation on Modern Processors},
+	journal = {The International Journal of High Performance Computing Applications},
+	volume = {14},
+	number = {3},
+	year = {2000},
+	month = {2000-09},
+	pages = {189-204},
+	keywords = {papi},
+	doi = {https://doi.org/10.1177/109434200001400303},
+	author = {Shirley Browne and Jack Dongarra and Nathan Garner and George Ho and Phil Mucci}
+}
+
+@article{merkel2014docker,
+  title={Docker: lightweight linux containers for consistent development and deployment},
+  author={Merkel, Dirk},
+  journal={Linux journal},
+  volume={2014},
+  number={239},
+  pages={2},
+  year={2014}
+}
+
+@InProceedings{gib1,
+  author =	{Vollmer, Michael and Spall, Sarah and Chamith, Buddhika and Sakka, Laith and Koparkar, Chaitanya and Kulkarni, Milind and Tobin-Hochstadt, Sam and Newton, Ryan R.},
+  title =	{{Compiling Tree Transforms to Operate on Packed Representations}},
+  booktitle =	{31st European Conference on Object-Oriented Programming (ECOOP 2017)},
+  pages =	{26:1--26:29},
+  series =	{Leibniz International Proceedings in Informatics (LIPIcs)},
+  ISBN =	{978-3-95977-035-4},
+  ISSN =	{1868-8969},
+  year =	{2017},
+  volume =	{74},
+  editor =	{M\"{u}ller, Peter},
+  publisher =	{Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik},
+  address =	{Dagstuhl, Germany},
+  URL =		{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ECOOP.2017.26},
+  URN =		{urn:nbn:de:0030-drops-72737},
+  doi =		{10.4230/LIPIcs.ECOOP.2017.26},
+  annote =	{Keywords: compiler optimization, program transformation, tree traversal}
+}
+
+@inproceedings{gib2,
+author = {Vollmer, Michael and Koparkar, Chaitanya and Rainey, Mike and Sakka, Laith and Kulkarni, Milind and Newton, Ryan R.},
+title = {LoCal: a language for programs operating on serialized data},
+year = {2019},
+isbn = {9781450367127},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3314221.3314631},
+doi = {10.1145/3314221.3314631},
+abstract = {In a typical data-processing program, the representation of data in memory is distinct from its representation in a serialized form on disk. The former has pointers and arbitrary, sparse layout, facilitating easy manipulation by a program, while the latter is packed contiguously, facilitating easy I/O. We propose a language, LoCal, to unify in-memory and serialized formats. LoCal extends a region calculus into a location calculus, employing a type system that tracks the byte-addressed layout of all heap values. We formalize LoCal and prove type safety, and show how LoCal programs can be inferred from unannotated source terms. We transform the existing Gibbon compiler to use LoCal as an intermediate language, with the goal of achieving a balance between code speed and data compactness by introducing just enough indirection into heap layouts, preserving the asymptotic complexity of traditional representations, but working with mostly or completely serialized data. We show that our approach yields significant performance improvement over prior approaches to operating on packed data, without abandoning idiomatic programming with recursive functions.},
+booktitle = {Proceedings of the 40th ACM SIGPLAN Conference on Programming Language Design and Implementation},
+pages = {48–62},
+numpages = {15},
+keywords = {Compiler Optimization, Data Encoding, Region Calculus, Tree Traversal},
+location = {Phoenix, AZ, USA},
+series = {PLDI 2019}
+}

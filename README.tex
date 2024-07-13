@@ -1,0 +1,797 @@
+\hypertarget{ecoop-2024-artifact-marmoset}{%
+\section{ECOOP 2024 Artifact -- User Guide}\label{ecoop-2024-artifact-marmoset}}
+
+Title of the submitted paper:
+
+\begin{quote}
+Optimizing Layout of Recursive Data Types with Marmoset
+\end{quote}
+
+\hypertarget{quick-start-guide}{%
+\subsection{Quick-start guide}\label{quick-start-guide}}
+
+The artifact is bundled as an OCI container created with Podman
+(Dockerfile is available). The Docker image is \texttt{tar}red as
+\texttt{marmosetArtifact.tar} The image can be added to the local Docker
+store as follows:
+
+\begin{verbatim}
+docker load --input marmosetArtifact.tar
+\end{verbatim}
+
+Alternatively, you can build the image with the Dockerfile
+
+\begin{verbatim}
+DOCKER_BUILDKIT=1 docker image build -t marmoset -f Dockerfile .
+\end{verbatim}
+
+Once you get the image, start the session as follows (so called
+\texttt{CMD1}):
+
+\begin{verbatim}
+docker run --rm -ti marmoset
+\end{verbatim}
+
+For the kick-the-tires stage, execute the following commands upon
+entering the container:
+
+\begin{verbatim}
+cd vsGibbon
+./generate_runtimes.py --run quick
+\end{verbatim}
+
+This should take about a minute and at the end print the contents
+equivalent to the contents of Tables 1 and 2 in the paper. The
+\texttt{quick} mode is specifically developed for the kick-the-tires
+stage.
+
+\hypertarget{overview}{%
+\subsection{Overview}\label{overview}}
+
+\begin{itemize}
+\item
+  type of artifact --- code, in particular:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    source files of the Gibbon~\cite{gib1, gib2} compiler with our extension to it called
+    Marmoset.
+  \item
+    Gibbon binaries including Marmoset.
+  \item
+    Python and Bash scripts to run Gibbon, Marmoset and GHC to reproduce
+    the main tables and figures of the paper.
+  \end{itemize}
+\item
+  format --- Marmoset is implemented in Haskell (like the rest of
+  Gibbon). The scripts produce a combination of \texttt{.csv} and
+  \texttt{.pdf} files holding the data in the tables and figures. Also,
+  the benchmark programs discussed in the paper are stored as files with
+  the \texttt{.hs} extension.
+\item
+  location in the container --- After entering the container via the
+  instructions provided above, the structure of the container is as
+  follows. The default working directory and the \texttt{\$HOME} in the
+  container is \texttt{/root}. The \texttt{run.sh} script in this
+  directory may serve as a master script to run either the
+  \texttt{small} set of inputs or the full set (the default). The two
+  folders \texttt{\textasciitilde{}/vsGibbon},
+  \texttt{\textasciitilde{}/vsGHC} and \texttt{\textasciitilde{}/vsSML}
+  contain benchmarks to evaluate Marmoset against Gibbon, GHC and
+  standard ML, following the Evaluation section of the paper. The
+  \texttt{\textasciitilde{}/marmoset} directory contains the Gibbon
+  compiler with the Marmoset extension. The code is pre-built and
+  available in \texttt{\$PATH} as \texttt{gibbon} (Marmoset is activated
+  by \texttt{gibbon} flags).
+\end{itemize}
+
+\hypertarget{for-authors-claiming-an-available-badge}{%
+\subsection{Proof of availability}\label{for-authors-claiming-an-available-badge}}
+
+We posted the artifact on Zenodo in addition to Dagstuhl:
+\url{https://doi.org/10.5281/zenodo.10578861}. The artifact is available under the
+\texttt{Creative\ Commons\ Attribution\ 4.0\ International} license.
+
+\hypertarget{for-authors-claiming-a-functional-or-reusable-badge}{%
+\subsection{Proof for a functional or reusable
+badge}\label{for-authors-claiming-a-functional-or-reusable-badge}}
+
+\hypertarget{files-structure-in-the-container}{%
+\subsubsection{Files structure in the
+container}\label{files-structure-in-the-container}}
+
+The source files of Gibbon and Marmoset reside in
+\texttt{\textasciitilde{}/marmoset} (\texttt{\textasciitilde{}} is
+\texttt{/root}).
+
+All scripts and benchmarks reside in one of the three directories in the
+container:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \texttt{\textasciitilde{}/vsGibbon} --- evaluation for Gibbon and
+  Marmoset (Tables 1--3 and Figure 9).
+\item
+  \texttt{\textasciitilde{}/vsSML} --- evaluation for Marmoset vs MLton
+  (Figure 10).
+\item
+  \texttt{\textasciitilde{}/vsGHC} --- evaluation for Marmoset vs GHC
+  (for the extended version of the paper).
+\end{enumerate}
+
+In (1) and (3), there are two subdirectories that contain \texttt{small}
+and \texttt{large} benchmarks respectively. The two kinds of benchmark
+programs differ only in sizes of inputs. The \texttt{large} variant
+should more faithfully reproduce the results in the paper but requires
+big RAM (\textgreater100Gb).
+
+Four Python scripts map on the figures and tables in the paper as
+follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \texttt{\textasciitilde{}/vsGibbon/generate\_runtimes.py} ---
+  generates the run times for Gibbon, Marmoset-greedy, and
+  Marmoset-solver, \texttt{Tables\ 1-3}
+\item
+  \texttt{\textasciitilde{}/vsGibbon/generate\_compile\_times.py} ---
+  generates the compile times, \texttt{Figure\ 9}.
+\item
+  \texttt{\textasciitilde{}/vsGibbon/generate\_cache\_stats.py} ---
+  generates the statistics for CPU cache, \texttt{Table\ 5}.
+\item
+  \texttt{\textasciitilde{}/vsSML/generate\_sml\_numbers.py} ---
+  generates the run times for MLton, \texttt{Figure\ 8}.
+\item
+  \texttt{\textasciitilde{}/vsGHC/generate\_ghc\_numbers.py} ---
+  generates the run times for GHC as presented in the extended version
+  of the paper~\cite{singhal2024optimizinglayoutrecursivedatatypes}.
+\end{enumerate}
+
+Script (3) relies on the PAPI~\cite{icl:31} framework, which does not work inside a
+container. Below we provide instructions for running it outside the
+container (section ``Build Marmoset and PAPI outside Docker for
+generating Table 5'').
+
+The other three scripts can run sequentially from one master script
+called \texttt{\textasciitilde{}/run.sh}. The master script accepts the
+\texttt{small} flag, as well as scripts (1) and (5), so that the results
+can reproduce at a smaller scale on an average consumer machine using
+the benchmarks in the \texttt{small} directories.
+
+After executing \texttt{CMD1} (see above) and entering the container,
+use either the master script \texttt{\textasciitilde{}/run.sh} or the
+individual scripts to reproduce the figures and tables. For example,
+\texttt{./generate\_runtimes.py} (inside \texttt{vsGibbon}) generates
+the run times for Gibbon and Marmoset, prints them in a tabular form,
+and stores them in CSV files. In addition to the raw run times, the
+script also prints out the speedups in a separate column (the last
+column). In particular,
+
+\begin{quote}
+\texttt{speedup} = (slowest Gibbon, i.e, red color in the table) /
+\texttt{Marmoset\_solver}.
+\end{quote}
+
+\hypertarget{approximate-timings}{%
+\subsubsection{Approximate timings}\label{approximate-timings}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \texttt{\textasciitilde{}/vsGibbon/generate\_runtimes.py}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{small} mode: \textless10 minutes
+  \item
+    \texttt{vsSML} mode: \textless60 minutes
+  \item
+    default mode: \textless60 minutes
+  \end{itemize}
+\item
+  \texttt{\textasciitilde{}/vsGibbon/generate\_compile\_times.py}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    default mode: \textless10 minutes
+  \end{itemize}
+\item
+  \texttt{\textasciitilde{}/vsGibbon/generate\_cache\_stats.py}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    default mode: \textless30 minutes
+  \end{itemize}
+\item
+  \texttt{\textasciitilde{}/vsSML/generate\_sml\_numbers.py}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    default mode: \textasciitilde100 minutes
+  \end{itemize}
+\item
+  \texttt{\textasciitilde{}/vsGHC/generate\_ghc\_numbers.py}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{small} mode: \textasciitilde15 minutes
+  \item
+    default mode: \textasciitilde100 minutes
+  \end{itemize}
+\end{enumerate}
+
+\hypertarget{output-files}{%
+\subsubsection{Output files}\label{output-files}}
+
+\hypertarget{csv-files}{%
+\paragraph{CSV files}\label{csv-files}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \texttt{\textasciitilde{}/vsGibbon/generate\_runtimes.py}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{vsSML} mode: .csv files are written to
+    \texttt{\textasciitilde{}/vsGibbon/large\_sml} (for comparison to
+    MLton)
+  \item
+    \texttt{small} mode: .csv files are written to
+    \texttt{\textasciitilde{}/vsGibbon/small} (for comparison to GHC)
+  \item
+    default mode: .csv files are written to
+    \texttt{\textasciitilde{}/vsGibbon/large} (for comparison to GHC)
+  \end{itemize}
+\item
+  \texttt{\textasciitilde{}/vsGibbon/generate\_cache\_stats.py}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    default mode: .csv files are written to
+    \texttt{\textasciitilde{}/vsGibbon/large}. It outputs three .csv
+    files for Table 5.
+  \end{itemize}
+\end{enumerate}
+
+\hypertarget{pdf-files}{%
+\paragraph{PDF files}\label{pdf-files}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \texttt{\textasciitilde{}/vsGibbon/generate\_compile\_times.py}
+  outputs three PDF files:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{FilterBlogCompileTimes.pdf},
+  \item
+    \texttt{ContentSearchCompileTimes.pdf}, and
+  \item
+    \texttt{TagSearchCompileTimes.pdf} for the three compile time
+    subfigures in Figure 9 respectively. The files will be written in
+    the working directory.
+  \end{itemize}
+\item
+  \texttt{\textasciitilde{}/vsSML/generate\_sml\_numbers.py} outputs
+  three PDF files:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{SpeedupMarmosetSmlFilterBlogs.pdf},
+  \item
+    \texttt{SpeedupMarmosetSmlContentSearch.pdf}, and
+  \item
+    \texttt{SpeedupMarmosetSmlTagSearch.pdf}. The files will be written
+    in \texttt{\textasciitilde{}/vsSML/large}.
+  \end{itemize}
+\item
+  \texttt{\textasciitilde{}/vsGHC/generate\_ghc\_numbers.py} outputs
+  three PDF files:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{SpeedupMarmosetGhcFilterBlogs.pdf},
+  \item
+    \texttt{SpeedupMarmosetGhcContentSearch.pdf}, and
+  \item
+    \texttt{SpeedupMarmosetGhcTagSearch.pdf}. The files will be written
+    in \texttt{\textasciitilde{}/vsGHC/large} or
+    \texttt{\textasciitilde{}/vsGHC/small} depending on which mode we
+    run in.
+  \end{itemize}
+\end{enumerate}
+
+\hypertarget{mapping-of-csv-files-to-the-tables-in-the-paper}{%
+\paragraph{Mapping of CSV files to the tables in the
+paper}\label{mapping-of-csv-files-to-the-tables-in-the-paper}}
+
+For every table, we show below how the row and column names in the paper
+map on the CSV files and on the filenames of the benchmarks in the
+artifact. The filenames are either for source files (if compiled with
+Gibbon) or for binaries produced by Marmoset from one of the versions of
+the source files (the particular version can be decoded from the binary
+name, e.g.: \texttt{layout2ListLenGreedy} is compiled from
+\texttt{layout2ListLen.hs}).
+
+Generally, the names of CSV files do not much the table numbers in the
+paper (e.g.~the \texttt{ListLength} numbers are reported in the
+\texttt{Table2.csv} file, while in the paper these numbers are a part of
+Table 1), but the mapping below resolves the mismatches. Another
+difference is that our scripts print the median times along with the
+mean and lower and upper bounds of the confidence interval that are
+reported in the paper.
+
+\begin{itemize}
+\item
+  Table 1
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Line \texttt{ListLength} maps to \texttt{Table2.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{List} maps to \texttt{layout2ListLen.hs}
+    \item
+      \texttt{List\textquotesingle{}} maps to \texttt{layout1ListLen.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{layout2ListLenGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{layout2ListLenSolver}
+    \end{itemize}
+  \item
+    Line \texttt{LogicEval} maps to \texttt{Table3.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{lr} maps to \texttt{eval\_l.hs}
+    \item
+      \texttt{rl} maps to \texttt{eval\_r.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{eval\_rGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{eval\_rSolver}
+    \end{itemize}
+  \item
+    Line \texttt{Rightmost}: \texttt{Table5.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{lr} maps to \texttt{TreeRightMost\_l.hs}
+    \item
+      \texttt{rl} maps to \texttt{TreeRightMost\_r.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{TreeRightMost\_lGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{TreeRightMost\_lSolver}
+    \end{itemize}
+  \end{itemize}
+\item
+  Table 2
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Line \texttt{AddOneTree}: \texttt{Table4a.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{Misalgn\_pre} maps to \texttt{TreeAddOnePrePost.hs}
+    \item
+      \texttt{Algn\_pre} maps to \texttt{TreeAddOnePre.hs}
+    \item
+      \texttt{Algn\_in} maps to \texttt{TreeAddOneIn.hs}
+    \item
+      \texttt{Algn\_post} maps to \texttt{TreeAddOnePost.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{TreeAddOnePreGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{TreeAddOnePreSolver}
+    \end{itemize}
+  \item
+    Line \texttt{ExpTree}: \texttt{Table4b.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{Misalgn\_pre} maps to \texttt{TreeExpoPrePost.hs}
+    \item
+      \texttt{Algn\_pre} maps to \texttt{TreeExpoPre.hs}
+    \item
+      \texttt{Algn\_in} maps to \texttt{TreeExpoIn.hs}
+    \item
+      \texttt{Algn\_post} maps to \texttt{TreeExpoPost.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{TreeExpoPreGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{TreeExpoPreSolver}
+    \end{itemize}
+  \item
+    Line \texttt{CopyTree}: \texttt{Table4c.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{Misalgn\_pre} maps to \texttt{TreeCopyPrePost.hs}
+    \item
+      \texttt{Algn\_pre} maps to \texttt{TreeCopyPre.hs}
+    \item
+      \texttt{Algn\_in} maps to \texttt{TreeCopyIn.hs}
+    \item
+      \texttt{Algn\_post} maps to \texttt{TreeCopyPost.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{TreeCopyPreGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{TreeCopyPreSolver}
+    \end{itemize}
+  \end{itemize}
+\item
+  Table 3
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Line \texttt{FilterBlogs}: \texttt{Table6a.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{hiadctb} maps to \texttt{layout1FilterBlogs.hs}
+    \item
+      \texttt{ctbhiad} maps to \texttt{layout2FilterBlogs.hs}
+    \item
+      \texttt{tbchiad} maps to \texttt{layout3FilterBlogs.hs}
+    \item
+      \texttt{tcbhiad} maps to \texttt{layout4FilterBlogs.hs}
+    \item
+      \texttt{btchiad} maps to \texttt{layout5FilterBlogs.hs}
+    \item
+      \texttt{bchiadt} maps to \texttt{layout7FilterBlogs.hs}
+    \item
+      \texttt{cbiadht} maps to \texttt{layout8FilterBlogs.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{layout8FilterBlogsGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{layout8FilterBlogsSolver}
+    \end{itemize}
+  \item
+    Line \texttt{EmphContent}: \texttt{Table6b.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{hiadctb} maps to \texttt{layout1ContentSearch.hs}
+    \item
+      \texttt{ctbhiad} maps to \texttt{layout2ContentSearch.hs}
+    \item
+      \texttt{tbchiad} maps to \texttt{layout3ContentSearch.hs}
+    \item
+      \texttt{tcbhiad} maps to \texttt{layout4ContentSearch.hs}
+    \item
+      \texttt{btchiad} maps to \texttt{layout5ContentSearch.hs}
+    \item
+      \texttt{bchiadt} maps to \texttt{layout7ContentSearch.hs}
+    \item
+      \texttt{cbiadht} maps to \texttt{layout8ContentSearch.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{layout8ContentSearchGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{layout8ContentSearchSolver}
+    \end{itemize}
+  \item
+    Line \texttt{TagSearch}: \texttt{Table6c.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{hiadctb} maps to \texttt{layout1TagSearch.hs}
+    \item
+      \texttt{ctbhiad} maps to \texttt{layout2TagSearch.hs}
+    \item
+      \texttt{tbchiad} maps to \texttt{layout3TagSearch.hs}
+    \item
+      \texttt{tcbhiad} maps to \texttt{layout4TagSearch.hs}
+    \item
+      \texttt{btchiad} maps to \texttt{layout5TagSearch.hs}
+    \item
+      \texttt{bchiadt} maps to \texttt{layout7TagSearch.hs}
+    \item
+      \texttt{cbiadht} maps to \texttt{layout8TagSearch.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{layout8TagSearchGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{layout8TagSearchSolver}
+    \end{itemize}
+  \end{itemize}
+\item
+  Table 4
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Line \texttt{FilterBlogs}: \texttt{Table7a.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{Gibbon} maps to \texttt{manyFuncs-FilterBlogs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{manyFuncsGreedy-FilterBlogs}
+    \item
+      \texttt{M\_Solver} maps to \texttt{manyFuncsSolver-FilterBlogs}
+    \end{itemize}
+  \item
+    Line \texttt{EmphContent}: \texttt{Table7b.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{Gibbon} maps to \texttt{manyFuncs-EmphKeyword}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{manyFuncsGreedy-EmphKeyword}
+    \item
+      \texttt{M\_Solver} maps to \texttt{manyFuncsSolver-EmphKeyword}
+    \end{itemize}
+  \item
+    Line \texttt{TagSearch}: \texttt{Table7c.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{Gibbon} maps to \texttt{manyFuncs-EmphKeywordInTag}
+    \item
+      \texttt{M\_Greedy} maps to
+      \texttt{manyFuncsGreedy-EmphKeywordInTag}
+    \item
+      \texttt{M\_Solver} maps to
+      \texttt{manyFuncsSolver-EmphKeywordInTag}
+    \end{itemize}
+  \end{itemize}
+\item
+  Table 5
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Line \texttt{FilterBlogs}: \texttt{Table8a.csv} (if run outside of
+    the docker using the cache script)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{hiadctb} maps to \texttt{layout1FilterBlogs.hs}
+    \item
+      \texttt{ctbhiad} maps to \texttt{layout2FilterBlogs.hs}
+    \item
+      \texttt{tbchiad} maps to \texttt{layout3FilterBlogs.hs}
+    \item
+      \texttt{tcbhiad} maps to \texttt{layout4FilterBlogs.hs}
+    \item
+      \texttt{btchiad} maps to \texttt{layout5FilterBlogs.hs}
+    \item
+      \texttt{bchiadt} maps to \texttt{layout7FilterBlogs.hs}
+    \item
+      \texttt{cbiadht} maps to \texttt{layout8FilterBlogs.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{layout8FilterBlogsGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{layout8FilterBlogsSolver}
+    \end{itemize}
+  \item
+    Line \texttt{EmphContent}: \texttt{Table8b.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{hiadctb} maps to \texttt{layout1ContentSearch.hs}
+    \item
+      \texttt{ctbhiad} maps to \texttt{layout2ContentSearch.hs}
+    \item
+      \texttt{tbchiad} maps to \texttt{layout3ContentSearch.hs}
+    \item
+      \texttt{tcbhiad} maps to \texttt{layout4ContentSearch.hs}
+    \item
+      \texttt{btchiad} maps to \texttt{layout5ContentSearch.hs}
+    \item
+      \texttt{bchiadt} maps to \texttt{layout7ContentSearch.hs}
+    \item
+      \texttt{cbiadht} maps to \texttt{layout8ContentSearch.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{layout8ContentSearchGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{layout8ContentSearchSolver}
+    \end{itemize}
+  \item
+    Line \texttt{TagSearch}: \texttt{Table8c.csv}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{hiadctb} maps to \texttt{layout1TagSearch.hs}
+    \item
+      \texttt{ctbhiad} maps to \texttt{layout2TagSearch.hs}
+    \item
+      \texttt{tbchiad} maps to \texttt{layout3TagSearch.hs}
+    \item
+      \texttt{tcbhiad} maps to \texttt{layout4TagSearch.hs}
+    \item
+      \texttt{btchiad} maps to \texttt{layout5TagSearch.hs}
+    \item
+      \texttt{bchiadt} maps to \texttt{layout7TagSearch.hs}
+    \item
+      \texttt{cbiadht} maps to \texttt{layout8TagSearch.hs}
+    \item
+      \texttt{M\_Greedy} maps to \texttt{layout8TagSearchGreedy}
+    \item
+      \texttt{M\_Solver} maps to \texttt{layout8TagSearchSolver}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{miscellaneous}{%
+\subsubsection{Miscellaneous}\label{miscellaneous}}
+
+\begin{itemize}
+\item
+  The output from
+  \texttt{\textasciitilde{}/vsGibbon/generate\_runtimes.py} is written
+  to CSV files and stdout. However, the output written to stdout may be
+  compressed (\texttt{...} between columns in the tables means
+  compressed output). The user may try to decrease the font size in the
+  terminal to see the full output. In any case, the CSV files have the
+  full output.
+\item
+  Some scripts output PDF files, which can be transferred out of the
+  container using
+  \href{https://docs.docker.com/engine/reference/commandline/container_cp/}{\texttt{docker\ cp}}
+  command, in order to view them.
+\item The following scripts can take an additional \texttt{-\/-verbose} flag to show extra output while the
+script is running.
+  \item \texttt{\textasciitilde{}/vsGibbon/generate\_runtimes.py}
+  \item \texttt{\textasciitilde{}/vsGHC/generate\_sml\_numbers.py}
+  \item \texttt{\textasciitilde{}/vsGHC/generate\_ghc\_numbers.py} 
+  
+\end{itemize}
+
+\hypertarget{build-marmoset-and-papi-outside-docker-for-generating-table-5}{%
+\subsubsection{Build Marmoset and PAPI outside Docker for generating
+Table
+5}\label{build-marmoset-and-papi-outside-docker-for-generating-table-5}}
+
+\textbf{Install dependencies to build Marmoset on Ubunutu 22.04:}
+\begin{verbatim}
+ $ sudo apt-get update 
+ $ sudo apt-get install software-properties-common \
+                        libgc-dev \
+                        libgmp-dev \
+                        build-essential \
+                        uthash-dev \
+                        vim wget curl
+\end{verbatim}
+
+\textbf{Install Racket:}
+\begin{verbatim}
+ $ wget --no-check-certificate \
+         https://mirror.racket-lang.org/installers/7.5/racket-7.5-x86_64-linux.sh
+ $ chmod +x racket-7.5-x86_64-linux.sh
+ $ ./racket-7.5-x86_64-linux.sh
+\end{verbatim}
+
+\textbf{Install the Haskell toolchain:}
+\begin{verbatim}
+ $ curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \ 
+    | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 \
+    BOOTSTRAP_HASKELL_GHC_VERSION=9.4.6 \ 
+    BOOTSTRAP_HASKELL_CABAL_VERSION=3.8.1.0 \ 
+    BOOTSTRAP_HASKELL_INSTALL_STACK=1 \ 
+    BOOTSTRAP_HASKELL_INSTALL_HLS=1 \
+    BOOTSTRAP_HASKELL_ADJUST_BASHRC=P sh
+\end{verbatim}
+
+\textbf{Install the Rust toolchain:}
+\begin{verbatim}
+ $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+        | sh -s -- -y --default-toolchain=1.71.0
+\end{verbatim}
+
+\textbf{Build Marmoset:}
+\begin{verbatim}
+$ tar -xf marmoset.tar
+$ cd marmoset && source set_env.sh
+$ cd gibbon-compiler && cabal v2-build exe:gibbon && cabal v2-install exe:gibbon
+\end{verbatim}
+
+\textbf{Install PAPI:}
+\begin{verbatim}
+$ wget https://github.com/icl-utk-edu/papi/archive/refs/tags/papi-7-1-0-t.tar.gz && \
+    mkdir papi && \
+    tar -xvzf papi-7-1-0-t.tar.gz -C papi && \
+    cd papi && cd papi-papi-7-1-0-t && cd src && \
+    ./configure && make -j10 && make install
+$ export PAPI_EVENTS="PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_DCM"
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Run \texttt{vsGibbon/generate\_cache\_stats.py} to generate Table 8 of
+  the paper.
+\end{itemize}
+
+\hypertarget{for-authors-claiming-a-reusable-badge}{%
+\subsection{Proof of a reusable badge}\label{for-authors-claiming-a-reusable-badge}}
+
+The implementation of Marmoset is currently under review for inclusion
+in the main line of the Gibbon project, which is open source. The way to
+build our code is shown in the Dockerfile, and it is identical to the
+standard instructions to build Gibbon. The benchmarks are available as
+the part of this artifact.
+
+\hypertarget{structure-of-the-marmoset-implementation}{%
+\subsubsection{Structure of the Marmoset
+implementation}\label{structure-of-the-marmoset-implementation}}
+
+Marmoset is an extension to Gibbon, an open source compiler written in
+Haskell. Gibbon compiles high level programs written in a subset of
+Haskell to operate on serialized data in memory. The compiler is written
+as a series of micro passes that do a small amount of work. Marmoset is
+implemented as a combination of passes in that pipeline. It is
+straightforward to register and write a pass in the compiler. Hence our
+framework can be extended with more complex optimizations without
+substantial changes to the compiler. This makes future research easy to
+build on top of the current framework.
+
+The solver used in Marmoset is open source, and the solver can be
+changed for other solvers.
+
+Marmoset consists of the following modules extending Gibbon (files
+locations relative to
+\texttt{\textasciitilde{}/marmoset/gibbon-compiler/src} in the
+container):
+
+\begin{itemize}
+\item
+  \texttt{Gibbon/Passes/ControlFlowGraph.hs} --- This pass adds a static
+  analysis to generate the control flow graph of the functions in the
+  program.
+\item
+  \texttt{Gibbon/Passes/DefinitionUseChains.hs} --- This pass does a
+  def-use, use-def chains analysis for each function.
+\item
+  \texttt{Gibbon/Passes/CallGraph.hs} --- This pass generates the call
+  graph from the program.
+\item
+  \texttt{Gibbon/Passes/AccessPatternsAnalysis.hs} --- This pass
+  generates a graph recording the access patterns between fields of a
+  data constructor for each function in the program.
+\item
+  \texttt{Gibbon/Passes/SolveLayoutConstrs.hs} --- This pass generates
+  the ILP constraints and calls the solver.
+\item
+  \texttt{Gibbon/Passes/OptimizeADTLayout.hs} --- This pass optimizes
+  the layout of each data constructor globally.
+\end{itemize}
